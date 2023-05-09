@@ -1,0 +1,1072 @@
+## Salvador Grover
+# October 10, 2022
+# MASBio enzyme data analysis
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(agricolae)
+library(forcats)
+library(RColorBrewer)
+library(ggformula)
+library(tidyr)
+library(ggpubr)
+library(rstatix)
+
+bg1 <- read_excel("Data/June 2021/bg_activity_june_2021.xlsx")
+bg1$date <- "June 2021"
+bg2 <- read_excel("Data/May 2022/bg_activity_may_22.xlsx")
+bg2$date <- "May 2022"
+bg3<- read_excel("Data/August 2022/bg_activity_aug_22.xlsx")
+bg3$date <- "August 2022"
+
+per1 <- read_excel("Data/June 2021/per_activity_june_2021.xlsx")
+per1$date <- "June 2021"
+per2 <- read_excel("Data/May 2022/per_activity_may_2022.xlsx")
+per2$date <- "May 2022"
+per3 <- read_excel("Data/August 2022/per_activity_august_2022.xlsx")
+per3$date <- "August 2022"
+
+ppo1 <- read_excel("Data/June 2021/ppo_activity_june_2021.xlsx")
+ppo1$date <- "June 2021"
+ppo2 <- read_excel("Data/May 2022/ppo_activity_may_2022.xlsx")
+ppo2$date <- "May 2022"
+ppo3 <- read_excel("Data/August 2022/ppo_activity_august_2022.xlsx")
+ppo3$date <- "August 2022"
+
+treatments <- read_excel("Data/June 2021/study_treatments_2021.xlsx")
+treatments$plot <- as.character(treatments$plot)
+
+bg.all <- bg1 %>% 
+  rbind(bg2) %>% 
+  rbind(bg3) %>% 
+  left_join(treatments)
+
+per.all <- per1 %>% 
+  rbind(per2) %>% 
+  rbind(per3) %>% 
+  left_join(treatments)
+per.all[per.all == 0]=NA
+per.all <- na.omit(per.all)
+
+ppo.all <- ppo1 %>% 
+  rbind(ppo2) %>% 
+  rbind(ppo3) %>% 
+  left_join(treatments)
+ppo.all[ppo.all == 0]=NA
+ppo.all <- na.omit(ppo.all)
+
+##Replace F treatment with C since fertilizer has not been applied to any plots at this point
+ppo.all$treatment <- gsub('F', 'C', ppo.all$treatment)
+per.all$treatment <- gsub('F', 'C', per.all$treatment)
+bg.all$treatment <- gsub('F', 'C', bg.all$treatment)
+
+#ppo.all <- ppo.all %>% 
+#  subset(treatment != "F")
+#per.all <- per.all %>% 
+#  subset(treatment != "F")
+#bg.all <- bg.all %>% 
+#  subset(treatment != "F")
+
+per.all$site <- gsub("goshen_road", "Goshen Road", per.all$site)
+per.all$site <- gsub("agronomy_farm", "Agronomy Farm", per.all$site)
+per.all$site <- gsub("allstar_mine_1", "Allstar Mine 1", per.all$site)
+per.all$site <- gsub("allstar_mine_2", "Allstar Mine 2", per.all$site)
+per.all$site <- gsub("jackson_mill", "Jackson Mill", per.all$site)
+per.all$site <- gsub("reedsville", "Reedsville", per.all$site)
+
+per.all$crop <- gsub('S', 'Switchgrass', per.all$crop)
+per.all$crop <- gsub('W', 'Willow', per.all$crop)
+per.all$treatment <- gsub('B', 'Biochar', per.all$treatment)
+per.all$treatment <- gsub('C', 'Control', per.all$treatment)
+
+ppo.all$site <- gsub("goshen_road", "Goshen Road", ppo.all$site)
+ppo.all$site <- gsub("agronomy_farm", "Agronomy Farm", ppo.all$site)
+ppo.all$site <- gsub("allstar_mine_1", "Allstar Mine 1", ppo.all$site)
+ppo.all$site <- gsub("allstar_mine_2", "Allstar Mine 2", ppo.all$site)
+ppo.all$site <- gsub("jackson_mill", "Jackson Mill", ppo.all$site)
+ppo.all$site <- gsub("reedsville", "Reedsville", ppo.all$site)
+
+ppo.all$crop <- gsub('S', 'Switchgrass', ppo.all$crop)
+ppo.all$crop <- gsub('W', 'Willow', ppo.all$crop)
+ppo.all$treatment <- gsub('B', 'Biochar', ppo.all$treatment)
+ppo.all$treatment <- gsub('C', 'Control', ppo.all$treatment)
+
+bg.all$site <- gsub("goshen_road", "Goshen Road", bg.all$site)
+bg.all$site <- gsub("agronomy_farm", "Agronomy Farm", bg.all$site)
+bg.all$site <- gsub("allstar_mine_1", "Allstar Mine 1", bg.all$site)
+bg.all$site <- gsub("allstar_mine_2", "Allstar Mine 2", bg.all$site)
+bg.all$site <- gsub("jackson_mill", "Jackson Mill", bg.all$site)
+bg.all$site <- gsub("reedsville", "Reedsville", bg.all$site)
+
+bg.all$crop <- gsub('S', 'Switchgrass', bg.all$crop)
+bg.all$crop <- gsub('W', 'Willow', bg.all$crop)
+bg.all$treatment <- gsub('B', 'Biochar', bg.all$treatment)
+bg.all$treatment <- gsub('C', 'Control', bg.all$treatment)
+
+per.all <- per.all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+ppo.all <- ppo.all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+bg.all <- bg.all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+
+##BG_________________________________________________________________________________________
+
+ggplot(data = bg.all, aes(x = as.factor(date), y = activity)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+bg.all %>% 
+  na.omit() %>% 
+  group_by(land_type, date, crop, treatment) %>%  
+  summarise(min = min(activity),
+            q1 = quantile(activity, 0.25),
+            meadian = median(activity),
+            q3 = quantile(activity, 0.75),
+            max = max(activity)) 
+
+
+bg.stat <- bg.all %>% 
+  na.omit() %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(activity),
+         two.sd = 2*sd(activity),
+         z.score = abs(((activity-mean(activity))/sd(activity))))
+
+#bg.stat <- bg.all %>% 
+#  na.omit() %>% 
+#  group_by(site, date, crop, treatment) %>% 
+#  mutate(mean = mean(activity),
+#         two.sd = 2*sd(activity),
+#         z.score = abs(((activity-mean(activity))/sd(activity))))
+
+bg.clean <- filter(bg.stat, z.score < 2) %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+bg.clean %>% 
+  group_by(land_type, date, crop, treatment) %>%
+  summarise(min = min(activity),
+            q1 = quantile(activity, 0.25),
+            meadian = median(activity),
+            q3 = quantile(activity, 0.75),
+            max = max(activity)) 
+
+ggplot(data = bg.clean, aes(x = as.factor(date), y = activity)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+qqnorm(bg.clean$activity, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(bg.clean$activity, col = "red", lwd = 2)
+
+model <- lm(activity ~ land_type * date * crop * treatment, data = bg.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(bg.clean$activity))
+
+bg.clean %>% 
+  ungroup() %>% 
+  levene_test(activity ~ land_type * date * crop * treatment)
+
+
+shapiro <- bg.clean %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  shapiro_test(activity) %>% 
+  subset(p <= .05)
+
+
+#ANOVA
+
+anova <- aov(activity ~ site * crop * treatment * date, data = bg.clean)
+summary(anova)
+
+anova <- aov(activity ~ land_type * crop * treatment * date, data = bg.clean)
+summary(anova)
+
+tuk <- HSD.test(anova, trt = c("land_type", "crop", "date"))
+tuk
+bar.group(tuk$groups, ylim = c(0,230), density = 10, border = "blue", las = 2)
+tuk <- HSD.test(anova, trt = c("treatment", "date"))
+tuk
+
+#Viz
+ggplot(data = bg.clean, aes(x = activity, fill = crop)) + 
+  geom_density(alpha = .3) + 
+  facet_grid(site ~ as.factor(date))
+
+#Site, crop, date boxplot
+ggplot(data = bg.clean, aes(x = date, y = activity, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(site ~ crop, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "BG", color = "Site", fill = "Land Type", 
+       title = "Beta-Glucosidase by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+# boxplot 
+ggplot(data = bg.clean, aes(x = date, y = activity, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "BG", color = "Crop", fill = "Crop", 
+       title = "Beta-Glucosidase by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = bg.clean, aes(x = date, y = activity, fill = treatment)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "BG", color = "Treatment", fill = "Treatment", 
+       title = "Beta-Glucosidase by Treatment amd Date") +
+  scale_fill_brewer(palette = "BrBG")
+
+#barplot  
+#Crop, site, and date
+anova <- aov(activity ~ land_type * date * treatment * crop, data = bg.clean)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- bg.clean %>% 
+  group_by(land_type, date, crop) %>% 
+  summarise(mean = mean(activity),
+            sd = sd(activity),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date:crop`)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = date, y = mean, fill = crop)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = crop),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.025)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  facet_wrap(land_type ~ .) + 
+  theme_classic() +
+  labs(x = "", y = "Enzyme Activity (nmol h-1 g-1)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,220)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20))
+
+#Date and treatment
+anova <- aov(activity ~ land_type * date * treatment * crop, data = bg.clean)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- bg.clean %>% 
+  group_by(date, treatment) %>% 
+  summarise(mean = mean(activity),
+            sd = sd(activity),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`date:treatment`)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = date, y = mean, fill = treatment)) +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = treatment),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.005)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Enzyme Activity (nmol h-1 g-1)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "",
+                         choices = c("crosshatch", "circle")) +
+  scale_y_continuous(expand=c(0,0), limits = c(0,220)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20))
+
+
+##per_________________________________________________________________________________________
+ggplot(data = per.all, aes(x = as.factor(date), y = activity)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+per.all %>% 
+  na.omit() %>% 
+  group_by(land_type, date, crop, treatment) %>%
+  summarise(min = min(activity),
+            q1 = quantile(activity, 0.25),
+            meadian = median(activity),
+            q3 = quantile(activity, 0.75),
+            max = max(activity)) 
+
+
+per.stat <- per.all %>% 
+  na.omit() %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(activity),
+         two.sd = 2*sd(activity),
+         z.score = abs(((activity-mean(activity))/sd(activity))))
+
+per.clean <- filter(per.stat, z.score < 2) %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+per.clean %>% 
+  group_by(land_type, date, crop, treatment) %>%
+  summarise(min = min(activity),
+            q1 = quantile(activity, 0.25),
+            meadian = median(activity),
+            q3 = quantile(activity, 0.75),
+            max = max(activity))  
+
+ggplot(data = per.clean, aes(x = as.factor(date), y = activity)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+qqnorm(per.clean$activity, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(per.clean$activity, col = "red", lwd = 2)
+model <- lm(activity ~ land_type * date * crop * treatment, data = per.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+plot(density(per.clean$activity))
+
+ggplot(data = per.clean, aes(x = activity, fill = site)) + 
+  geom_density() + 
+  facet_grid(site ~ as.factor(date))
+
+
+per.clean$log_activity <- log(per.clean$activity)
+
+model <- lm(log_activity ~ land_type * date * crop * treatment, data = per.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(per.clean$log_activity))
+
+
+per.clean$cbrt_activity <- per.clean$activity^(1/3)
+
+model <- lm(cbrt_activity ~ land_type * date * crop * treatment, data = per.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(per.clean$cbrt_activity))
+
+
+per.clean$sqrt_activity <- sqrt(per.clean$activity)
+
+model <- lm(sqrt_activity ~ land_type * date * crop * treatment, data = per.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(per.clean$sqrt_activity))
+
+per.clean %>% 
+  ungroup() %>% 
+  levene_test(sqrt_activity ~ site * date * crop * treatment)
+
+#ANOVA
+
+#anova <- aov(activity ~ site * crop * treatment * date, data = per.clean)
+#summary(anova)
+
+anova <- aov(sqrt_activity ~ land_type * crop * treatment * date, data = per.clean)
+summary(anova)
+
+tuk <- HSD.test(anova, trt = c("date"))
+tuk
+bar.group(tuk$groups, ylim = c(0,230), density = 10, border = "blue", las = 2)
+
+#Viz
+#Boxplot crop, site, date
+ggplot(data = per.clean, aes(x = date, y = activity, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(site ~ crop, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PER", color = "Site", fill = "Land Type", 
+       title = "PER Activity") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = per.clean, aes(x = date, y = activity, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "PER", color = "Site", fill = "Land Type", 
+       title = "PER by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = per.clean, aes(x = date, y = activity, fill = date)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "PER", color = "Site", fill = "Date", 
+       title = "PER by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Set3")
+
+ggplot(data = per.clean, aes(x = land_type, y = activity, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "PER", color = "Site", fill = "Land Type", 
+       title = "PER by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+#Bar plot 
+#Land Type
+anova <- aov(sqrt_activity ~ land_type * crop * treatment * date, data = per.clean)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- per.clean %>% 
+  group_by(land_type) %>% 
+  summarise(mean = mean(activity),
+            sd = sd(activity),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$land_type)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = land_type, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity")  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Enzyme Activity (nmol h-1 g-1)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,1.3)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        legend.position="none",
+        axis.text.x = element_text(size = 22))
+
+#Date
+anova <- aov(sqrt_activity ~ land_type * crop * treatment * date, data = per.clean)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- per.clean %>% 
+  group_by(date) %>% 
+  summarise(mean = mean(activity),
+            sd = sd(activity),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$date)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = date, y = mean, fill = date)) +
+  geom_bar(position = "dodge", stat = "identity")  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Enzyme Activity (nmol h-1 g-1)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,1.5)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        legend.position="none",
+        axis.text.x = element_text(size = 22))
+
+##PPO_____________________________________________________________________________________________________
+ggplot(data = ppo.all, aes(x = as.factor(date), y = activity)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+ppo.all %>% 
+  na.omit() %>% 
+  group_by(land_type, date, crop, treatment) %>%
+  summarise(min = min(activity),
+            q1 = quantile(activity, 0.25),
+            meadian = median(activity),
+            q3 = quantile(activity, 0.75),
+            max = max(activity)) 
+
+ppo.stat <- ppo.all %>% 
+  na.omit() %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(activity),
+         two.sd = 2*sd(activity),
+         z.score = abs(((activity-mean(activity))/sd(activity))))
+
+ppo.clean <- filter(ppo.stat, z.score < 2) %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+ppo.clean %>%  
+  group_by(land_type, date, crop, treatment) %>%
+  summarise(min = min(activity),
+            q1 = quantile(activity, 0.25),
+            meadian = median(activity),
+            q3 = quantile(activity, 0.75),
+            max = max(activity)) 
+
+ggplot(data = ppo.clean, aes(x = as.factor(date), y = activity)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+qqnorm(ppo.clean$activity, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(ppo.clean$activity, col = "red", lwd = 2)
+model <- lm(activity ~ site * date * crop * treatment, data = ppo.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(ppo.clean$activity))
+
+
+ppo.clean$cbrt_activity <- ppo.clean$activity^(1/3)
+
+model <- lm(cbrt_activity ~ site * date * crop * treatment, data = ppo.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(ppo.clean$cbrt_activity))
+
+ppo.clean$sqrt_activity <- sqrt(ppo.clean$activity)
+
+model <- lm(sqrt_activity ~ land_type * date * crop * treatment, data = ppo.clean)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(ppo.clean$sqrt_activity))
+
+
+ppo.clean %>% 
+  ungroup() %>% 
+  levene_test(sqrt_activity ~ land_type * date * crop * treatment)
+
+#ANOVA 
+anova <- aov(sqrt_activity ~ land_type * crop * treatment * date, data = ppo.clean)
+summary(anova)
+
+tuk <- HSD.test(anova, trt = c("land_type", "date", "crop"))
+tuk
+bar.group(tuk$groups, ylim = c(0,230), density = 10, border = "blue", las = 2)
+
+tuk <- HSD.test(anova, trt = c("treatment", "date", "crop"))
+tuk
+
+#Viz 
+#Boxplots
+ggplot(data = ppo.clean, aes(x = activity, fill = crop)) + 
+  geom_density(alpha = 0.3) + 
+  ylim(0,5) +
+  facet_grid(site ~ as.factor(date))  
+
+ggplot(data = ppo.clean, aes(x = date, y = activity, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PPO", color = "Crop", fill = "Crop", 
+       title = "PPO") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = ppo.clean, aes(x = date, y = activity, fill = treatment)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(crop ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PPO", color = "Treatment", fill = "Treatment", 
+       title = "PPO") +
+  scale_fill_brewer(palette = "BrBG")
+
+#Barplot 
+ggplot(data = ppo.clean, aes(x = date, y = activity, fill = land_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  #geom_jitter(alpha = .4) +
+  facet_grid(crop ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PPO", color = "Site", fill = "Land Type", 
+       title = "PPO") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+
+###Ratio of bg to oxidative enzymes as a measurement of carbon use
+bg.join <- bg.clean %>% 
+  rename(bg_activity = activity) %>% 
+  select(site:treatment)
+per.join <- per.clean %>% 
+  rename(per_activity = activity) %>% 
+  select(site:treatment)
+
+enz.ratio <- inner_join(bg.join, per.join)
+
+join.counts <- enz.ratio %>% 
+  count(site, crop, date, treatment) ##some groups with only 2 reps after data cleaning and removing 0 values
+
+enz.ratio$ratio <- enz.ratio$bg_activity/enz.ratio$per_activity
+
+
+
+
+ggplot(data = enz.ratio, aes(x = as.factor(date), y = ratio)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop) +
+  ylim(0,3000)
+
+qqnorm(enz.ratio$ratio, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(enz.ratio$ratio, col = "red", lwd = 2)
+
+qqnorm(log(enz.ratio$ratio), plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(log(enz.ratio$ratio), col = "red", lwd = 2)
+
+enz.ratio$log_ratio <- log(enz.ratio$ratio)
+
+enz.ratio <- enz.ratio %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+ggplot(data = enz.ratio, aes(x = log_ratio)) +
+  geom_histogram()
+
+ggplot(data = enz.ratio, aes(x = as.factor(date), y = log_ratio)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop) 
+
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+ggplot(data = enz.ratio, aes(x = date, y = log_ratio, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(site ~ crop, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "BG:PER (log transformed)", color = "Site", fill = "Land Type", 
+       title = "Beta-Glucosidase to Peroxidase Ratio by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+anova <- aov(log_ratio ~ site * crop * treatment * date, data = enz.ratio)
+summary(anova)
+TukeyHSD(aov(log_ratio ~ site + date + site*date, data = enz.ratio), conf.level = .95)
+
+
+tuk.site <- HSD.test(anova, trt = 'site')
+tuk.date <- HSD.test(anova, trt = 'date')
+tuk.site
+tuk.date
+TukeyHSD(aov(log_ratio ~ site, data = enz.ratio), conf.level = .95)
+TukeyHSD(aov(log_ratio ~ as.factor(date), data = enz.ratio), conf.level = .95)
+bar.group(tuk.site$groups, ylim = c(0,7), density = 10, border = "blue")
+title(main="Tukey HSD of bg:per by site",xlab = "Site", ylab ="Mean values (log)")
+bar.group(tuk.date$groups, ylim = c(0,7), density = 10, border = "blue")
+title(main="Tukey HSD of bg:per by date",xlab = "Date", ylab ="Mean values (log)")
+
+TukeyHSD(aov(log_ratio ~ site + as.factor(date) + as.factor(date)*crop*treatment, data = enz.ratio), conf.level = .95)
+
+aov_test <- unlist(summary(anova))
+names(aov_test)
+p_values <- aov_test[65:79]
+
+p.adjust(p_values, method = "BH")
+
+ggplot(data = enz_land_log, aes(x = date, y = mean_log_ratio, group = crop, color = crop)) +
+  geom_line(size = 1.5) +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  scale_color_brewer(palette = "Set2") +
+  theme_bw(base_size = 20) +
+  labs(y = "", x = "") +
+  theme(legend.position = "none", 
+        axis.title=element_text(size=14),
+        plot.title = element_text(size=16, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  scale_x_discrete(labels =c("June 2021" = "0",
+                             "May 2022" = "349",
+                             "August 2022" = "454"), expand = c(.02,.02)) +
+  geom_pointrange(aes(ymin=mean_log_ratio-se, 
+                      ymax=mean_log_ratio+se),
+                  position= "dodge",
+                  alpha =.8) 
+
+###SSSA and other analysis
+anova <- aov(log_ratio ~ crop * treatment *date * land_type, data = enz.ratio)
+summary(anova)
+TukeyHSD(aov(log_ratio ~ land_type + date, data = enz.ratio), conf.level = .95)
+
+
+enz_land <- enz.ratio %>% 
+  group_by(date, crop, land_type) %>% 
+  summarise(mean(ratio)) %>% 
+  rename(mean_ratio = 'mean(ratio)')
+
+ggplot(data = enz_land, aes(x = date, y = mean_ratio, group = crop, color = crop)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  scale_color_brewer(palette = "Set2") +
+  theme_bw() +
+labs(y = "Mean BG:PER", x = "Date")
+  
+enz_land_log <- enz.ratio %>% 
+    group_by(date, crop, land_type) %>% 
+    summarise(mean_log_ratio = mean(log_ratio),
+            sd = sd(log_ratio),
+            count=n(),
+            se=(sd/(sqrt(count))))
+
+test <- enz.ratio %>% 
+  filter(land_type == "Agriculture")
+anova <- aov(log_ratio ~ crop * treatment *date, data = test)
+summary(anova)
+TukeyHSD(aov(log_ratio ~ date, data = test), conf.level = .95)
+tuk <- HSD.test(anova, trt = 'date')
+tuk
+
+#  Mean BG:PER (log transformed), Decrease in Cellulose Acquiring Enzymes, Increase in Lignin Oxidative Enzymes
+p<- ggplot(data = enz_land_log, aes(x = date, y = mean_log_ratio, group = crop, color = crop)) +
+    geom_line(size = 1.5) +
+    geom_point() +
+    facet_grid(land_type ~ .) +
+    scale_color_brewer(palette = "Set2") +
+    theme_bw(base_size = 20) +
+  labs(y = "", x = "") +
+  theme(legend.position = "none", 
+        axis.title=element_text(size=14),
+        plot.title = element_text(size=16, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        strip.background = element_blank(),
+        strip.text.y = element_blank()) +
+  scale_x_discrete(labels =c("June 2021" = "0",
+                             "May 2022" = "349",
+                             "August 2022" = "454"), expand = c(.02,.02)) +
+  geom_pointrange(aes(ymin=mean_log_ratio-se, 
+                      ymax=mean_log_ratio+se),
+                  position= "dodge",
+                  alpha =.8) 
+p
+ggsave(
+  plot = p,
+  filename = "enzyme_sssa.png",
+  bg = "transparent"
+)
+
+
+##offsites 
+bg.offsite <- bg2 %>% 
+  rbind(bg3) %>% 
+  subset(plot %in% c("offsite 1", "offsite 2", "offsite 3"))
+bg.offsite$enzyme <- c("BG")
+
+per.offsite <- per2 %>% 
+  rbind(per3) %>% 
+  subset(plot %in% c("offsite 1", "offsite 2", "offsite 3"))
+per.offsite[per.offsite == 0]=NA
+per.offsite <- na.omit(per.offsite)
+per.offsite$enzyme <- c("PER")
+
+ppo.offsite <- ppo2 %>% 
+  rbind(ppo3) %>% 
+  subset(plot %in% c("offsite 1", "offsite 2", "offsite 3"))
+ppo.offsite[ppo.offsite == 0]=NA
+ppo.offsite <- na.omit(ppo.offsite)
+ppo.offsite$enzyme <- c("PPO")
+
+offsite.all <- rbind(bg.offsite, ppo.offsite) %>% 
+  rbind(per.offsite)  
+  #select(-plot) %>% 
+
+offsite.all$site <- gsub("goshen_road", "Goshen Road", offsite.all$site)
+offsite.all$site <- gsub("agronomy_farm", "Agronomy Farm", offsite.all$site)
+offsite.all$site <- gsub("allstar_mine_1", "Allstar Mine 1", offsite.all$site)
+offsite.all$site <- gsub("allstar_mine_2", "Allstar Mine 2", offsite.all$site)
+offsite.all$site <- gsub("jackson_mill", "Jackson Mill", offsite.all$site)
+offsite.all$site <- gsub("reedsville", "Reedsville", offsite.all$site)
+
+offsite.all <- offsite.all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("May 2022", "August 2022")))
+offsite.all$plot_type <- c("Offsite")
+
+bg.clean$enzyme <- c("BG")
+per.clean$enzyme <- c("PER")
+ppo.clean$enzyme <- c("PPO")
+
+onsite.all <- rbind(bg.clean, per.clean) %>% 
+  rbind(ppo.clean) %>% 
+  ungroup() %>% 
+  dplyr::select(-crop, -treatment, -mean, -two.sd, -z.score)
+onsite.all$plot_type <- c("Onsite")
+
+onsite.all <- onsite.all %>% 
+  dplyr::select(-log_activity, -cbrt_activity, -sqrt_activity)
+
+enzyme.on.off <- rbind(onsite.all, offsite.all) %>% 
+  subset(date %in% c("May 2022", "August 2022")) #%>%  
+  #subset(site %in% c("Allstar Mine 1", "Allstar Mine 2", "Goshen Road", "Jackson Mill"))
+
+
+
+enzyme.on.off <- enzyme.on.off %>% 
+  pivot_wider(names_from = enzyme, values_from = activity)
+
+#BG
+
+qqnorm(enzyme.on.off$BG, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(enzyme.on.off$BG, col = "red", lwd = 2)
+lm.bg <- enzyme.on.off %>% 
+  dplyr::select(-PPO, -PER) %>% 
+  drop_na(BG)
+model <- lm(BG ~ date * land_type * plot_type, data = lm.bg)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.bg$BG))
+
+lm.bg$sqrt_bg <- sqrt(lm.bg$BG)
+
+model <- lm(sqrt_bg ~ date * land_type * plot_type, data = lm.bg)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.bg$sqrt_bg))
+
+lm.bg$cbrt_bg <- (lm.bg$BG)^(1/3)
+
+model <- lm(cbrt_bg ~ date * land_type * plot_type, data = lm.bg)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.bg$cbrt_bg))
+
+lm.bg %>% 
+  ungroup() %>% 
+  levene_test(sqrt_bg ~ date * land_type * plot_type)
+
+anova <- aov(sqrt_bg ~ land_type * date * plot_type, data = lm.bg)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type", "date", "land_type"))
+tuk
+
+#Boxplots
+
+ggplot(data = lm.bg, aes(x = date, y = BG, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "BG", color = "Site", fill = "Land Type", 
+       title = "BG Offsite and Onsite") 
+
+
+#Barplot 
+anova <- aov(sqrt_bg ~ land_type * date * plot_type, data = lm.bg)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- lm.bg %>% 
+  group_by(land_type, date, plot_type) %>% 
+  summarise(mean = mean(BG),
+            sd = sd(BG),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date:plot_type`)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = date, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  facet_wrap(land_type ~ .) + 
+  theme_classic() +
+  labs(x = "", y = "Enzyme Activity (nmol h-1 g-1)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,250)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20))
+
+#PER
+lm.per <- enzyme.on.off %>% 
+  dplyr::select(-PPO, -BG) %>% 
+  drop_na(PER)
+
+model <- lm(PER ~ date * land_type * plot_type, data = lm.per)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.per$PER))
+
+lm.per$log_per <- log(lm.per$PER)
+
+model <- lm(log_per ~ date * land_type * plot_type, data = lm.per)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.per$log_per))
+
+model <- lm(PER ~ date * land_type * plot_type, data = lm.per)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((PER^lambda-1)/lambda) ~ date * land_type * plot_type, data = lm.per)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+lm.per$per_bc <- (lm.per$PER^lambda-1)/lambda
+
+lm.per %>% 
+  ungroup() %>% 
+  levene_test(per_bc ~ date * land_type * plot_type)
+
+anova <- aov(per_bc ~ land_type * date * plot_type, data = lm.per)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type", "date", "land_type"))
+tuk
+
+#Boxplots
+
+ggplot(data = lm.per, aes(x = plot_type, y = PER, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~ .,) +
+  theme_bw() +
+  labs(x = "Date", y = "PER", color = "Site", fill = "Plot Type", 
+       title = "PER Offsite and Onsite") 
+
+
+#Barplot 
+ggplot(data = lm.per, aes(x = date, y = PER, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  #geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ .,) +
+  theme_bw() +
+  labs(x = "Date", y = "PER", color = "Site", fill = "Land Type", 
+       title = "PER Offsite and Onsite") 
+
+#PPO
+lm.ppo <- enzyme.on.off %>% 
+  dplyr::select(-PER, -BG) %>% 
+  drop_na(PPO)
+model <- lm(PPO ~ date * land_type * plot_type, data = lm.ppo)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.per$PPO))
+
+lm.ppo$log_ppo <- log(lm.ppo$PPO)
+
+model <- lm(log_ppo ~ date * land_type * plot_type, data = lm.ppo)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(lm.ppo$log_ppo))
+
+model <- lm(PPO ~ date * land_type * plot_type, data = lm.ppo)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((PPO^lambda-1)/lambda) ~ date * land_type * plot_type, data = lm.ppo)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+lm.ppo$ppo_bc <- (lm.ppo$PPO^lambda-1)/lambda
+
+anova <- aov(ppo_bc ~ land_type * date * plot_type, data = lm.ppo)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type", "date", "land_type"))
+tuk
+
+#Boxplots
+
+ggplot(data = lm.ppo, aes(x = date, y = PPO, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  #geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PPO", color = "Site", fill = "Plot Type", 
+       title = "PPO Offsite and Onsite") 
+
+ggplot(data = lm.ppo, aes(x = plot_type, y = PPO, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PPO", color = "Site", fill = "Plot Type", 
+       title = "PPO Offsite and Onsite") 
+
+
+#Barplot 
+ggplot(data = lm.ppo, aes(x = date, y = PPO, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "PPO", color = "Site", fill = "Land Type", 
+       title = "PPO Offsite and Onsite") 
+
+ggplot(data = enzyme.on.off, aes(x = date, y = BG, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) 
+
+ggplot(data = enzyme.on.off, aes(x = date, y = PPO, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) 
+
+ggplot(data = enzyme.on.off, aes(x = date, y = PER, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) 
+
+anova <- aov(BG ~ site * date * plot_type, data = enzyme.on.off)
+summary(anova)
+
+anova <- aov(PPO ~ site * date * plot_type, data = enzyme.on.off)
+summary(anova)
+
+anova <- aov(PER ~ site * date * plot_type, data = enzyme.on.off)
+summary(anova)
+
+ggplot(data = enzyme.on.off, aes(x = date, y = BG, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +  
+  facet_grid( ~ site) +
+  labs(x = "Date", y = "Activity", title = "BG Offsite and Onsite")
+
+ggplot(data = enzyme.on.off, aes(x = date, y = PPO, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid( ~ site) +
+  labs(x = "Date", y = "Activity", title = "PPO Offsite and Onsite")
+
+ggplot(data = enzyme.on.off, aes(x = date, y = PER, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid( ~ site) +
+  labs(x = "Date", y = "Activity", title = "PER Offsite and Onsite")

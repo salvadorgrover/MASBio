@@ -1,0 +1,256 @@
+"site","plot","subsample_weight","POM...MAOM","fraction","crop","treatment","date","land_type","CN","pom_log_cn"
+"Agronomy Farm",1,10.01,10.4,"POM","Willow","Control","August 2022","Agriculture",15.4723738062756,2.73905609859719
+"Agronomy Farm",2,10,10.27,"POM","Willow","Biochar","August 2022","Agriculture",23.5757891990608,3.16022030405935
+"Agronomy Farm",3,9.99,10.55,"POM","Willow","Control","August 2022","Agriculture",13.0237842429391,2.56677724300956
+"Agronomy Farm",4,10.02,10.5,"POM","Switchgrass","Biochar","August 2022","Agriculture",25.8746635909266,3.25326425018417
+"Agronomy Farm",5,9.98,10.57,"POM","Switchgrass","Control","August 2022","Agriculture",15.9971144597627,2.77240835971061
+"Agronomy Farm",6,10.02,9.95,"POM","Switchgrass","Control","August 2022","Agriculture",14.7743614001892,2.69289334071268
+"Agronomy Farm",7,10.01,10.43,"POM","Willow","Biochar","August 2022","Agriculture",21.0363092695429,3.04624995753683
+"Agronomy Farm",8,10.01,10.27,"POM","Willow","Control","August 2022","Agriculture",13.6558877364246,2.61417076463414
+"Agronomy Farm",9,10.01,10.45,"POM","Willow","Control","August 2022","Agriculture",13.784108407761,2.62351636394811
+"Agronomy Farm",11,9.99,10.39,"POM","Switchgrass","Biochar","August 2022","Agriculture",19.9990407673861,2.9956843107731
+"Agronomy Farm",12,9.98,9.92,"POM","Switchgrass","Control","August 2022","Agriculture",13.2741477272727,2.58581836373162
+"Agronomy Farm",13,9.98,10.66,"POM","Switchgrass","Control","August 2022","Agriculture",16.6114561766736,2.81009258845644
+"Agronomy Farm",14,10.01,10.02,"POM","Switchgrass","Control","August 2022","Agriculture",14.3753098661378,2.66551214235633
+"Agronomy Farm",15,10,10.48,"POM","Switchgrass","Biochar","August 2022","Agriculture",20.0436624907885,2.99791301853965
+"Agronomy Farm",17,9.99,10.53,"POM","Willow","Control","August 2022","Agriculture",12.8527960526316,2.55356137931608
+"Agronomy Farm",18,10.01,10.19,"POM","Willow","Control","August 2022","Agriculture",13.2572298325723,2.58454305136194
+"Agronomy Farm",19,10.02,10.38,"POM","Switchgrass","Control","August 2022","Agriculture",17.290594498669,2.85016268306412
+"Agronomy Farm",20,10.02,10.2,"POM","Switchgrass","Control","August 2022","Agriculture",15.5543859649123,2.7443426544764
+"Agronomy Farm",21,10,10.49,"POM","Switchgrass","Biochar","August 2022","Agriculture",22.4131538852209,3.10964801352947
+"Agronomy Farm",22,10.02,11.54,"POM","Willow","Control","August 2022","Agriculture",14.4982716049383,2.67402944266226
+"Agronomy Farm",23,10.02,10.26,"POM","Willow","Biochar","August 2022","Agriculture",23.9969246540236,3.17792568272171
+"Agronomy Farm",24,10,10.2,"POM","Willow","Control","August 2022","Agriculture",13.887457370216,2.63098608530962
+"Allstar Mine 1",1,10.02,10.75,"POM","Willow","Control","August 2022","Mine",14.8602930509212,2.69869275988394
+"Allstar Mine 1",2,9.99,10.42,"POM","Willow","Control","August 2022","Mine",14.3953997809419,2.66690869588704
+"Allstar Mine 1",3,10.02,10.4,"POM","Willow","Biochar","August 2022","Mine",22.7784368457781,3.12581433607629
+"Allstar Mine 1",4,10,10.2,"POM","Switchgrass","Control","August 2022","Mine",15.2147959183673,2.72226837007247
+"Allstar Mine 1",5,10.02,9.72,"POM","Switchgrass","Biochar","August 2022","Mine",19.3407058823529,2.96221198792956
+"Allstar Mine 1",6,9.98,10.51,"POM","Switchgrass","Control","August 2022","Mine",17.1651896490606,2.84288347543939
+"Allstar Mine 1",7,9.99,10.09,"POM","Willow","Biochar","August 2022","Mine",17.7112836911832,2.87420193314211
+"Allstar Mine 1",8,10.01,10.1,"POM","Willow","Control","August 2022","Mine",13.5994465582843,2.61002909767017
+"Allstar Mine 1",9,10.01,10.68,"POM","Willow","Control","August 2022","Mine",14.2475391906672,2.65658420342807
+"Allstar Mine 1",10,9.98,10.08,"POM","Switchgrass","Control","August 2022","Mine",14.9391911550771,2.703988038686
+"Allstar Mine 1",11,10.02,10.71,"POM","Switchgrass","Control","August 2022","Mine",14.3342535081666,2.66265202320901
+"Allstar Mine 1",12,10.02,10.3,"POM","Switchgrass","Biochar","August 2022","Mine",18.9078741913897,2.93957845918502
+"Allstar Mine 1",13,10.02,10.2,"POM","Willow","Biochar","August 2022","Mine",32.5455657492355,3.48264113047244
+"Allstar Mine 1",14,9.99,9.77,"POM","Willow","Control","August 2022","Mine",19.2840909090909,2.95928045075602
+"Allstar Mine 1",15,10.02,10.16,"POM","Willow","Control","August 2022","Mine",20.0821631311622,2.99983201467703
+"Allstar Mine 1",16,10,10.47,"POM","Switchgrass","Control","August 2022","Mine",20.7770833333333,3.03385061649993
+"Allstar Mine 1",17,10,10.35,"POM","Switchgrass","Biochar","August 2022","Mine",19.3883858882298,2.96467422124234
+"Allstar Mine 1",19,9.98,10.51,"POM","Willow","Biochar","August 2022","Mine",19.0423892100193,2.9466675052103
+"Allstar Mine 1",20,9.99,10.18,"POM","Willow","Control","August 2022","Mine",16.2309474171879,2.78691975426442
+"Allstar Mine 1",21,10.02,10.31,"POM","Willow","Control","August 2022","Mine",17.3812625250501,2.85539275960686
+"Allstar Mine 1",22,10,10.44,"POM","Switchgrass","Control","August 2022","Mine",14.9217521527518,2.702820024392
+"Allstar Mine 1",23,10.02,9.61,"POM","Switchgrass","Biochar","August 2022","Mine",24.7237580993521,3.20776464770742
+"Allstar Mine 1",24,10,8.51,"POM","Switchgrass","Control","August 2022","Mine",14.3439597315436,2.66332892896088
+"Allstar Mine 2",1,10.01,10.36,"POM","Willow","Control","August 2022","Mine",18.552183908046,2.92058751301567
+"Allstar Mine 2",2,10,10.45,"POM","Willow","Biochar","August 2022","Mine",12.933131118158,2.55979232264492
+"Allstar Mine 2",3,10.02,10.09,"POM","Willow","Control","August 2022","Mine",17.7490783976407,2.87633359331379
+"Allstar Mine 2",4,9.99,10.48,"POM","Switchgrass","Biochar","August 2022","Mine",18.6548387096774,2.92610556067903
+"Allstar Mine 2",5,9.99,10.4,"POM","Switchgrass","Control","August 2022","Mine",21.5514265164229,3.0704420100166
+"Allstar Mine 2",6,10.02,10.53,"POM","Switchgrass","Control","August 2022","Mine",17.9988855869242,2.890309844142
+"Allstar Mine 2",7,10.01,10.3,"POM","Willow","Control","August 2022","Mine",9.26972860125261,2.2267541020459
+"Allstar Mine 2",8,10.02,10.44,"POM","Willow","Biochar","August 2022","Mine",17.6112311015119,2.86853682929296
+"Allstar Mine 2",9,9.99,10.68,"POM","Willow","Control","August 2022","Mine",16.4111192392099,2.79795910748122
+"Allstar Mine 2",10,10.01,10.2,"POM","Switchgrass","Biochar","August 2022","Mine",21.8087934560327,3.0823132580062
+"Allstar Mine 2",11,10,9.73,"POM","Switchgrass","Control","August 2022","Mine",19.0435606060606,2.94672901850049
+"Allstar Mine 2",12,10.02,10.46,"POM","Switchgrass","Control","August 2022","Mine",18.899558055444,2.93913853848236
+"Allstar Mine 2",13,9.99,10.47,"POM","Switchgrass","Control","August 2022","Mine",22.3283685486664,3.10585800221865
+"Allstar Mine 2",14,10.02,10.55,"POM","Switchgrass","Control","August 2022","Mine",19.8096582000627,2.98616960665261
+"Allstar Mine 2",15,10.02,10.11,"POM","Switchgrass","Biochar","August 2022","Mine",33.2169785733659,3.50306114801282
+"Allstar Mine 2",16,9.99,10.57,"POM","Willow","Biochar","August 2022","Mine",27.8950226244344,3.32844827235414
+"Goshen Road",1,9.98,9.88,"POM","Switchgrass","Control","August 2022","Mine",16.3051366120219,2.79148018774172
+"Goshen Road",2,10.01,10.18,"POM","Switchgrass","Biochar","August 2022","Mine",33.4434550311665,3.50985610318933
+"Goshen Road",4,10.02,10.92,"POM","Willow","Control","August 2022","Mine",24.2485207100592,3.18835561387577
+"Goshen Road",7,10.02,10.45,"POM","Willow","Biochar","August 2022","Mine",20.3881212621159,3.01495244018013
+"Goshen Road",8,10.01,10.71,"POM","Willow","Control","August 2022","Mine",21.9222462203024,3.0875019303837
+"Goshen Road",9,10.02,10.44,"POM","Willow","Control","August 2022","Mine",17.9378873036461,2.88691508512763
+"Goshen Road",10,10,10.1,"POM","Switchgrass","Control","August 2022","Mine",14.1878839590444,2.65238835806797
+"Goshen Road",11,10,10.55,"POM","Switchgrass","Biochar","August 2022","Mine",23.045197740113,3.13745740674373
+"Goshen Road",12,10,10.38,"POM","Switchgrass","Control","August 2022","Mine",16.8092497868713,2.82192931744611
+"Goshen Road",13,9.99,10.76,"POM","Switchgrass","Control","August 2022","Mine",12.1645287228109,2.49852423506672
+"Goshen Road",14,10,10.6,"POM","Switchgrass","Biochar","August 2022","Mine",21.4655428854735,3.0664489930163
+"Goshen Road",15,9.99,10.04,"POM","Switchgrass","Control","August 2022","Mine",19.8629441624365,2.98885589347242
+"Goshen Road",16,10,10.33,"POM","Willow","Control","August 2022","Mine",14.2262085740347,2.6550859376712
+"Goshen Road",17,10.01,10.65,"POM","Willow","Biochar","August 2022","Mine",25.4565639744657,3.23697362622375
+"Goshen Road",18,9.99,10.39,"POM","Willow","Control","August 2022","Mine",14.2750092971365,2.65851040682988
+"Goshen Road",19,9.989,9.91,"POM","Switchgrass","Control","August 2022","Mine",13.4334147831399,2.59774524352718
+"Goshen Road",20,10,10.64,"POM","Switchgrass","Control","August 2022","Mine",16.4332793084819,2.79930850485882
+"Goshen Road",22,9.98,9.54,"POM","Willow","Biochar","August 2022","Mine",15.2427627080009,2.72410481388181
+"Goshen Road",23,10.01,11.11,"POM","Willow","Control","August 2022","Mine",14.2593411452576,2.65741221092139
+"Goshen Road",24,10,10.45,"POM","Willow","Control","August 2022","Mine",13.7444869932655,2.62063779776794
+"Jackson Mill",1,10.02,10.48,"POM","Willow","Biochar","August 2022","Agriculture",20.8283922462942,3.0363170677666
+"Jackson Mill",2,10.02,10.54,"POM","Willow","Control","August 2022","Agriculture",12.9641005185481,2.56218403891694
+"Jackson Mill",3,10.01,9.92,"POM","Willow","Control","August 2022","Agriculture",14.0522806081622,2.64278470347278
+"Jackson Mill",4,9.98,10.69,"POM","Switchgrass","Control","August 2022","Agriculture",13.4381052080607,2.59809434361307
+"Jackson Mill",5,10.02,11.26,"POM","Switchgrass","Biochar","August 2022","Agriculture",15.4565652522018,2.73803384850186
+"Jackson Mill",6,10.02,10.68,"POM","Switchgrass","Control","August 2022","Agriculture",12.9531029619182,2.56133537040236
+"Jackson Mill",7,10.01,10.13,"POM","Switchgrass","Biochar","August 2022","Agriculture",15.6471719892266,2.75029019709351
+"Jackson Mill",8,9.99,10.4,"POM","Switchgrass","Control","August 2022","Agriculture",13.9778783308195,2.63747596068307
+"Jackson Mill",9,10.01,10.42,"POM","Switchgrass","Control","August 2022","Agriculture",13.4687327061428,2.60037090330452
+"Jackson Mill",10,10,10.41,"POM","Willow","Control","August 2022","Agriculture",12.1308714918759,2.49575356636658
+"Jackson Mill",11,9.98,10.79,"POM","Willow","Control","August 2022","Agriculture",13.4017130620985,2.59538253924108
+"Jackson Mill",12,10.02,10.85,"POM","Willow","Biochar","August 2022","Agriculture",21.2400104465918,3.05588668820939
+"Jackson Mill",13,10.02,10.41,"POM","Switchgrass","Biochar","August 2022","Agriculture",22.7714823332636,3.1255089782318
+"Jackson Mill",14,9.99,10.57,"POM","Switchgrass","Control","August 2022","Agriculture",14.2179952981406,2.65450843680957
+"Jackson Mill",15,10.02,10.58,"POM","Switchgrass","Control","August 2022","Agriculture",13.4286341677646,2.59738930527135
+"Jackson Mill",16,10.01,10.49,"POM","Willow","Biochar","August 2022","Agriculture",18.2358490566038,2.90338938509626
+"Jackson Mill",17,9.99,10.61,"POM","Willow","Control","August 2022","Agriculture",12.9467665615142,2.56084607059916
+"Jackson Mill",18,10.01,10.82,"POM","Willow","Control","August 2022","Agriculture",12.8258631132647,2.55146368807224
+"Jackson Mill",19,10.02,10.28,"POM","Willow","Control","August 2022","Agriculture",12.2306070826307,2.50394158727584
+"Jackson Mill",20,10.01,10.64,"POM","Willow","Biochar","August 2022","Agriculture",23.1695298372514,3.14283804636319
+"Jackson Mill",21,10.02,10.29,"POM","Willow","Control","August 2022","Agriculture",13.9292709466812,2.63399244950042
+"Jackson Mill",22,10,10.4,"POM","Switchgrass","Control","August 2022","Agriculture",12.7409200968523,2.54481886863921
+"Jackson Mill",23,10.01,10.54,"POM","Switchgrass","Control","August 2022","Agriculture",13.8748928877464,2.63008093980064
+"Jackson Mill",24,9.98,10.54,"POM","Switchgrass","Biochar","August 2022","Agriculture",14.3717566358485,2.66526493589391
+"Reedsville",1,10.01,11.45,"POM","Switchgrass","Control","August 2022","Agriculture",16.2409591194969,2.78753639207193
+"Reedsville",2,10.01,9.22,"POM","Switchgrass","Control","August 2022","Agriculture",17.8858044164038,2.88400734885379
+"Reedsville",3,10.01,9.68,"POM","Switchgrass","Biochar","August 2022","Agriculture",20.4051304732419,3.01578636301728
+"Reedsville",4,9.98,10.71,"POM","Willow","Control","August 2022","Agriculture",15.9714125560538,2.77080040891363
+"Reedsville",5,10.02,8.79,"POM","Willow","Biochar","August 2022","Agriculture",26.4022988505747,3.27345108403451
+"Reedsville",6,10,10.25,"POM","Willow","Control","August 2022","Agriculture",18.185593220339,2.90062969931678
+"Reedsville",7,9.99,10.54,"POM","Switchgrass","Biochar","August 2022","Agriculture",25.1602739726027,3.2252663209861
+"Reedsville",8,10.02,10.55,"POM","Switchgrass","Control","August 2022","Agriculture",17.5893997445722,2.86729643335607
+"Reedsville",9,9.99,10.21,"POM","Switchgrass","Control","August 2022","Agriculture",17.2903893951947,2.85015082085251
+"Reedsville",10,9.99,9.96,"POM","Willow","Biochar","August 2022","Agriculture",22.2057917436845,3.10035314420768
+"Reedsville",11,10.01,10.35,"POM","Willow","Control","August 2022","Agriculture",15.4241345842769,2.73593346347048
+"Reedsville",12,10.02,10.12,"POM","Willow","Control","August 2022","Agriculture",15.1131221719457,2.71556338445299
+"Reedsville",13,10.01,10.14,"POM","Willow","Control","August 2022","Agriculture",17.5089590443686,2.86271269532262
+"Reedsville",14,9.99,10.88,"POM","Willow","Biochar","August 2022","Agriculture",26.8756756756757,3.29122162755228
+"Reedsville",15,10.01,10.21,"POM","Willow","Control","August 2022","Agriculture",18.5912364945978,2.92269031348578
+"Reedsville",16,10.02,10.93,"POM","Switchgrass","Control","August 2022","Agriculture",18.7612244897959,2.93179221275908
+"Reedsville",17,9.99,10.15,"POM","Switchgrass","Control","August 2022","Agriculture",18.3340314136126,2.90875897294559
+"Reedsville",19,10.02,10.22,"POM","Willow","Control","August 2022","Agriculture",19.152332361516,2.95242450254537
+"Reedsville",21,9.98,10.4,"POM","Willow","Biochar","August 2022","Agriculture",28.4291686019508,3.34741568154732
+"Reedsville",22,9.99,10.48,"POM","Switchgrass","Biochar","August 2022","Agriculture",23.3029865125241,3.14858152886093
+"Reedsville",23,10.02,10.44,"POM","Switchgrass","Control","August 2022","Agriculture",19.1138211382114,2.95041169316765
+"Reedsville",24,9.99,10.79,"POM","Switchgrass","Control","August 2022","Agriculture",20.0333692142088,2.99739934393013
+"Agronomy Farm",1,NA,10.85,"POM","Willow","Control","June 2021","Agriculture",13.9883945841393,2.63822802756358
+"Agronomy Farm",10,NA,11.14,"POM","Switchgrass","Control","June 2021","Agriculture",14.5148966000701,2.67517547379088
+"Agronomy Farm",11,9.99,10.89,"POM","Switchgrass","Biochar","June 2021","Agriculture",20.6924570160843,3.02976923850496
+"Agronomy Farm",12,10,10.23,"POM","Switchgrass","Control","June 2021","Agriculture",13.5580290484593,2.60697892153925
+"Agronomy Farm",13,9.98,10.84,"POM","Switchgrass","Control","June 2021","Agriculture",14.6148985700033,2.68204145840935
+"Agronomy Farm",14,10,10.02,"POM","Switchgrass","Control","June 2021","Agriculture",13.8312836279785,2.62693295611863
+"Agronomy Farm",15,NA,11.95,"POM","Switchgrass","Biochar","June 2021","Agriculture",16.5269627929848,2.80499315586946
+"Agronomy Farm",16,10.01,9.39,"POM","Willow","Biochar","June 2021","Agriculture",21.4698122780315,3.06664786839795
+"Agronomy Farm",17,10,10,"POM","Willow","Control","June 2021","Agriculture",14.6361348766985,2.68349346252161
+"Agronomy Farm",18,9.99,10.11,"POM","Willow","Control","June 2021","Agriculture",13.4663402692778,2.6001932585754
+"Agronomy Farm",19,10.01,10.56,"POM","Switchgrass","Control","June 2021","Agriculture",14.2351145038168,2.6557117645204
+"Agronomy Farm",2,NA,10.93,"POM","Willow","Biochar","June 2021","Agriculture",19.5474483340363,2.97284475791475
+"Agronomy Farm",20,10.01,10,"POM","Switchgrass","Control","June 2021","Agriculture",14.1268,2.64807370254185
+"Agronomy Farm",21,10.02,9.48,"POM","Switchgrass","Biochar","June 2021","Agriculture",23.1386754482254,3.14150547934179
+"Agronomy Farm",22,10.01,10.09,"POM","Willow","Control","June 2021","Agriculture",15.0184210526316,2.70927751781628
+"Agronomy Farm",23,10,9.76,"POM","Willow","Biochar","June 2021","Agriculture",29.8506056527591,3.39620512950745
+"Agronomy Farm",3,9.98,10.62,"POM","Willow","Control","June 2021","Agriculture",13.8788432773808,2.63036561424141
+"Agronomy Farm",4,NA,10.23,"POM","Switchgrass","Biochar","June 2021","Agriculture",29.5512655512656,3.38612657038903
+"Agronomy Farm",5,10.05,9.91,"POM","Switchgrass","Control","June 2021","Agriculture",15.6173316173316,2.74838129866149
+"Agronomy Farm",6,9.99,10.71,"POM","Switchgrass","Control","June 2021","Agriculture",13.5675216899283,2.60767882562216
+"Agronomy Farm",7,9.98,9.46,"POM","Willow","Biochar","June 2021","Agriculture",28.3232150491663,3.34368178812936
+"Agronomy Farm",8,10,9.95,"POM","Willow","Control","June 2021","Agriculture",13.2820021881838,2.58640989986657
+"Agronomy Farm",9,10.01,10.52,"POM","Willow","Control","June 2021","Agriculture",13.6409136047666,2.61307362999387
+"Allstar Mine 1",1,9.98,9.97,"POM","Willow","Control","June 2021","Mine",16.1351044872833,2.78099730129847
+"Allstar Mine 1",10,9.99,6.82,"POM","Switchgrass","Control","June 2021","Mine",14.7753898019385,2.69296294547806
+"Allstar Mine 1",11,9.98,10.64,"POM","Switchgrass","Control","June 2021","Mine",13.198951824229,2.58013741918402
+"Allstar Mine 1",12,10.02,10.22,"POM","Switchgrass","Biochar","June 2021","Mine",26.5922270203578,3.28061895580408
+"Allstar Mine 1",13,10.03,9.59,"POM","Willow","Biochar","June 2021","Mine",22.9528524280999,3.13344221758944
+"Allstar Mine 1",14,NA,11.17,"POM","Willow","Control","June 2021","Mine",19.7162206805418,2.98144168174771
+"Allstar Mine 1",15,9.98,10.49,"POM","Willow","Control","June 2021","Mine",20.4695837780149,3.01894006619901
+"Allstar Mine 1",16,9.99,10.6,"POM","Switchgrass","Control","June 2021","Mine",17.9747088186356,2.88896570423449
+"Allstar Mine 1",17,10.02,9.81,"POM","Switchgrass","Biochar","June 2021","Mine",21.7938756855576,3.08162899847114
+"Allstar Mine 1",18,9.98,10.37,"POM","Switchgrass","Control","June 2021","Mine",23.5034737299175,3.15714822852043
+"Allstar Mine 1",19,9.98,10.53,"POM","Willow","Biochar","June 2021","Mine",23.8333862265947,3.17108738032707
+"Allstar Mine 1",2,9.99,9.96,"POM","Willow","Control","June 2021","Mine",15.45490086568,2.73792616117852
+"Allstar Mine 1",20,10.05,10.25,"POM","Willow","Control","June 2021","Mine",25.3998488284203,3.23474322236978
+"Allstar Mine 1",21,10.02,10,"POM","Willow","Control","June 2021","Mine",14.3582572858404,2.66432519733073
+"Allstar Mine 1",22,NA,10.83,"POM","Switchgrass","Control","June 2021","Mine",14.6558441558442,2.68483917440391
+"Allstar Mine 1",23,10.02,7.38,"POM","Switchgrass","Biochar","June 2021","Mine",22.8110429447853,3.12724475838935
+"Allstar Mine 1",24,9.99,10.94,"POM","Switchgrass","Control","June 2021","Mine",14.0127049180328,2.6399644122366
+"Allstar Mine 1",3,10.02,9.91,"POM","Willow","Biochar","June 2021","Mine",21.8480809378513,3.08411308875312
+"Allstar Mine 1",4,9.99,10.1,"POM","Switchgrass","Control","June 2021","Mine",16.4019100676482,2.79739779558786
+"Allstar Mine 1",5,9.99,10.27,"POM","Switchgrass","Biochar","June 2021","Mine",22.0129345189976,3.09163021327532
+"Allstar Mine 1",6,10,9.8,"POM","Switchgrass","Control","June 2021","Mine",16.3850239890336,2.79636774623476
+"Allstar Mine 1",7,9.98,10.73,"POM","Willow","Biochar","June 2021","Mine",19.2510558423275,2.95756590818172
+"Allstar Mine 1",8,9.98,10.05,"POM","Willow","Control","June 2021","Mine",15.9187349000659,2.76749671118238
+"Allstar Mine 1",9,9.98,10.4,"POM","Willow","Control","June 2021","Mine",17.0399284862932,2.83555932457858
+"Allstar Mine 2",1,10.02,7.54,"POM","Willow","Control","June 2021","Mine",14.7956026058632,2.69433001539535
+"Allstar Mine 2",10,10,10.25,"POM","Switchgrass","Biochar","June 2021","Mine",18.2007975604035,2.90146541512278
+"Allstar Mine 2",11,10.03,10.29,"POM","Switchgrass","Control","June 2021","Mine",17.9396124380352,2.88701125316626
+"Allstar Mine 2",12,9.98,10.48,"POM","Switchgrass","Control","June 2021","Mine",21.9110298598416,3.0869901566032
+"Allstar Mine 2",13,10.02,10.36,"POM","Switchgrass","Control","June 2021","Mine",18.7191909689558,2.92954925264523
+"Allstar Mine 2",14,10.01,10.59,"POM","Switchgrass","Control","June 2021","Mine",20.794425087108,3.03468492612398
+"Allstar Mine 2",15,10.01,9.77,"POM","Switchgrass","Biochar","June 2021","Mine",31.3192267502612,3.44423218212885
+"Allstar Mine 2",16,NA,10.71,"POM","Willow","Biochar","June 2021","Mine",25.0459732637757,3.22071306665647
+"Allstar Mine 2",17,NA,11.37,"POM","Willow","Control","June 2021","Mine",23.3608391608392,3.15106108029594
+"Allstar Mine 2",2,9.98,10.1,"POM","Willow","Biochar","June 2021","Mine",20.390124264225,3.01505067893881
+"Allstar Mine 2",3,10.01,10.06,"POM","Willow","Control","June 2021","Mine",23.1927637579811,3.14384032303559
+"Allstar Mine 2",6,10.01,10.31,"POM","Switchgrass","Control","June 2021","Mine",18.2057747051647,2.90173883524902
+"Allstar Mine 2",7,10.06,10.52,"POM","Willow","Control","June 2021","Mine",15.7336461495998,2.75580148611556
+"Allstar Mine 2",8,9.99,10.04,"POM","Willow","Biochar","June 2021","Mine",18.3801511826384,2.91127134228209
+"Allstar Mine 2",9,10,10.03,"POM","Willow","Control","June 2021","Mine",13.7295268425842,2.61954875761172
+"Goshen Road",1,10.01,10.53,"POM","Switchgrass","Control","June 2021","Mine",17.1767832167832,2.84355865902354
+"Goshen Road",10,10.01,10.48,"POM","Switchgrass","Control","June 2021","Mine",17.2742857142857,2.84921902085594
+"Goshen Road",11,10.01,10.28,"POM","Switchgrass","Biochar","June 2021","Mine",24.3260058067192,3.19154597590045
+"Goshen Road",12,10.03,9.84,"POM","Switchgrass","Control","June 2021","Mine",18.6543026706231,2.92607682568087
+"Goshen Road",13,NA,11.1,"POM","Switchgrass","Control","June 2021","Mine",14.2843006660324,2.65916107865883
+"Goshen Road",14,NA,10.6,"POM","Switchgrass","Biochar","June 2021","Mine",16.0113434952145,2.77329743949127
+"Goshen Road",15,10.02,10.54,"POM","Switchgrass","Control","June 2021","Mine",16.2525035765379,2.78824696315725
+"Goshen Road",16,10,10.04,"POM","Willow","Control","June 2021","Mine",15.9864202187854,2.77173962553326
+"Goshen Road",17,10,10.11,"POM","Willow","Biochar","June 2021","Mine",24.2674509803922,3.18913598663279
+"Goshen Road",18,NA,10.86,"POM","Willow","Control","June 2021","Mine",15.6699196326062,2.75174292761235
+"Goshen Road",19,10.01,10.53,"POM","Switchgrass","Control","June 2021","Mine",15.6691911053819,2.75169643444728
+"Goshen Road",2,9.97,10.21,"POM","Switchgrass","Biochar","June 2021","Mine",23.7841444270016,3.16901915812108
+"Goshen Road",20,9.98,10.72,"POM","Switchgrass","Control","June 2021","Mine",18.5010548523207,2.91782774950312
+"Goshen Road",21,9.98,10.4,"POM","Switchgrass","Biochar","June 2021","Mine",16.9286558345643,2.82900779751546
+"Goshen Road",22,9.99,10.66,"POM","Willow","Biochar","June 2021","Mine",19.6891575663027,2.98006810688569
+"Goshen Road",23,10.02,10.01,"POM","Willow","Control","June 2021","Mine",25.3967242948135,3.2346202009367
+"Goshen Road",24,10.03,10.09,"POM","Willow","Control","June 2021","Mine",16.4778567523237,2.80201746458723
+"Goshen Road",4,NA,10.2,"POM","Willow","Control","June 2021","Mine",18.9655898876404,2.94262627867193
+"Goshen Road",5,9.99,10.77,"POM","Willow","Biochar","June 2021","Mine",23.6160232461602,3.16192543275702
+"Goshen Road",6,9.98,10.84,"POM","Willow","Control","June 2021","Mine",28.2439678284182,3.34087990659447
+"Goshen Road",7,NA,11.58,"POM","Willow","Biochar","June 2021","Mine",25.4801393728223,3.23789930057999
+"Goshen Road",8,10,10.26,"POM","Willow","Control","June 2021","Mine",22.0018549051937,3.09112676367654
+"Goshen Road",9,9.98,10.55,"POM","Willow","Control","June 2021","Mine",22.2872427983539,3.10401444294786
+"Jackson Mill",1,NA,0,"POM","Willow","Biochar","June 2021","Agriculture",16.4588293650794,2.80086207273675
+"Jackson Mill",10,10.02,10.68,"POM","Willow","Control","June 2021","Agriculture",12.1180821917808,2.49469873311911
+"Jackson Mill",11,10.02,10.58,"POM","Willow","Control","June 2021","Agriculture",12.6740770146884,2.53955872747181
+"Jackson Mill",12,10.02,10.47,"POM","Willow","Biochar","June 2021","Agriculture",16.4777031154551,2.80200814070567
+"Jackson Mill",13,10.01,10.05,"POM","Switchgrass","Biochar","June 2021","Agriculture",14.3834650715659,2.66607928790855
+"Jackson Mill",14,10.02,11.37,"POM","Switchgrass","Control","June 2021","Agriculture",14.5086306098964,2.67474368683227
+"Jackson Mill",15,9.99,10.13,"POM","Switchgrass","Control","June 2021","Agriculture",12.9771015366074,2.56318638407583
+"Jackson Mill",16,10,10.38,"POM","Willow","Biochar","June 2021","Agriculture",18.5986995665222,2.92309166249656
+"Jackson Mill",17,9.99,10.56,"POM","Willow","Control","June 2021","Agriculture",14.4960267670431,2.67387459581127
+"Jackson Mill",18,10,11,"POM","Willow","Control","June 2021","Agriculture",13.9385565669701,2.63465885384271
+"Jackson Mill",19,10.03,10.55,"POM","Willow","Control","June 2021","Agriculture",17.8046432616082,2.87945928067438
+"Jackson Mill",2,10.02,10.52,"POM","Willow","Control","June 2021","Agriculture",12.5602803738318,2.53053948354821
+"Jackson Mill",20,9.98,11.96,"POM","Willow","Biochar","June 2021","Agriculture",19.3534593897722,2.96287118332977
+"Jackson Mill",21,10.08,10.27,"POM","Willow","Control","June 2021","Agriculture",14.837182448037,2.69713635772105
+"Jackson Mill",22,9.99,10.16,"POM","Switchgrass","Control","June 2021","Agriculture",13.3445767195767,2.5911100640752
+"Jackson Mill",23,10.02,10.7,"POM","Switchgrass","Control","June 2021","Agriculture",13.2539969056215,2.58429916019849
+"Jackson Mill",24,10.05,10.49,"POM","Switchgrass","Biochar","June 2021","Agriculture",17.1509238473493,2.84205204081119
+"Jackson Mill",3,NA,10.5,"POM","Willow","Control","June 2021","Agriculture",14.1055456171735,2.64656802624204
+"Jackson Mill",4,9.98,11.11,"POM","Switchgrass","Control","June 2021","Agriculture",14.2100444676955,2.65394907142822
+"Jackson Mill",5,NA,8.2,"POM","Switchgrass","Biochar","June 2021","Agriculture",22.7693333333333,3.12541460135688
+"Jackson Mill",6,10.02,10.89,"POM","Switchgrass","Control","June 2021","Agriculture",13.8870673952641,2.63095800382451
+"Jackson Mill",7,9.98,9.58,"POM","Switchgrass","Biochar","June 2021","Agriculture",18.46391184573,2.91581811592792
+"Jackson Mill",8,9.98,10.1,"POM","Switchgrass","Control","June 2021","Agriculture",11.5050471063257,2.442785817901
+"Jackson Mill",9,10.02,10.79,"POM","Switchgrass","Control","June 2021","Agriculture",13.034600890716,2.56760742863639
+"Reedsville",1,10.02,7.82,"POM","Switchgrass","Control","June 2021","Agriculture",16.4223571067274,2.79864364467965
+"Reedsville",10,NA,10.09,"POM","Willow","Biochar","June 2021","Agriculture",28.2920210611584,3.34257982359445
+"Reedsville",11,10.01,9.97,"POM","Willow","Control","June 2021","Agriculture",18.1510829371368,2.89873022488887
+"Reedsville",12,10,10.17,"POM","Willow","Control","June 2021","Agriculture",19.6336336336336,2.97724409730371
+"Reedsville",13,10.01,10.3,"POM","Willow","Control","June 2021","Agriculture",17.9971751412429,2.89021480898271
+"Reedsville",15,10.01,9.89,"POM","Willow","Control","June 2021","Agriculture",16.4807360552041,2.80219218702788
+"Reedsville",17,10.01,10.62,"POM","Switchgrass","Control","June 2021","Agriculture",17.3423104181432,2.8531492045839
+"Reedsville",18,9.98,10.34,"POM","Switchgrass","Biochar","June 2021","Agriculture",27.9105180533752,3.32900360894441
+"Reedsville",19,10.01,9.74,"POM","Willow","Control","June 2021","Agriculture",21.3742116327961,3.06218513146643
+"Reedsville",2,10.01,9.92,"POM","Switchgrass","Control","June 2021","Agriculture",16.1775499190502,2.78362447365308
+"Reedsville",21,10.02,10.57,"POM","Willow","Biochar","June 2021","Agriculture",13.3298918387414,2.59000902003477
+"Reedsville",22,NA,11.31,"POM","Switchgrass","Biochar","June 2021","Agriculture",21.9225464190981,3.08751562408722
+"Reedsville",24,9.98,10.79,"POM","Switchgrass","Control","June 2021","Agriculture",18.3076424870466,2.90731859491046
+"Reedsville",3,NA,7.11,"POM","Switchgrass","Biochar","June 2021","Agriculture",21.3529688972667,3.0611907884269
+"Reedsville",4,9.98,9.92,"POM","Willow","Control","June 2021","Agriculture",15.5903041825095,2.74664919426545
+"Reedsville",5,10.07,9.76,"POM","Willow","Biochar","June 2021","Agriculture",18.6923076923077,2.92811208587901
+"Reedsville",7,10.02,9.99,"POM","Switchgrass","Biochar","June 2021","Agriculture",20.4515289525049,3.01805764509768
+"Reedsville",8,10,9.83,"POM","Switchgrass","Control","June 2021","Agriculture",17.90413054564,2.88503144296613
+"Reedsville",9,10.01,10.5,"POM","Switchgrass","Control","June 2021","Agriculture",17.8905675786035,2.88427362304328

@@ -1,0 +1,407 @@
+site,plot,crop,treatment,poxc,date,land_type
+Agronomy Farm,1,W,C,571.9398288,Jun-21,Agriculture
+Agronomy Farm,2,W,B,1514.573023,Jun-21,Agriculture
+Agronomy Farm,4,S,B,545.4397946,Jun-21,Agriculture
+Agronomy Farm,5,S,C,426.444758,Jun-21,Agriculture
+Agronomy Farm,6,S,C,751.5390095,Jun-21,Agriculture
+Agronomy Farm,7,W,B,559.7255423,Jun-21,Agriculture
+Agronomy Farm,8,W,C,759.7842901,Jun-21,Agriculture
+Agronomy Farm,9,W,C,918.0823797,Jun-21,Agriculture
+Agronomy Farm,10,S,C,981.5690007,Jun-21,Agriculture
+Agronomy Farm,11,S,B,961.592604,Jun-21,Agriculture
+Agronomy Farm,12,S,C,855.4433333,Jun-21,Agriculture
+Agronomy Farm,13,S,C,1122.89013,Jun-21,Agriculture
+Agronomy Farm,14,S,C,564.5595414,Jun-21,Agriculture
+Agronomy Farm,15,S,B,930.5491633,Jun-21,Agriculture
+Agronomy Farm,16,W,B,607.0445451,Jun-21,Agriculture
+Agronomy Farm,17,W,C,665.8462366,Jun-21,Agriculture
+Agronomy Farm,18,W,C,653.5083934,Jun-21,Agriculture
+Agronomy Farm,19,S,C,664.7783749,Jun-21,Agriculture
+Agronomy Farm,20,S,C,451.3723147,Jun-21,Agriculture
+Agronomy Farm,21,S,B,898.2919604,Jun-21,Agriculture
+Agronomy Farm,22,W,C,906.0114489,Jun-21,Agriculture
+Agronomy Farm,23,W,B,488.3807805,Jun-21,Agriculture
+Agronomy Farm,24,W,C,958.6324611,Jun-21,Agriculture
+Jackson Mill,1,W,B,810.5261425,Jun-21,Agriculture
+Jackson Mill,2,W,C,1055.74604,Jun-21,Agriculture
+Jackson Mill,3,W,C,1407.116155,Jun-21,Agriculture
+Jackson Mill,4,S,C,1181.883333,Jun-21,Agriculture
+Jackson Mill,5,S,B,895.9336913,Jun-21,Agriculture
+Jackson Mill,6,S,C,1145.295096,Jun-21,Agriculture
+Jackson Mill,7,S,B,1252.849847,Jun-21,Agriculture
+Jackson Mill,8,S,C,588.9417905,Jun-21,Agriculture
+Jackson Mill,9,S,C,579.8978494,Jun-21,Agriculture
+Jackson Mill,10,W,C,1028.008282,Jun-21,Agriculture
+Jackson Mill,11,W,C,1090.393942,Jun-21,Agriculture
+Jackson Mill,12,W,B,834.2745216,Jun-21,Agriculture
+Jackson Mill,13,S,B,1345.663729,Jun-21,Agriculture
+Jackson Mill,14,S,C,1174.548746,Jun-21,Agriculture
+Jackson Mill,15,S,C,907.0183698,Jun-21,Agriculture
+Jackson Mill,16,W,B,1275.549476,Jun-21,Agriculture
+Jackson Mill,17,W,C,1105.856667,Jun-21,Agriculture
+Jackson Mill,19,W,C,1241.809983,Jun-21,Agriculture
+Jackson Mill,20,W,B,1189.384919,Jun-21,Agriculture
+Jackson Mill,21,W,C,1136.413256,Jun-21,Agriculture
+Jackson Mill,22,S,C,1391.678259,Jun-21,Agriculture
+Jackson Mill,23,S,C,919.530261,Jun-21,Agriculture
+Jackson Mill,24,S,B,1408.616554,Jun-21,Agriculture
+Reedsville,1,S,C,951.964,Jun-21,Agriculture
+Reedsville,2,S,C,585.9537849,Jun-21,Agriculture
+Reedsville,3,S,B,832.2936052,Jun-21,Agriculture
+Reedsville,4,W,C,899.1229374,Jun-21,Agriculture
+Reedsville,5,W,B,1303.961781,Jun-21,Agriculture
+Reedsville,6,W,C,825.605137,Jun-21,Agriculture
+Reedsville,7,S,B,679.26426,Jun-21,Agriculture
+Reedsville,8,S,C,777.2011549,Jun-21,Agriculture
+Reedsville,9,S,C,965.6649616,Jun-21,Agriculture
+Reedsville,10,W,B,1319.24953,Jun-21,Agriculture
+Reedsville,11,W,C,1267.601839,Jun-21,Agriculture
+Reedsville,12,W,C,865.343548,Jun-21,Agriculture
+Reedsville,13,W,C,1315.702031,Jun-21,Agriculture
+Reedsville,14,W,B,753.061216,Jun-21,Agriculture
+Reedsville,15,W,C,849.9566667,Jun-21,Agriculture
+Reedsville,16,S,C,1136.851835,Jun-21,Agriculture
+Reedsville,17,S,C,839.4666125,Jun-21,Agriculture
+Reedsville,18,S,B,1159.656667,Jun-21,Agriculture
+Reedsville,19,W,C,1037.561908,Jun-21,Agriculture
+Reedsville,20,W,C,883.9317418,Jun-21,Agriculture
+Reedsville,21,W,B,1210.524038,Jun-21,Agriculture
+Reedsville,22,S,B,1016.349763,Jun-21,Agriculture
+Reedsville,23,S,C,808.1340508,Jun-21,Agriculture
+Allstar Mine 1,1,W,C,1241.181799,Jun-21,Mine
+Allstar Mine 1,2,W,C,1143.522211,Jun-21,Mine
+Allstar Mine 1,3,W,B,950.8094554,Jun-21,Mine
+Allstar Mine 1,4,S,C,1706.588321,Jun-21,Mine
+Allstar Mine 1,5,S,B,1356.084776,Jun-21,Mine
+Allstar Mine 1,6,S,C,1278.078039,Jun-21,Mine
+Allstar Mine 1,7,W,B,811.9326828,Jun-21,Mine
+Allstar Mine 1,8,W,C,1162.049349,Jun-21,Mine
+Allstar Mine 1,9,W,C,1289.73454,Jun-21,Mine
+Allstar Mine 1,10,S,C,998.8993497,Jun-21,Mine
+Allstar Mine 1,11,S,C,1337.047368,Jun-21,Mine
+Allstar Mine 1,12,S,B,1076.944956,Jun-21,Mine
+Allstar Mine 1,13,W,B,638.4618576,Jun-21,Mine
+Allstar Mine 1,14,W,C,1326.453676,Jun-21,Mine
+Allstar Mine 1,15,W,C,987.9990233,Jun-21,Mine
+Allstar Mine 1,16,S,C,1456.17301,Jun-21,Mine
+Allstar Mine 1,17,S,B,641.7366441,Jun-21,Mine
+Allstar Mine 1,18,S,C,858.8958368,Jun-21,Mine
+Allstar Mine 1,19,W,B,699.0143963,Jun-21,Mine
+Allstar Mine 1,20,W,C,663.7944664,Jun-21,Mine
+Allstar Mine 1,21,W,C,683.5905883,Jun-21,Mine
+Allstar Mine 1,22,S,C,1069.150257,Jun-21,Mine
+Allstar Mine 1,23,S,B,1109.893776,Jun-21,Mine
+Allstar Mine 1,24,S,C,1121.032529,Jun-21,Mine
+Allstar Mine 2,1,W,C,996.2418246,Jun-21,Mine
+Allstar Mine 2,2,W,B,479.2128445,Jun-21,Mine
+Allstar Mine 2,3,W,C,1549.028751,Jun-21,Mine
+Allstar Mine 2,4,S,B,1445.678775,Jun-21,Mine
+Allstar Mine 2,5,S,C,1113.303333,Jun-21,Mine
+Allstar Mine 2,6,S,C,1111.500901,Jun-21,Mine
+Allstar Mine 2,7,W,C,762.2094313,Jun-21,Mine
+Allstar Mine 2,8,W,B,1150.055753,Jun-21,Mine
+Allstar Mine 2,9,W,C,1646.58321,Jun-21,Mine
+Allstar Mine 2,10,S,B,851.8313012,Jun-21,Mine
+Allstar Mine 2,11,S,C,733.8515283,Jun-21,Mine
+Allstar Mine 2,12,S,C,382.7471441,Jun-21,Mine
+Allstar Mine 2,13,S,C,1282.109663,Jun-21,Mine
+Allstar Mine 2,14,S,C,744.7159742,Jun-21,Mine
+Allstar Mine 2,15,S,B,883.368135,Jun-21,Mine
+Allstar Mine 2,16,W,B,655.0502972,Jun-21,Mine
+Allstar Mine 2,17,W,C,633.9073742,Jun-21,Mine
+Allstar Mine 2,18,W,C,419.1347576,Jun-21,Mine
+Goshen Road,1,S,C,415.0815238,Jun-21,Mine
+Goshen Road,2,S,B,473.2411219,Jun-21,Mine
+Goshen Road,3,S,C,671.9584138,Jun-21,Mine
+Goshen Road,4,W,C,904.5340893,Jun-21,Mine
+Goshen Road,5,W,B,451.7379342,Jun-21,Mine
+Goshen Road,6,W,C,1072.510226,Jun-21,Mine
+Goshen Road,7,W,B,647.3059312,Jun-21,Mine
+Goshen Road,8,W,C,1132.0708,Jun-21,Mine
+Goshen Road,9,W,C,1034.25,Jun-21,Mine
+Goshen Road,10,S,C,615.920048,Jun-21,Mine
+Goshen Road,11,S,B,876.5882076,Jun-21,Mine
+Goshen Road,12,S,C,905.847532,Jun-21,Mine
+Goshen Road,14,S,B,1175.807028,Jun-21,Mine
+Goshen Road,15,S,C,579.8410065,Jun-21,Mine
+Goshen Road,16,W,C,835.2414561,Jun-21,Mine
+Goshen Road,17,W,B,1213.674716,Jun-21,Mine
+Goshen Road,18,W,C,762.6956364,Jun-21,Mine
+Goshen Road,19,S,C,1248.827236,Jun-21,Mine
+Goshen Road,20,S,C,763.0456163,Jun-21,Mine
+Goshen Road,21,S,B,1388.675203,Jun-21,Mine
+Goshen Road,22,W,B,801.0555364,Jun-21,Mine
+Goshen Road,23,W,C,88.43932174,Jun-21,Mine
+Goshen Road,24,W,C,419.1158436,Jun-21,Mine
+Agronomy Farm,1,W,C,610.9928,May-22,Agriculture
+Agronomy Farm,2,W,B,1152.676667,May-22,Agriculture
+Agronomy Farm,3,W,C,925.5584,May-22,Agriculture
+Agronomy Farm,4,S,B,1026.8936,May-22,Agriculture
+Agronomy Farm,5,S,C,982.8824,May-22,Agriculture
+Agronomy Farm,6,S,C,1222.713667,May-22,Agriculture
+Agronomy Farm,7,W,B,1052.912733,May-22,Agriculture
+Agronomy Farm,8,W,C,1052.356667,May-22,Agriculture
+Agronomy Farm,9,W,C,1038.8441,May-22,Agriculture
+Agronomy Farm,10,S,C,1115.732667,May-22,Agriculture
+Agronomy Farm,11,S,B,1052.9641,May-22,Agriculture
+Agronomy Farm,12,S,C,853.1164,May-22,Agriculture
+Agronomy Farm,13,S,C,999.6685,May-22,Agriculture
+Agronomy Farm,14,S,C,1177.848333,May-22,Agriculture
+Agronomy Farm,15,S,B,1138.8115,May-22,Agriculture
+Agronomy Farm,16,W,B,800.7059,May-22,Agriculture
+Agronomy Farm,17,W,C,1000.3412,May-22,Agriculture
+Agronomy Farm,18,W,C,838.8939,May-22,Agriculture
+Agronomy Farm,19,S,C,848.2414667,May-22,Agriculture
+Agronomy Farm,21,S,B,1211.393333,May-22,Agriculture
+Agronomy Farm,22,W,C,1248.914833,May-22,Agriculture
+Agronomy Farm,23,W,B,971.4190333,May-22,Agriculture
+Agronomy Farm,24,W,C,796.4693333,May-22,Agriculture
+Jackson Mill,1,W,B,500.4451,May-22,Agriculture
+Jackson Mill,3,W,C,696.0361667,May-22,Agriculture
+Jackson Mill,4,S,C,1056.947333,May-22,Agriculture
+Jackson Mill,5,S,B,904.6651,May-22,Agriculture
+Jackson Mill,6,S,C,894.3245667,May-22,Agriculture
+Jackson Mill,7,S,B,873.8107333,May-22,Agriculture
+Jackson Mill,8,S,C,1416.259667,May-22,Agriculture
+Jackson Mill,9,S,C,413.0930333,May-22,Agriculture
+Jackson Mill,10,W,C,721.9750333,May-22,Agriculture
+Jackson Mill,11,W,C,591.4428,May-22,Agriculture
+Jackson Mill,12,W,B,739.3537,May-22,Agriculture
+Jackson Mill,13,S,B,847.4526667,May-22,Agriculture
+Jackson Mill,14,S,C,1020.710667,May-22,Agriculture
+Jackson Mill,15,S,C,575.172,May-22,Agriculture
+Jackson Mill,16,W,B,1076.669667,May-22,Agriculture
+Jackson Mill,17,W,C,744.9054,May-22,Agriculture
+Jackson Mill,18,W,C,937.43545,May-22,Agriculture
+Jackson Mill,19,W,C,812.4451667,May-22,Agriculture
+Jackson Mill,20,W,B,688.9450333,May-22,Agriculture
+Jackson Mill,21,W,C,785.7939,May-22,Agriculture
+Jackson Mill,22,S,C,932.5073667,May-22,Agriculture
+Jackson Mill,23,S,C,405.7406333,May-22,Agriculture
+Jackson Mill,24,S,B,805.005654,May-22,Agriculture
+Reedsville,1,S,C,754.5768667,May-22,Agriculture
+Reedsville,2,S,C,738.8130333,May-22,Agriculture
+Reedsville,3,S,B,906.9990667,May-22,Agriculture
+Reedsville,4,W,C,878.4206333,May-22,Agriculture
+Reedsville,5,W,B,686.1355333,May-22,Agriculture
+Reedsville,6,W,C,675.4803333,May-22,Agriculture
+Reedsville,7,S,B,777.2439333,May-22,Agriculture
+Reedsville,8,S,C,1039.320667,May-22,Agriculture
+Reedsville,9,S,C,909.3133333,May-22,Agriculture
+Reedsville,10,W,B,786.31105,May-22,Agriculture
+Reedsville,11,W,C,1010.2571,May-22,Agriculture
+Reedsville,12,W,C,565.7384333,May-22,Agriculture
+Reedsville,13,W,C,830.5220553,May-22,Agriculture
+Reedsville,14,W,B,777.5397667,May-22,Agriculture
+Reedsville,15,W,C,802.986,May-22,Agriculture
+Reedsville,16,S,C,846.6443667,May-22,Agriculture
+Reedsville,17,S,C,339.5128333,May-22,Agriculture
+Reedsville,18,S,B,566.4954333,May-22,Agriculture
+Reedsville,19,W,C,362.4669,May-22,Agriculture
+Reedsville,20,W,C,887.7886333,May-22,Agriculture
+Reedsville,21,W,B,431.9736,May-22,Agriculture
+Reedsville,22,S,B,376.1502,May-22,Agriculture
+Reedsville,23,S,C,501.3073,May-22,Agriculture
+Reedsville,24,S,C,981.9642,May-22,Agriculture
+Allstar Mine 1,1,W,C,739.0733667,May-22,Mine
+Allstar Mine 1,2,W,C,816.944,May-22,Mine
+Allstar Mine 1,3,W,B,937.6611667,May-22,Mine
+Allstar Mine 1,4,S,C,1295.418333,May-22,Mine
+Allstar Mine 1,5,S,B,980.2173333,May-22,Mine
+Allstar Mine 1,6,S,C,849.9545,May-22,Mine
+Allstar Mine 1,7,W,B,1167.468667,May-22,Mine
+Allstar Mine 1,8,W,C,1158.450333,May-22,Mine
+Allstar Mine 1,9,W,C,1027.9384,May-22,Mine
+Allstar Mine 1,10,S,C,828.6010667,May-22,Mine
+Allstar Mine 1,11,S,C,967.7452667,May-22,Mine
+Allstar Mine 1,12,S,B,638.4191667,May-22,Mine
+Allstar Mine 1,13,W,B,1008.2345,May-22,Mine
+Allstar Mine 1,14,W,C,561.5676333,May-22,Mine
+Allstar Mine 1,15,W,C,770.1246333,May-22,Mine
+Allstar Mine 1,16,S,C,694.7581,May-22,Mine
+Allstar Mine 1,17,S,B,657.0613,May-22,Mine
+Allstar Mine 1,18,S,C,749.8036333,May-22,Mine
+Allstar Mine 1,19,W,B,1136.039667,May-22,Mine
+Allstar Mine 1,20,W,C,618.3974,May-22,Mine
+Allstar Mine 1,21,W,C,625.2653,May-22,Mine
+Allstar Mine 1,22,S,C,503.2315,May-22,Mine
+Allstar Mine 1,23,S,B,883.3417667,May-22,Mine
+Allstar Mine 1,24,S,C,749.1735333,May-22,Mine
+Allstar Mine 2,1,W,C,481.3407,May-22,Mine
+Allstar Mine 2,2,W,B,1140.546667,May-22,Mine
+Allstar Mine 2,3,W,C,898.2582667,May-22,Mine
+Allstar Mine 2,4,S,B,267.8273667,May-22,Mine
+Allstar Mine 2,5,S,C,466.9704,May-22,Mine
+Allstar Mine 2,7,W,C,1013.8207,May-22,Mine
+Allstar Mine 2,8,W,B,777.3749333,May-22,Mine
+Allstar Mine 2,9,W,C,1256.396333,May-22,Mine
+Allstar Mine 2,10,S,B,1248.876333,May-22,Mine
+Allstar Mine 2,11,S,C,872.9019667,May-22,Mine
+Allstar Mine 2,12,S,C,516.0435333,May-22,Mine
+Allstar Mine 2,13,S,C,547.0807333,May-22,Mine
+Allstar Mine 2,14,S,C,921.5497333,May-22,Mine
+Allstar Mine 2,15,S,B,617.3680333,May-22,Mine
+Allstar Mine 2,16,W,B,802.088145,May-22,Mine
+Allstar Mine 2,17,W,C,618.0967667,May-22,Mine
+Allstar Mine 2,18,W,C,693.7590333,May-22,Mine
+Goshen Road,1,S,C,822.4996667,May-22,Mine
+Goshen Road,2,S,B,960.6196333,May-22,Mine
+Goshen Road,3,S,C,1002.410133,May-22,Mine
+Goshen Road,4,W,C,912.3428333,May-22,Mine
+Goshen Road,5,W,B,849.9364,May-22,Mine
+Goshen Road,6,W,C,1177.508667,May-22,Mine
+Goshen Road,7,W,B,740.7498,May-22,Mine
+Goshen Road,8,W,C,1210.697333,May-22,Mine
+Goshen Road,9,W,C,873.3721667,May-22,Mine
+Goshen Road,10,S,C,954.3384667,May-22,Mine
+Goshen Road,11,S,B,470.6289,May-22,Mine
+Goshen Road,12,S,C,936.1422667,May-22,Mine
+Goshen Road,13,S,C,1246.979,May-22,Mine
+Goshen Road,14,S,B,916.0337,May-22,Mine
+Goshen Road,15,S,C,1085.544667,May-22,Mine
+Goshen Road,16,W,C,697.6645333,May-22,Mine
+Goshen Road,17,W,B,700.2339667,May-22,Mine
+Goshen Road,18,W,C,875.4481,May-22,Mine
+Goshen Road,19,S,C,678.0474,May-22,Mine
+Goshen Road,20,S,C,971.9492,May-22,Mine
+Goshen Road,21,S,B,786.9599667,May-22,Mine
+Goshen Road,22,W,B,1201.903333,May-22,Mine
+Goshen Road,23,W,C,679.4940333,May-22,Mine
+Goshen Road,24,W,C,669.8708333,May-22,Mine
+Agronomy Farm,1,W,C,871.6111935,Aug-22,Agriculture
+Agronomy Farm,10,S,C,692.375817,Aug-22,Agriculture
+Agronomy Farm,11,S,B,571.1862965,Aug-22,Agriculture
+Agronomy Farm,12,S,C,403.6655505,Aug-22,Agriculture
+Agronomy Farm,13,S,C,806.4033532,Aug-22,Agriculture
+Agronomy Farm,14,S,C,716.1980903,Aug-22,Agriculture
+Agronomy Farm,15,S,B,995.6905803,Aug-22,Agriculture
+Agronomy Farm,16,W,B,530.8684359,Aug-22,Agriculture
+Agronomy Farm,17,W,C,738.0281214,Aug-22,Agriculture
+Agronomy Farm,18,W,C,681.2766,Aug-22,Agriculture
+Agronomy Farm,19,S,C,842.2860592,Aug-22,Agriculture
+Agronomy Farm,2,W,B,874.7203277,Aug-22,Agriculture
+Agronomy Farm,20,S,C,410.8296667,Aug-22,Agriculture
+Agronomy Farm,21,S,B,646.9454199,Aug-22,Agriculture
+Agronomy Farm,22,W,C,722.3454729,Aug-22,Agriculture
+Agronomy Farm,23,W,B,504.6433701,Aug-22,Agriculture
+Agronomy Farm,24,W,C,589.7529877,Aug-22,Agriculture
+Agronomy Farm,4,S,B,584.6653079,Aug-22,Agriculture
+Agronomy Farm,5,S,C,599.5111854,Aug-22,Agriculture
+Agronomy Farm,6,S,C,836.71866,Aug-22,Agriculture
+Agronomy Farm,7,W,B,560.6440645,Aug-22,Agriculture
+Agronomy Farm,8,W,C,595.8211239,Aug-22,Agriculture
+Agronomy Farm,9,W,C,664.2835004,Aug-22,Agriculture
+Jackson Mill,1,W,B,707.1617806,Aug-22,Agriculture
+Jackson Mill,10,W,C,969.3641073,Aug-22,Agriculture
+Jackson Mill,11,W,C,745.5928528,Aug-22,Agriculture
+Jackson Mill,12,W,B,864.3860564,Aug-22,Agriculture
+Jackson Mill,13,S,B,759.3184741,Aug-22,Agriculture
+Jackson Mill,14,S,C,867.8768966,Aug-22,Agriculture
+Jackson Mill,15,S,C,875.2334611,Aug-22,Agriculture
+Jackson Mill,16,W,B,728.3094488,Aug-22,Agriculture
+Jackson Mill,17,W,C,508.8317204,Aug-22,Agriculture
+Jackson Mill,18,W,C,623.2123869,Aug-22,Agriculture
+Jackson Mill,19,W,C,572.7839838,Aug-22,Agriculture
+Jackson Mill,2,W,C,1145.49255,Aug-22,Agriculture
+Jackson Mill,20,W,B,796.8543023,Aug-22,Agriculture
+Jackson Mill,21,W,C,1364.331897,Aug-22,Agriculture
+Jackson Mill,22,S,C,848.9931075,Aug-22,Agriculture
+Jackson Mill,23,S,C,696.7884478,Aug-22,Agriculture
+Jackson Mill,24,S,B,1053.375238,Aug-22,Agriculture
+Jackson Mill,3,W,C,781.5398905,Aug-22,Agriculture
+Jackson Mill,4,S,C,1083.617138,Aug-22,Agriculture
+Jackson Mill,5,S,B,926.2307911,Aug-22,Agriculture
+Jackson Mill,6,S,C,695.6692982,Aug-22,Agriculture
+Jackson Mill,7,S,B,600.1222579,Aug-22,Agriculture
+Jackson Mill,8,S,C,927.9493701,Aug-22,Agriculture
+Jackson Mill,9,S,C,1039.441466,Aug-22,Agriculture
+Reedsville,1,S,C,1034.116974,Aug-22,Agriculture
+Reedsville,10,W,B,814.9010193,Aug-22,Agriculture
+Reedsville,11,W,C,891.6461797,Aug-22,Agriculture
+Reedsville,12,W,C,1025.71737,Aug-22,Agriculture
+Reedsville,13,W,C,884.7553639,Aug-22,Agriculture
+Reedsville,14,W,B,885.0333658,Aug-22,Agriculture
+Reedsville,15,W,C,868.0876257,Aug-22,Agriculture
+Reedsville,16,S,C,680.6754922,Aug-22,Agriculture
+Reedsville,17,S,C,748.8251639,Aug-22,Agriculture
+Reedsville,18,S,B,941.3290648,Aug-22,Agriculture
+Reedsville,19,W,C,740.8764527,Aug-22,Agriculture
+Reedsville,2,S,C,857.1146306,Aug-22,Agriculture
+Reedsville,20,W,C,954.5560861,Aug-22,Agriculture
+Reedsville,21,W,B,674.9905653,Aug-22,Agriculture
+Reedsville,22,S,B,1022.917913,Aug-22,Agriculture
+Reedsville,23,S,C,650.8753159,Aug-22,Agriculture
+Reedsville,24,S,C,1080.12322,Aug-22,Agriculture
+Reedsville,3,S,B,911.0449454,Aug-22,Agriculture
+Reedsville,4,W,C,897.2970685,Aug-22,Agriculture
+Reedsville,5,W,B,913.5606563,Aug-22,Agriculture
+Reedsville,6,W,C,735.1632597,Aug-22,Agriculture
+Reedsville,7,S,B,925.831109,Aug-22,Agriculture
+Reedsville,8,S,C,630.2496775,Aug-22,Agriculture
+Reedsville,9,S,C,774.2507745,Aug-22,Agriculture
+Allstar Mine 1,1,W,C,1231.914491,Aug-22,Mine
+Allstar Mine 1,10,S,C,1328.552908,Aug-22,Mine
+Allstar Mine 1,11,S,C,1120.914512,Aug-22,Mine
+Allstar Mine 1,12,S,B,988.1221885,Aug-22,Mine
+Allstar Mine 1,13,W,B,1210.263988,Aug-22,Mine
+Allstar Mine 1,14,W,C,911.3833665,Aug-22,Mine
+Allstar Mine 1,15,W,C,1131.065981,Aug-22,Mine
+Allstar Mine 1,16,S,C,937.4562688,Aug-22,Mine
+Allstar Mine 1,17,S,B,1038.512183,Aug-22,Mine
+Allstar Mine 1,18,S,C,797.5717774,Aug-22,Mine
+Allstar Mine 1,19,W,B,1334.895364,Aug-22,Mine
+Allstar Mine 1,2,W,C,863.9748163,Aug-22,Mine
+Allstar Mine 1,20,W,C,945.5370024,Aug-22,Mine
+Allstar Mine 1,21,W,C,1127.493071,Aug-22,Mine
+Allstar Mine 1,22,S,C,1221.782671,Aug-22,Mine
+Allstar Mine 1,23,S,B,1184.263895,Aug-22,Mine
+Allstar Mine 1,24,S,C,1344.024294,Aug-22,Mine
+Allstar Mine 1,3,W,B,982.6104311,Aug-22,Mine
+Allstar Mine 1,4,S,C,1266.569908,Aug-22,Mine
+Allstar Mine 1,5,S,B,1157.735828,Aug-22,Mine
+Allstar Mine 1,6,S,C,1144.013794,Aug-22,Mine
+Allstar Mine 1,7,W,B,1042.370665,Aug-22,Mine
+Allstar Mine 1,8,W,C,1235.462903,Aug-22,Mine
+Allstar Mine 1,9,W,C,907.2465582,Aug-22,Mine
+Allstar Mine 2,1,W,C,1272.583985,Aug-22,Mine
+Allstar Mine 2,10,S,B,1230.548171,Aug-22,Mine
+Allstar Mine 2,11,S,C,881.1791883,Aug-22,Mine
+Allstar Mine 2,12,S,C,930.9759733,Aug-22,Mine
+Allstar Mine 2,13,S,C,1205.143222,Aug-22,Mine
+Allstar Mine 2,14,S,C,650.8758219,Aug-22,Mine
+Allstar Mine 2,15,S,B,876.866396,Aug-22,Mine
+Allstar Mine 2,16,W,B,528.5484968,Aug-22,Mine
+Allstar Mine 2,17,W,C,618.6934661,Aug-22,Mine
+Allstar Mine 2,18,W,C,684.5698064,Aug-22,Mine
+Allstar Mine 2,2,W,B,775.3526332,Aug-22,Mine
+Allstar Mine 2,3,W,C,1118.234434,Aug-22,Mine
+Allstar Mine 2,4,S,B,680.5087002,Aug-22,Mine
+Allstar Mine 2,5,S,C,1104.989009,Aug-22,Mine
+Allstar Mine 2,6,S,C,854.2890575,Aug-22,Mine
+Allstar Mine 2,7,W,C,882.6591909,Aug-22,Mine
+Allstar Mine 2,8,W,B,1016.696826,Aug-22,Mine
+Allstar Mine 2,9,W,C,1057.821397,Aug-22,Mine
+Goshen Road,1,S,C,828.2768707,Aug-22,Mine
+Goshen Road,10,S,C,1285.740531,Aug-22,Mine
+Goshen Road,11,S,B,590.2068806,Aug-22,Mine
+Goshen Road,12,S,C,993.7143091,Aug-22,Mine
+Goshen Road,13,S,C,1355.037714,Aug-22,Mine
+Goshen Road,14,S,B,1110.025716,Aug-22,Mine
+Goshen Road,15,S,C,329.3301899,Aug-22,Mine
+Goshen Road,16,W,C,1120.384971,Aug-22,Mine
+Goshen Road,17,W,B,786.2502396,Aug-22,Mine
+Goshen Road,18,W,C,952.9753406,Aug-22,Mine
+Goshen Road,19,S,C,1392.333952,Aug-22,Mine
+Goshen Road,2,S,B,790.6947188,Aug-22,Mine
+Goshen Road,20,S,C,675.9438232,Aug-22,Mine
+Goshen Road,21,S,B,609.1348095,Aug-22,Mine
+Goshen Road,22,W,B,1056.929644,Aug-22,Mine
+Goshen Road,23,W,C,921.4501046,Aug-22,Mine
+Goshen Road,24,W,C,1150.342554,Aug-22,Mine
+Goshen Road,3,S,C,503.8783549,Aug-22,Mine
+Goshen Road,4,W,C,731.5915876,Aug-22,Mine
+Goshen Road,5,W,B,389.9789829,Aug-22,Mine
+Goshen Road,6,W,C,643.2503431,Aug-22,Mine
+Goshen Road,7,W,B,999.160606,Aug-22,Mine
+Goshen Road,8,W,C,744.8510732,Aug-22,Mine
+Goshen Road,9,W,C,1196.91611,Aug-22,Mine

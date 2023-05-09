@@ -1,0 +1,25 @@
+site,plot,subsample_weight,POM + MAOM,fraction,fraction_weight_g,percent_n,percent_c
+allstar_mine_1,offsite 1,10.02,10.46,MAOM,6.73,0.2563,2.1553
+allstar_mine_1,offsite 2,10.01,10.37,MAOM,6.21,0.3552,3.1434
+allstar_mine_1,offsite 3,9.99,10.78,MAOM,5.26,0.4675,4.1097
+allstar_mine_1,offsite 1,10.02,10.46,POM,3.73,0.4152,6.2431
+allstar_mine_1,offsite 2,10.01,10.37,POM,4.16,0.4149,5.7095
+allstar_mine_1,offsite 3,9.99,10.78,POM,5.52,0.5288,7.6939
+allstar_mine_2,offsite 1,10,10.37,MAOM,7.2,0.3382,3.0943
+allstar_mine_2,offsite 2,9.99,10.37,MAOM,6.79,0.3689,3.4722
+allstar_mine_2,offsite 3,10.02,9.53,MAOM,6.66,0.3367,3.0269
+allstar_mine_2,offsite 1,10,10.37,POM,3.17,0.5000,7.3304
+allstar_mine_2,offsite 2,9.99,10.37,POM,3.58,0.5407,7.6334
+allstar_mine_2,offsite 3,10.02,9.53,POM,2.87,0.6513,8.3896
+goshen,offsite 1,10.01,10.22,MAOM,4.97,0.5053,4.7795
+goshen,offsite 2,10.01,10.91,MAOM,6.22,0.4409,4.2433
+goshen,offsite 3,10.02,11.2,MAOM,6.36,0.3431,3.2825
+goshen,offsite 1,10.01,10.22,POM,5.25,0.7609,10.7026
+goshen,offsite 2,10.01,10.91,POM,4.69,0.7227,10.4750
+goshen,offsite 3,10.02,11.2,POM,4.84,0.4571,8.0594
+jackson_mill,offsite 1,9.99,10.33,MAOM,8.07,0.3480,2.9814
+jackson_mill,offsite 2,NA,10.54,MAOM,7.95,0.3632,3.1583
+jackson_mill,offsite 3,10.02,10.72,MAOM,8.17,0.3223,2.7911
+jackson_mill,offsite 1,9.99,10.33,POM,2.26,0.5128,7.2209
+jackson_mill,offsite 2,NA,10.54,POM,2.59,0.4241,5.4522
+jackson_mill,offsite 3,10.02,10.72,POM,2.55,0.4568,5.3768

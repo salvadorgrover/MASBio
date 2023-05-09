@@ -1,0 +1,503 @@
+library(ggplot2)
+library(dplyr)
+library(forcats)
+library(agricolae)
+library(ggpubr)
+library(rstatix)
+library(ggpattern)
+library(tidyverse)
+library(multcompView)
+
+setwd("C:/Users/salgr/Box/Data/POXC")
+#load data
+#poxc values in mg/kg of soil 
+poxc.june <- read.csv("Data/June 2021/poxc_clean_june_2021.csv") 
+poxc.june$date <- "June 2021"
+poxc.may <- read.csv("Data/May 2022/poxc_clean_may_2022.csv")
+poxc.may$date <- "May 2022"
+poxc.aug <- read.csv("Data/August 2022/poxc_clean_august_2022.csv")
+poxc.aug$date <- "August 2022"
+
+#Removed F treatment 
+#poxc.june <- read.csv("poxc_clean_june_2021.csv") %>% 
+#  select(-mean, -two.sd, -z.score)
+#poxc.june$date <- "June 2021"
+#poxc.may <- read.csv("poxc_clean_may_2022.csv") %>% 
+#  select(-mean, -two.sd, -z.score)
+#poxc.may$date <- "May 2022"
+#poxc.aug <- read.csv("poxc_clean_august_2022.csv")
+#poxc.aug$date <- "August 2022"
+
+poxc.all <- poxc.june %>% 
+  rbind(poxc.may) %>% 
+  rbind(poxc.aug)
+
+#poxc.all <- poxc.all %>% 
+#  subset(treatment != "F")
+
+poxc.all$site <- gsub("goshen_road", "goshen", poxc.all$site)
+poxc.all$site <- gsub("agronomy_farm", "Agronomy Farm", poxc.all$site)
+poxc.all$site <- gsub("allstar_mine_1", "Allstar Mine 1", poxc.all$site)
+poxc.all$site <- gsub("allstar_mine_2", "Allstar Mine 2", poxc.all$site)
+poxc.all$site <- gsub("jackson_mill", "Jackson Mill", poxc.all$site)
+poxc.all$site <- gsub("goshen", "Goshen Road", poxc.all$site)
+poxc.all$site <- gsub("reedsville", "Reedsville", poxc.all$site)
+poxc.all$crop <- gsub('S', 'Switchgrass', poxc.all$crop)
+poxc.all$crop <- gsub('W', 'Willow', poxc.all$crop)
+poxc.all$treatment <- gsub('B', 'Biochar', poxc.all$treatment)
+poxc.all$treatment <- gsub('C', 'Control', poxc.all$treatment)
+
+poxc.all <- poxc.all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022")))
+
+
+#Testing normality of distribution
+qqnorm(poxc.all$poxc, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(poxc.all$poxc, col = "red", lwd = 2)
+
+model <- lm(poxc ~ land_type * date * crop * treatment, data = poxc.all)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+
+ggqqplot(poxc.all, "poxc", ggtheme = theme_bw()) +
+  facet_grid(date + land_type ~ crop + treatment, labeller = "label_both")
+
+normality <- poxc.all %>% 
+  group_by(land_type, crop, date, treatment) %>% 
+  shapiro_test(poxc) %>% 
+  subset(p <= .05)
+
+ggplot(data = poxc.all, aes(x = date, y = poxc)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = site), alpha = .3) +
+  facet_grid(site ~ crop)
+
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+ggplot(data = poxc.all, aes(x = date, y = poxc, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(site ~ crop, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type", title = "Bioavailable C per Site, Crop, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+
+#homogneity of variance assumption test
+poxc.all %>% 
+  ungroup() %>% 
+  levene_test(poxc ~ land_type * date * crop * treatment)
+
+
+anova <- aov(poxc ~ site * crop * treatment * date, data = poxc.all)
+summary(anova)
+
+
+TukeyHSD(aov(poxc ~ date + site + site*date, data = poxc.all), conf.level = .95)
+plot(TukeyHSD(aov(poxc ~ date + site + site*date, data = poxc.all), conf.level = .95, which = "date"))
+plot(TukeyHSD(aov(poxc ~ date + site + site*date, data = poxc.all), conf.level = .95, which = "site"))
+plot(TukeyHSD(aov(poxc ~ date + site + site*date, data = poxc.all), conf.level = .95, which = "date:site"), las =1)
+
+
+anova <- aov(poxc ~ site * date * treatment * crop, data = poxc.all)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("site", "date"))
+tuk
+par(mar=c(12,4,0,4))
+bar.group(tuk$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+
+test <- HSD.test(anova, trt = c("site", "date"), group = T)
+test
+par(mar=c(11,4,4,4))
+bar.group(test$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+
+test <- HSD.test(anova, trt = c("site"), group = T)
+test
+par(mar=c(7,4,1,1))
+bar.group(test$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+
+test <- HSD.test(anova, trt = c("date"), group = T)
+test
+par(mar=c(7,4,1,1))
+bar.group(test$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+
+par(mar=c(4,4,4,4))
+ggHSD(tuk, interactive = T, las = 1)
+
+df <- as.data.frame(tuk$groups)
+
+#Anova by site
+af <- poxc.all %>% 
+  subset(site %in% "Agronomy Farm")
+anova <- aov(poxc ~ date * treatment * crop, data = af)
+summary(anova)
+tuk.ag <- HSD.test(anova, trt = "date", group = T)
+tuk.ag
+bar.group(tuk.ag$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+
+#anova by land type
+model <- lm(poxc ~ land_type * date * crop * treatment, data = poxc.all)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+poxc.all %>% 
+  ungroup() %>% 
+  levene_test(poxc ~ land_type * date * crop * treatment)
+
+anova <- aov(poxc ~ land_type * date * treatment * crop, data = poxc.all)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("land_type", "date"))
+tuk
+
+
+tuk <- HSD.test(anova, trt = c("land_type", "date", "crop"))
+tuk
+
+model <- aov(poxc ~ land_type * date * crop, data = poxc.all)
+TukeyHSD(model)
+##Viz
+#Boxplot
+ggplot(data = poxc.all, aes(x = date, y = poxc, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type", title = "Bioavailable C per Site, Crop, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = poxc.all, aes(x = date, y = poxc, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ .) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type", title = "Bioavailable C per Site, Crop, and Date") +
+  scale_fill_brewer(palette = "Set1")
+
+
+
+#Bar Plot
+#Run the code above each plot
+#Land Type and Date
+anova <- aov(poxc ~ land_type * date * treatment * crop, data = poxc.all)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- poxc.all %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(poxc),
+            sd = sd(poxc),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_manual(name = "",
+                    values = c("grey", "black")) +
+  scale_y_continuous(expand=c(0,0), limits = c(0,1100)) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 22))
+
+
+#Land type, date, crop
+anova <- aov(poxc ~ land_type * date * treatment * crop, data = poxc.all)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- poxc.all %>% 
+  group_by(land_type, date, crop) %>% 
+  summarise(mean = mean(poxc),
+            sd = sd(poxc),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date:crop`)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = date, y = mean, fill = crop)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  facet_wrap(land_type ~ ., nrow = 2) + 
+  theme_classic() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,1100)) +
+  theme( strip.background = element_blank(),
+         panel.background = element_rect(colour = "black", size=0.5)) +
+  theme(text = element_text(size = 20))
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = crop)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  facet_wrap(land_type ~ ., nrow = 2) + 
+  theme_classic() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5) +
+  scale_fill_grey(name = "") +
+  theme( strip.background = element_blank()) +
+  theme(text = element_text(size = 20))
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = crop)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  facet_wrap(land_type ~ .) + 
+  theme_classic() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,1100)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20))
+ 
+
+
+
+sup <- ggplot(data = dt, aes(x = date, y = mean, fill = crop)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = crop),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.02)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  facet_wrap(land_type ~ .) + 
+  theme_classic() +
+  labs(x = "", y = "POXC (mg/kg of soil)", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 4) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,1200)) +
+  scale_x_discrete(labels = c("June \n2021", "May \n2022", "August \n2022")) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 10),
+        axis.text.x = element_text(size = 15, color = "black"),
+        strip.text.x = element_text(size = 13),
+        legend.position = "top",
+        legend.text = element_text(size=10),
+        legend.key.size = unit(.4, 'cm'))
+
+ggsave("poxc_date_site_crop.jpeg", plot = sup, width = 180, height = 83, units = "mm", dpi = 300)
+
+
+##__________________SSSA and other analysis
+anova <- aov(poxc ~ crop * treatment *date * land_type, data = poxc.all)
+summary(anova)
+
+test <- poxc.all %>% 
+  filter(land_type == "Agriculture")
+anova <- aov(poxc ~ crop * treatment *date, data = test)
+summary(anova)
+TukeyHSD(aov(poxc ~ date, data = test), conf.level = .95)
+tuk <- HSD.test(anova, trt = 'date')
+tuk
+
+poxc_land <- poxc.all %>% 
+  group_by(date, crop, land_type) %>% 
+  summarise(mean_poxc = mean(poxc),
+            sd = sd(poxc),
+            count=n(),
+            se=(sd/(sqrt(count)))) 
+
+#Y axis Mean Bioavailable Carbon (mg/kg of soil), Title - Decrease in Bioavailable C
+p <- ggplot(data = poxc_land, aes(x = date, y = mean_poxc, group = crop, color = crop)) +
+  geom_line(size = 1.5) +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  scale_color_brewer(palette = "Set2") +
+  theme_bw(base_size = 20,) +
+  labs(y = "", x = "") +
+  theme(legend.position = "none", 
+        axis.title=element_text(size=14),
+        plot.title = element_text(size=16, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        strip.background = element_blank(),
+        strip.text.y = element_blank()) +
+  scale_x_discrete(labels =c("June 2021" = "0",
+                             "May 2022" = "349",
+                             "August 2022" = "454"), expand = c(.02,.02)) +
+  geom_pointrange(aes(ymin=mean_poxc-se, 
+                      ymax=mean_poxc+se,
+                      alpha =.5))
+p
+
+#ggsave(
+#  plot = p,
+#  filename = "poxc_sssa.png",
+#  bg = "transparent"
+#)
+
+
+### Offsite samples analysis
+offsite_may <- read.csv("Data/May 2022/offsite_poxc_may_22.csv") 
+offsite_may$date <- c("May 2022")
+offsite_aug <- read.csv("Data/August 2022/offsite_poxc_august_22.csv") 
+offsite_aug$date <- c("August 2022")
+
+offsite_all <- rbind(offsite_may, offsite_aug)
+
+offsite_poxc <- offsite_all %>% 
+  group_by(site, plot, date) %>% 
+  summarise(mean(poxc)) %>% 
+  rename(poxc = 'mean(poxc)') 
+
+offsite_poxc$site <- gsub("agronomy_farm", "Agronomy Farm", offsite_poxc$site)
+offsite_poxc$site <- gsub("allstar_mine_1", "Allstar Mine 1", offsite_poxc$site)
+offsite_poxc$site <- gsub("allstar_mine_2", "Allstar Mine 2", offsite_poxc$site)
+offsite_poxc$site <- gsub("jackson_mill", "Jackson Mill", offsite_poxc$site)
+offsite_poxc$site <- gsub("goshen", "Goshen Road", offsite_poxc$site)
+offsite_poxc$site <- gsub("reedsville", "Reedsville", offsite_poxc$site)
+
+offsite_poxc <- offsite_poxc %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(date = fct_relevel(date, c("May 2022", "August 2022"))) %>% 
+  ungroup() %>% 
+  dplyr::select(-c(plot))
+
+offsite_poxc$plot_type <- c("offsite")
+offsite_poxc$crop <- c("Pasture")
+
+#ggplot(data = offsite_poxc, aes(x = date, y = poxc, fill = site)) +
+#  geom_boxplot(alpha = .2) +
+  #geom_jitter(alpha = .4) +
+  #facet_grid(site ~ crop, labeller = labeller(crop = crops)) +
+#  theme_bw() +
+#  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type", title = "Bioavailable C per Site, Crop, and Date") +
+#  scale_fill_brewer(palette = "Dark2")
+
+#write.csv(offsite_poxc, file = "offsite_poxc_all.csv", row.names = F)
+#write.csv(poxc.all, file = "poxc_all.csv", row.names = F)
+
+poxc_new <- poxc.all %>% 
+  dplyr::select(c("site","poxc", "date", "land_type", "crop")) %>% 
+  group_by(site, date, land_type) 
+
+poxc_new$plot_type <- c("onsite")
+
+poxc_off_on <- rbind(poxc_new, offsite_poxc) %>% 
+  subset(date %in% c("May 2022")) #%>% 
+  #subset(site %in% c("Allstar Mine 1", "Allstar Mine 2", "Goshen Road", "Jackson Mill"))
+
+
+poxc_off_on %>% 
+  group_by(crop, land_type) %>% 
+  drop_na(poxc) %>% 
+  summarise(mean = mean(poxc))
+
+#Mine
+mine_off_on <- poxc_off_on %>% 
+  subset(land_type == "Mine")
+
+model <- lm(poxc ~ crop, data = mine_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+
+mine_off_on %>% 
+  ungroup() %>% 
+  levene_test(poxc ~ crop)
+
+anova <- aov(poxc ~ crop, data = mine_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+#Ag 
+ag_off_on <- poxc_off_on %>% 
+  subset(land_type == "Agriculture")
+
+model <- lm(poxc ~ crop, data = ag_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+ag_off_on %>% 
+  ungroup() %>% 
+  levene_test(poxc ~ crop)
+
+anova <- aov(poxc ~ crop, data = ag_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+#___________________________________________________________________________________________________
+normality <- poxc_off_on %>% 
+  group_by(land_type, date, plot_type) %>% 
+  shapiro_test(poxc)
+
+model <- lm(poxc ~ land_type * date * plot_type, data = poxc_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+poxc_off_on %>% 
+  ungroup() %>% 
+  levene_test(poxc ~ land_type * date * plot_type)
+
+anova <- aov(poxc ~ land_type * date * plot_type, data = poxc_off_on)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("land_type", "date", "plot_type"))
+tuk
+
+ggplot(data = poxc_off_on, aes(x = date, y = poxc, color = plot_type)) +
+  geom_boxplot() +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid( ~ site)  + 
+  labs(x = "Date", y = "POXC", title = "Offsite and Onsite POXC")
+
+
+#Boxplot
+ggplot(data = poxc_off_on, aes(x = date, y = poxc, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~.) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type", title = "POXC Offsite") +
+  scale_fill_brewer(palette = "Set2")
+
+ggplot(data = poxc_off_on, aes(x = date, y = poxc, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~.) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Plot Type", title = "POXC Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = poxc_off_on, aes(x = plot_type, y = poxc, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~.) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Plot Type", title = "POXC Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = poxc_off_on, aes(x = date, y = poxc, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  facet_grid(land_type ~.) +
+  theme_bw() +
+  labs(x = "Date", y = "Bioavailable Carbon (mg/kg of soil)", color = "Site", fill = "Land Type", title = "POXC Offsite") +
+  scale_fill_brewer(palette = "Set1")

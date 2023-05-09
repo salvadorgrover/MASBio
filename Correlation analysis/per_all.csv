@@ -1,0 +1,326 @@
+"site","plot","per","date","crop","treatment","land_type","sqrt_activity"
+"Agronomy Farm","2",1597.99876582606,"June 2021","Willow","Biochar","Agriculture",39.9749767457851
+"Agronomy Farm","4",844.66603978317,"June 2021","Switchgrass","Biochar","Agriculture",29.0631388494631
+"Agronomy Farm","5",253.52879835928,"June 2021","Switchgrass","Control","Agriculture",15.9225876778644
+"Agronomy Farm","6",215.892401525913,"June 2021","Switchgrass","Control","Agriculture",14.6932774262896
+"Agronomy Farm","7",182.004000564488,"June 2021","Willow","Biochar","Agriculture",13.4908858332019
+"Agronomy Farm","8",569.040866290782,"June 2021","Willow","Control","Agriculture",23.8545774703888
+"Agronomy Farm","9",579.594187962106,"June 2021","Willow","Control","Agriculture",24.0747624694846
+"Agronomy Farm","11",700.881462719786,"June 2021","Switchgrass","Biochar","Agriculture",26.4741659494645
+"Agronomy Farm","12",1360.52188021516,"June 2021","Switchgrass","Control","Agriculture",36.8852528826245
+"Agronomy Farm","13",1643.92345985199,"June 2021","Switchgrass","Control","Agriculture",40.5453259926713
+"Agronomy Farm","16",1599.14205642486,"June 2021","Willow","Biochar","Agriculture",39.989274267294
+"Agronomy Farm","17",588.077289550025,"June 2021","Willow","Control","Agriculture",24.2503049372585
+"Agronomy Farm","18",1060.75091115632,"June 2021","Willow","Control","Agriculture",32.5691711769937
+"Agronomy Farm","19",1705.24086039532,"June 2021","Switchgrass","Control","Agriculture",41.2945621165223
+"Agronomy Farm","20",479.393708460724,"June 2021","Switchgrass","Control","Agriculture",21.8950612801317
+"Agronomy Farm","21",490.850076294966,"June 2021","Switchgrass","Biochar","Agriculture",22.1551365668318
+"Agronomy Farm","22",236.795497448143,"June 2021","Willow","Control","Agriculture",15.3881609508136
+"Agronomy Farm","23",187.273833005357,"June 2021","Willow","Biochar","Agriculture",13.6848029947587
+"Agronomy Farm","24",1967.23800714632,"June 2021","Willow","Control","Agriculture",44.3535568714204
+"Allstar Mine 1","1",1761.40366307736,"June 2021","Willow","Control","Mine",41.969079845493
+"Allstar Mine 1","3",349.153265254132,"June 2021","Willow","Biochar","Mine",18.6856432924888
+"Allstar Mine 1","4",618.381406108856,"June 2021","Switchgrass","Control","Mine",24.867275807954
+"Allstar Mine 1","5",370.208130304871,"June 2021","Switchgrass","Biochar","Mine",19.2407933907329
+"Allstar Mine 1","7",947.587161565686,"June 2021","Willow","Biochar","Mine",30.7829037221261
+"Allstar Mine 1","8",393.390666567363,"June 2021","Willow","Control","Mine",19.8340784148738
+"Allstar Mine 1","9",441.746209035064,"June 2021","Willow","Control","Mine",21.0177593723752
+"Allstar Mine 1","10",404.367800114136,"June 2021","Switchgrass","Control","Mine",20.1088985306042
+"Allstar Mine 1","12",2440.71274544662,"June 2021","Switchgrass","Biochar","Mine",49.4035701690336
+"Allstar Mine 1","13",308.571249103628,"June 2021","Willow","Biochar","Mine",17.5661962047459
+"Allstar Mine 1","15",578.084180301919,"June 2021","Willow","Control","Mine",24.0433812160835
+"Allstar Mine 1","16",292.584423863166,"June 2021","Switchgrass","Control","Mine",17.1050993526248
+"Allstar Mine 1","17",1131.27262979038,"June 2021","Switchgrass","Biochar","Mine",33.6343965278163
+"Allstar Mine 1","18",446.657597400792,"June 2021","Switchgrass","Control","Mine",21.1342754169806
+"Allstar Mine 1","19",601.766942853822,"June 2021","Willow","Biochar","Mine",24.5309384829407
+"Allstar Mine 1","21",1169.52310898215,"June 2021","Willow","Control","Mine",34.1982910242917
+"Allstar Mine 1","22",950.856809798699,"June 2021","Switchgrass","Control","Mine",30.8359661726157
+"Allstar Mine 1","23",1033.77937502328,"June 2021","Switchgrass","Biochar","Mine",32.1524396434125
+"Allstar Mine 1","24",1368.82662430694,"June 2021","Switchgrass","Control","Mine",36.9976570110452
+"Allstar Mine 2","1",2708.90095108677,"June 2021","Willow","Control","Mine",52.0471031959202
+"Allstar Mine 2","2",1422.9705780865,"June 2021","Willow","Biochar","Mine",37.722282249176
+"Allstar Mine 2","4",1639.55246455112,"June 2021","Switchgrass","Biochar","Mine",40.4913875355133
+"Allstar Mine 2","6",420.160885449665,"June 2021","Switchgrass","Control","Mine",20.4978263591451
+"Allstar Mine 2","7",2115.86905577894,"June 2021","Willow","Control","Mine",45.9985766712291
+"Allstar Mine 2","8",1106.21508111838,"June 2021","Willow","Biochar","Mine",33.2598118022092
+"Allstar Mine 2","9",970.000595323812,"June 2021","Willow","Control","Mine",31.1448325621412
+"Allstar Mine 2","10",1479.41216511889,"June 2021","Switchgrass","Biochar","Mine",38.4631273444957
+"Allstar Mine 2","11",1284.63088082935,"June 2021","Switchgrass","Control","Mine",35.8417477368132
+"Allstar Mine 2","12",1087.5646791483,"June 2021","Switchgrass","Control","Mine",32.9782455438172
+"Allstar Mine 2","13",1125.42224523165,"June 2021","Switchgrass","Control","Mine",33.5473135322585
+"Allstar Mine 2","14",1159.80686601871,"June 2021","Switchgrass","Control","Mine",34.0559373093549
+"Allstar Mine 2","18",1989.77079086301,"June 2021","Willow","Control","Mine",44.6068469056378
+"Goshen Road","1",1205.23011915177,"June 2021","Switchgrass","Control","Mine",34.7164243428347
+"Goshen Road","2",288.160364770131,"June 2021","Switchgrass","Biochar","Mine",16.9752868832939
+"Goshen Road","3",1230.846737411,"June 2021","Switchgrass","Control","Mine",35.0834253944937
+"Goshen Road","4",544.661685550836,"June 2021","Willow","Control","Mine",23.337988035622
+"Goshen Road","5",718.011294289523,"June 2021","Willow","Biochar","Mine",26.7957327626905
+"Goshen Road","6",152.616389363261,"June 2021","Willow","Control","Mine",12.3538006039948
+"Goshen Road","7",908.252943119632,"June 2021","Willow","Biochar","Mine",30.1372351605059
+"Goshen Road","8",1458.74884547299,"June 2021","Willow","Control","Mine",38.1935707347845
+"Goshen Road","9",1414.24723482396,"June 2021","Willow","Control","Mine",37.6064786283422
+"Goshen Road","10",107.778129101632,"June 2021","Switchgrass","Control","Mine",10.3816245887449
+"Goshen Road","11",818.076243211438,"June 2021","Switchgrass","Biochar","Mine",28.6020321517797
+"Goshen Road","12",1916.6689667665,"June 2021","Switchgrass","Control","Mine",43.779778057529
+"Goshen Road","13",622.475050217192,"June 2021","Switchgrass","Control","Mine",24.9494498980878
+"Goshen Road","15",961.16171396877,"June 2021","Switchgrass","Control","Mine",31.0026081800995
+"Goshen Road","16",406.432685642771,"June 2021","Willow","Control","Mine",20.1601757344218
+"Goshen Road","17",545.590516008466,"June 2021","Willow","Biochar","Mine",23.3578790991063
+"Goshen Road","18",1339.02219031994,"June 2021","Willow","Control","Mine",36.5926521356398
+"Goshen Road","19",1406.46330733545,"June 2021","Switchgrass","Control","Mine",37.5028439899623
+"Goshen Road","20",1185.81483208013,"June 2021","Switchgrass","Control","Mine",34.4356622134689
+"Goshen Road","21",1384.27078352483,"June 2021","Switchgrass","Biochar","Mine",37.2057896506018
+"Goshen Road","22",683.477329350718,"June 2021","Willow","Biochar","Mine",26.1433993457377
+"Goshen Road","23",656.044383217651,"June 2021","Willow","Control","Mine",25.6133633718348
+"Goshen Road","24",479.35816821841,"June 2021","Willow","Control","Mine",21.8942496610048
+"Jackson Mill","1",61.4283356153941,"June 2021","Willow","Biochar","Agriculture",7.83762308454509
+"Jackson Mill","2",466.524161489238,"June 2021","Willow","Control","Agriculture",21.5991703889117
+"Jackson Mill","4",597.873218274507,"June 2021","Switchgrass","Control","Agriculture",24.4514461387155
+"Jackson Mill","5",2426.2416541477,"June 2021","Switchgrass","Biochar","Agriculture",49.2568944833888
+"Jackson Mill","6",1937.06015086886,"June 2021","Switchgrass","Control","Agriculture",44.0120455201625
+"Jackson Mill","7",2144.33627755567,"June 2021","Switchgrass","Biochar","Agriculture",46.3069787133178
+"Jackson Mill","8",30.5225881386128,"June 2021","Switchgrass","Control","Agriculture",5.52472516407946
+"Jackson Mill","9",332.296205772632,"June 2021","Switchgrass","Control","Agriculture",18.2289935479892
+"Jackson Mill","11",2310.07836405455,"June 2021","Willow","Control","Agriculture",48.0632745873037
+"Jackson Mill","12",412.976989301486,"June 2021","Willow","Biochar","Agriculture",20.3218352837898
+"Jackson Mill","14",649.305418325365,"June 2021","Switchgrass","Control","Agriculture",25.4814720596233
+"Jackson Mill","15",880.189257293792,"June 2021","Switchgrass","Control","Agriculture",29.6679837079265
+"Jackson Mill","18",1185.87318773184,"June 2021","Willow","Control","Agriculture",34.4365095172528
+"Jackson Mill","19",1732.6197632661,"June 2021","Willow","Control","Agriculture",41.6247494078475
+"Jackson Mill","21",519.300616342087,"June 2021","Willow","Control","Agriculture",22.788168341095
+"Jackson Mill","22",1507.8300225791,"June 2021","Switchgrass","Control","Agriculture",38.830787045579
+"Jackson Mill","24",651.758192557952,"June 2021","Switchgrass","Biochar","Agriculture",25.5295552753657
+"Reedsville","2",227.695479189471,"June 2021","Switchgrass","Control","Agriculture",15.0895818096285
+"Reedsville","3",513.061884442126,"June 2021","Switchgrass","Biochar","Agriculture",22.650869397048
+"Reedsville","4",1251.60472969433,"June 2021","Willow","Control","Agriculture",35.3780260853305
+"Reedsville","5",554.750765680885,"June 2021","Willow","Biochar","Agriculture",23.5531476809552
+"Reedsville","7",485.508461095375,"June 2021","Switchgrass","Biochar","Agriculture",22.0342565360253
+"Reedsville","8",1412.61694820018,"June 2021","Switchgrass","Control","Agriculture",37.584796769441
+"Reedsville","9",713.523149187942,"June 2021","Switchgrass","Control","Agriculture",26.7118540949134
+"Reedsville","10",2123.34901788874,"June 2021","Willow","Biochar","Agriculture",46.0798113916359
+"Reedsville","11",536.97921673667,"June 2021","Willow","Control","Agriculture",23.1728120161682
+"Reedsville","12",747.321500372412,"June 2021","Willow","Control","Agriculture",27.3371816464758
+"Reedsville","13",619.301741532696,"June 2021","Willow","Control","Agriculture",24.8857738785173
+"Reedsville","14",158.917392360169,"June 2021","Willow","Biochar","Agriculture",12.6062441813638
+"Reedsville","15",146.357380767905,"June 2021","Willow","Control","Agriculture",12.0978254561679
+"Reedsville","16",705.313861271839,"June 2021","Switchgrass","Control","Agriculture",26.5577457867161
+"Reedsville","17",1223.4128530667,"June 2021","Switchgrass","Control","Agriculture",34.9773191234934
+"Reedsville","18",1274.18594304245,"June 2021","Switchgrass","Biochar","Agriculture",35.6957412451745
+"Reedsville","19",1031.03487344682,"June 2021","Willow","Control","Agriculture",32.1097317560708
+"Reedsville","20",240.442105197758,"June 2021","Willow","Control","Agriculture",15.5061957035811
+"Reedsville","21",1433.9144642798,"June 2021","Willow","Biochar","Agriculture",37.867063053263
+"Reedsville","22",798.406220126986,"June 2021","Switchgrass","Biochar","Agriculture",28.2560828871765
+"Reedsville","23",314.404593183029,"June 2021","Switchgrass","Control","Agriculture",17.7314577286536
+"Reedsville","24",1094.92372115461,"June 2021","Switchgrass","Control","Agriculture",33.0896316261546
+"Agronomy Farm","1",544.24170123288,"May 2022","Willow","Control","Agriculture",23.3289884314104
+"Agronomy Farm","2",684.211800893423,"May 2022","Willow","Biochar","Agriculture",26.1574425526163
+"Agronomy Farm","3",2406.00419853163,"May 2022","Willow","Control","Agriculture",49.0510366713246
+"Agronomy Farm","4",112.19885872884,"May 2022","Switchgrass","Biochar","Agriculture",10.5923962694397
+"Agronomy Farm","5",373.214876179515,"May 2022","Switchgrass","Control","Agriculture",19.3187700483109
+"Agronomy Farm","6",1143.19370633387,"May 2022","Switchgrass","Control","Agriculture",33.8111476636608
+"Agronomy Farm","8",820.581601760239,"May 2022","Willow","Control","Agriculture",28.6457955337295
+"Agronomy Farm","9",500.347363999385,"May 2022","Willow","Control","Agriculture",22.3684457215826
+"Agronomy Farm","10",623.630048098447,"May 2022","Switchgrass","Control","Agriculture",24.9725859313457
+"Agronomy Farm","11",872.856951075472,"May 2022","Switchgrass","Biochar","Agriculture",29.5441525699329
+"Agronomy Farm","12",1389.73298872579,"May 2022","Switchgrass","Control","Agriculture",37.2791226925446
+"Agronomy Farm","13",104.406158991388,"May 2022","Switchgrass","Control","Agriculture",10.2179332054671
+"Agronomy Farm","14",324.201792488503,"May 2022","Switchgrass","Control","Agriculture",18.0056044743992
+"Agronomy Farm","15",883.310199581093,"May 2022","Switchgrass","Biochar","Agriculture",29.7205349814079
+"Agronomy Farm","16",587.342518002845,"May 2022","Willow","Biochar","Agriculture",24.2351504637963
+"Agronomy Farm","19",1095.20501169839,"May 2022","Switchgrass","Control","Agriculture",33.0938817864933
+"Agronomy Farm","20",438.506902337235,"May 2022","Switchgrass","Control","Agriculture",20.9405563998962
+"Agronomy Farm","21",143.143776898082,"May 2022","Switchgrass","Biochar","Agriculture",11.9642708469042
+"Agronomy Farm","23",577.557507357979,"May 2022","Willow","Biochar","Agriculture",24.0324261646214
+"Agronomy Farm","24",1012.9594236685,"May 2022","Willow","Control","Agriculture",31.8270234811316
+"Allstar Mine 2","1",1016.92243416561,"May 2022","Willow","Control","Mine",31.88922128503
+"Allstar Mine 2","2",1956.60403730029,"May 2022","Willow","Biochar","Mine",44.2335171255948
+"Allstar Mine 2","3",22.2348970038791,"May 2022","Willow","Control","Mine",4.71538937987936
+"Allstar Mine 2","4",509.228669784466,"May 2022","Switchgrass","Biochar","Mine",22.5660955813022
+"Allstar Mine 2","6",2581.73780570709,"May 2022","Switchgrass","Control","Mine",50.8108040253949
+"Allstar Mine 2","7",95.8171517209659,"May 2022","Willow","Control","Mine",9.78862358664209
+"Allstar Mine 2","9",2176.97063082692,"May 2022","Willow","Control","Mine",46.6580178621737
+"Allstar Mine 2","11",830.737402140502,"May 2022","Switchgrass","Control","Mine",28.8225155415085
+"Allstar Mine 2","12",548.055676269201,"May 2022","Switchgrass","Control","Mine",23.4105889774094
+"Allstar Mine 2","13",442.319756916238,"May 2022","Switchgrass","Control","Mine",21.0313993095143
+"Allstar Mine 2","14",888.398762427912,"May 2022","Switchgrass","Control","Mine",29.8060188959866
+"Allstar Mine 2","15",612.314002002563,"May 2022","Switchgrass","Biochar","Mine",24.7449793292006
+"Allstar Mine 2","16",2623.63405667038,"May 2022","Willow","Biochar","Mine",51.2214218532674
+"Allstar Mine 2","18",3866.21606383306,"May 2022","Willow","Control","Mine",62.1789036879315
+"Allstar Mine 1","1",3939.72478149847,"May 2022","Willow","Control","Mine",62.76722696996
+"Allstar Mine 1","2",794.927797564932,"May 2022","Willow","Control","Mine",28.194463952431
+"Allstar Mine 1","3",1552.97212460348,"May 2022","Willow","Biochar","Mine",39.4077673131006
+"Allstar Mine 1","5",1926.90854744055,"May 2022","Switchgrass","Biochar","Mine",43.8965664652777
+"Allstar Mine 1","7",101.680653045585,"May 2022","Willow","Biochar","Mine",10.0836825141208
+"Allstar Mine 1","8",3904.67032831592,"May 2022","Willow","Control","Mine",62.4873613486433
+"Allstar Mine 1","9",145.540971106553,"May 2022","Willow","Control","Mine",12.0640362692821
+"Allstar Mine 1","11",2200.71313862937,"May 2022","Switchgrass","Control","Mine",46.911759065605
+"Allstar Mine 1","12",1584.7451465128,"May 2022","Switchgrass","Biochar","Mine",39.8088576388823
+"Allstar Mine 1","14",3116.97187878677,"May 2022","Willow","Control","Mine",55.8298475619159
+"Allstar Mine 1","15",50.0868443481036,"May 2022","Willow","Control","Mine",7.07720597044509
+"Allstar Mine 1","16",1006.04513516171,"May 2022","Switchgrass","Control","Mine",31.7182145645323
+"Allstar Mine 1","18",2037.9261996395,"May 2022","Switchgrass","Control","Mine",45.1433959692833
+"Allstar Mine 1","19",1305.54150866298,"May 2022","Willow","Biochar","Mine",36.1322779334902
+"Allstar Mine 1","20",1067.40307123849,"May 2022","Willow","Control","Mine",32.6711351385056
+"Allstar Mine 1","22",2530.25982031682,"May 2022","Switchgrass","Control","Mine",50.3016880463949
+"Allstar Mine 1","23",1089.1297116181,"May 2022","Switchgrass","Biochar","Mine",33.0019652690275
+"Allstar Mine 1","24",1813.20536444087,"May 2022","Switchgrass","Control","Mine",42.5817491942366
+"Goshen Road","1",956.927913927754,"May 2022","Switchgrass","Control","Mine",30.9342514686836
+"Goshen Road","2",1298.40649087131,"May 2022","Switchgrass","Biochar","Mine",36.0334079830275
+"Goshen Road","3",1026.26095922002,"May 2022","Switchgrass","Control","Mine",32.0353080088208
+"Goshen Road","4",931.002053553052,"May 2022","Willow","Control","Mine",30.5123262560076
+"Goshen Road","5",1013.49070873622,"May 2022","Willow","Biochar","Mine",31.8353688330483
+"Goshen Road","6",882.444486105042,"May 2022","Willow","Control","Mine",29.7059671800977
+"Goshen Road","8",765.85938473424,"May 2022","Willow","Control","Mine",27.6741645715682
+"Goshen Road","9",695.459221689699,"May 2022","Willow","Control","Mine",26.3715608504635
+"Goshen Road","10",559.291618721907,"May 2022","Switchgrass","Control","Mine",23.6493471098444
+"Goshen Road","11",900.262472107447,"May 2022","Switchgrass","Biochar","Mine",30.004374216228
+"Goshen Road","12",1644.88873349633,"May 2022","Switchgrass","Control","Mine",40.557227882294
+"Goshen Road","13",2550.34650232577,"May 2022","Switchgrass","Control","Mine",50.5009554595333
+"Goshen Road","14",1122.74253881844,"May 2022","Switchgrass","Biochar","Mine",33.5073505192284
+"Goshen Road","15",875.578700579666,"May 2022","Switchgrass","Control","Mine",29.5901791238185
+"Goshen Road","17",455.194051619962,"May 2022","Willow","Biochar","Mine",21.3352771629515
+"Goshen Road","18",661.643066375536,"May 2022","Willow","Control","Mine",25.7224234156803
+"Goshen Road","19",323.225348946938,"May 2022","Switchgrass","Control","Mine",17.9784690379058
+"Goshen Road","20",709.174499162308,"May 2022","Switchgrass","Control","Mine",26.6303304365963
+"Goshen Road","21",475.243012747743,"May 2022","Switchgrass","Biochar","Mine",21.8000690996094
+"Goshen Road","22",1874.36882234029,"May 2022","Willow","Biochar","Mine",43.2939813639297
+"Goshen Road","23",1399.48518776167,"May 2022","Willow","Control","Mine",37.40969376728
+"Goshen Road","24",1319.60985758443,"May 2022","Willow","Control","Mine",36.3264346940961
+"Jackson Mill","1",200.679519697682,"May 2022","Willow","Biochar","Agriculture",14.1661399011051
+"Jackson Mill","2",1157.82556309919,"May 2022","Willow","Control","Agriculture",34.0268359254749
+"Jackson Mill","3",196.611362670783,"May 2022","Willow","Control","Agriculture",14.0218173811665
+"Jackson Mill","6",1954.60268788975,"May 2022","Switchgrass","Control","Agriculture",44.2108887932571
+"Jackson Mill","7",685.903734463944,"May 2022","Switchgrass","Biochar","Agriculture",26.1897639253191
+"Jackson Mill","10",726.869919784231,"May 2022","Willow","Control","Agriculture",26.9605252134344
+"Jackson Mill","11",1809.59994850161,"May 2022","Willow","Control","Agriculture",42.539392902363
+"Jackson Mill","13",173.029848803086,"May 2022","Switchgrass","Biochar","Agriculture",13.1540810702643
+"Jackson Mill","14",2182.1634431406,"May 2022","Switchgrass","Control","Agriculture",46.7136323051484
+"Jackson Mill","15",1107.50835680842,"May 2022","Switchgrass","Control","Agriculture",33.279248140672
+"Jackson Mill","16",161.452169955584,"May 2022","Willow","Biochar","Agriculture",12.7063830398577
+"Jackson Mill","17",308.933792184395,"May 2022","Willow","Control","Agriculture",17.5765125148419
+"Jackson Mill","19",1117.25612081647,"May 2022","Willow","Control","Agriculture",33.4253813862531
+"Jackson Mill","20",557.888715424433,"May 2022","Willow","Biochar","Agriculture",23.6196679787086
+"Jackson Mill","21",1778.2524748066,"May 2022","Willow","Control","Agriculture",42.1693309741404
+"Jackson Mill","23",932.470982432838,"May 2022","Switchgrass","Control","Agriculture",30.5363878419311
+"Reedsville","1",1569.27151906559,"May 2022","Switchgrass","Control","Agriculture",39.6140318456174
+"Reedsville","2",56.5864119603693,"May 2022","Switchgrass","Control","Agriculture",7.52239403118245
+"Reedsville","3",206.640750044752,"May 2022","Switchgrass","Biochar","Agriculture",14.375004349382
+"Reedsville","5",1197.5641683073,"May 2022","Willow","Biochar","Agriculture",34.6058400896049
+"Reedsville","6",875.93132299416,"May 2022","Willow","Control","Agriculture",29.5961369606603
+"Reedsville","7",1094.63926721737,"May 2022","Switchgrass","Biochar","Agriculture",33.0853331132902
+"Reedsville","9",1542.2269919816,"May 2022","Switchgrass","Control","Agriculture",39.2711979952432
+"Reedsville","10",1108.02647025234,"May 2022","Willow","Biochar","Agriculture",33.2870315626423
+"Reedsville","11",937.429450107534,"May 2022","Willow","Control","Agriculture",30.6174696881949
+"Reedsville","13",223.125745682856,"May 2022","Willow","Control","Agriculture",14.9373942065829
+"Reedsville","15",132.305181331187,"May 2022","Willow","Control","Agriculture",11.5023989380993
+"Reedsville","16",270.688305403644,"May 2022","Switchgrass","Control","Agriculture",16.4526078602647
+"Reedsville","17",1105.80303854025,"May 2022","Switchgrass","Control","Agriculture",33.253616924182
+"Reedsville","19",493.546354933478,"May 2022","Willow","Control","Agriculture",22.2159031986881
+"Reedsville","20",2681.33740892781,"May 2022","Willow","Control","Agriculture",51.7816319647017
+"Reedsville","21",664.639028058589,"May 2022","Willow","Biochar","Agriculture",25.7805940206697
+"Reedsville","22",1102.56881286549,"May 2022","Switchgrass","Biochar","Agriculture",33.2049516317294
+"Reedsville","23",1240.98756490276,"May 2022","Switchgrass","Control","Agriculture",35.2276534118121
+"Reedsville","24",742.165210639226,"May 2022","Switchgrass","Control","Agriculture",27.242709311653
+"Agronomy Farm","1",517.995970976762,"August 2022","Willow","Control","Agriculture",22.759524840751
+"Agronomy Farm","2",1330.08844477518,"August 2022","Willow","Biochar","Agriculture",36.4703776341181
+"Agronomy Farm","3",1506.33855845297,"August 2022","Willow","Control","Agriculture",38.811577634167
+"Agronomy Farm","4",1371.48979172386,"August 2022","Switchgrass","Biochar","Agriculture",37.0336305501345
+"Agronomy Farm","5",2231.87837467131,"August 2022","Switchgrass","Control","Agriculture",47.2427600238524
+"Agronomy Farm","7",1601.84202488021,"August 2022","Willow","Biochar","Agriculture",40.0230186877529
+"Agronomy Farm","9",532.360745176756,"August 2022","Willow","Control","Agriculture",23.0729440075764
+"Agronomy Farm","10",1271.48933848346,"August 2022","Switchgrass","Control","Agriculture",35.6579491626126
+"Agronomy Farm","11",1671.42761837416,"August 2022","Switchgrass","Biochar","Agriculture",40.8830969763075
+"Agronomy Farm","12",1001.73366631147,"August 2022","Switchgrass","Control","Agriculture",31.6501764025332
+"Agronomy Farm","15",93.1091355266763,"August 2022","Switchgrass","Biochar","Agriculture",9.64930751539592
+"Agronomy Farm","16",1400.74004116077,"August 2022","Willow","Biochar","Agriculture",37.4264617772074
+"Agronomy Farm","17",1202.11759262045,"August 2022","Willow","Control","Agriculture",34.6715674958669
+"Agronomy Farm","18",321.095950688621,"August 2022","Willow","Control","Agriculture",17.9191503896982
+"Agronomy Farm","20",1056.79941940483,"August 2022","Switchgrass","Control","Agriculture",32.5084515073362
+"Agronomy Farm","21",1338.21830274441,"August 2022","Switchgrass","Biochar","Agriculture",36.581666210609
+"Agronomy Farm","23",854.283005829462,"August 2022","Willow","Biochar","Agriculture",29.2281201213739
+"Agronomy Farm","24",1932.23022632767,"August 2022","Willow","Control","Agriculture",43.9571407888147
+"Allstar Mine 1","1",1223.41931167683,"August 2022","Willow","Control","Mine",34.9774114490599
+"Allstar Mine 1","2",598.096657267137,"August 2022","Willow","Control","Mine",24.4560147462161
+"Allstar Mine 1","3",269.348342366981,"August 2022","Willow","Biochar","Mine",16.4118354356538
+"Allstar Mine 1","5",661.575478126779,"August 2022","Switchgrass","Biochar","Mine",25.7211095819519
+"Allstar Mine 1","6",407.465867623644,"August 2022","Switchgrass","Control","Mine",20.1857838000818
+"Allstar Mine 1","7",636.48692597781,"August 2022","Willow","Biochar","Mine",25.2286925142349
+"Allstar Mine 1","8",1130.00906731344,"August 2022","Willow","Control","Mine",33.6156074958262
+"Allstar Mine 1","11",1777.22093452067,"August 2022","Switchgrass","Control","Mine",42.1570982696943
+"Allstar Mine 1","13",1033.08652842029,"August 2022","Willow","Biochar","Mine",32.1416634358007
+"Allstar Mine 1","14",2084.93745542907,"August 2022","Willow","Control","Mine",45.6611153546326
+"Allstar Mine 1","15",4488.96521219833,"August 2022","Willow","Control","Mine",66.9997403890368
+"Allstar Mine 1","16",2496.65942568262,"August 2022","Switchgrass","Control","Mine",49.9665830899274
+"Allstar Mine 1","17",1298.09526712724,"August 2022","Switchgrass","Biochar","Mine",36.0290891798175
+"Allstar Mine 1","19",1663.91331031884,"August 2022","Willow","Biochar","Mine",40.791093517076
+"Allstar Mine 1","20",2372.73699724923,"August 2022","Willow","Control","Mine",48.710748272319
+"Allstar Mine 1","21",751.347356644316,"August 2022","Willow","Control","Mine",27.4107160914179
+"Allstar Mine 1","24",2443.62626900836,"August 2022","Switchgrass","Control","Mine",49.4330483483303
+"Allstar Mine 2","1",2831.62373322286,"August 2022","Willow","Control","Mine",53.2130034223108
+"Allstar Mine 2","2",2435.82729133223,"August 2022","Willow","Biochar","Mine",49.3541010589012
+"Allstar Mine 2","3",2029.12907691147,"August 2022","Willow","Control","Mine",45.0458552689531
+"Allstar Mine 2","5",2418.3749375289,"August 2022","Switchgrass","Control","Mine",49.1769756850592
+"Allstar Mine 2","6",2004.56297734882,"August 2022","Switchgrass","Control","Mine",44.7723461229006
+"Allstar Mine 2","8",1823.81741106227,"August 2022","Willow","Biochar","Mine",42.7061753270212
+"Allstar Mine 2","9",2264.675869422,"August 2022","Willow","Control","Mine",47.5886107111985
+"Allstar Mine 2","12",695.8771642765,"August 2022","Switchgrass","Control","Mine",26.3794837757774
+"Allstar Mine 2","16",764.463890950565,"August 2022","Willow","Biochar","Mine",27.6489401415419
+"Allstar Mine 2","17",1530.29847220775,"August 2022","Willow","Control","Mine",39.1190295407203
+"Allstar Mine 2","18",1415.06956242543,"August 2022","Willow","Control","Mine",37.6174103630942
+"Goshen Road","1",1189.21868142629,"August 2022","Switchgrass","Control","Mine",34.4850501148873
+"Goshen Road","2",761.950409875195,"August 2022","Switchgrass","Biochar","Mine",27.6034492387309
+"Goshen Road","3",211.467642412267,"August 2022","Switchgrass","Control","Mine",14.5419270529138
+"Goshen Road","4",1201.05901303669,"August 2022","Willow","Control","Mine",34.656298316997
+"Goshen Road","5",644.477684806335,"August 2022","Willow","Biochar","Mine",25.3865650454396
+"Goshen Road","7",119.385323524332,"August 2022","Willow","Biochar","Mine",10.9263591156584
+"Goshen Road","8",909.021351269236,"August 2022","Willow","Control","Mine",30.1499809497326
+"Goshen Road","10",237.528308666026,"August 2022","Switchgrass","Control","Mine",15.411953434462
+"Goshen Road","11",1017.52203432413,"August 2022","Switchgrass","Biochar","Mine",31.8986211978532
+"Goshen Road","12",195.947799423707,"August 2022","Switchgrass","Control","Mine",13.9981355695574
+"Goshen Road","13",524.338415804518,"August 2022","Switchgrass","Control","Mine",22.8984369729577
+"Goshen Road","14",706.722183924096,"August 2022","Switchgrass","Biochar","Mine",26.5842469128636
+"Goshen Road","16",158.874113914409,"August 2022","Willow","Control","Mine",12.6045275165081
+"Goshen Road","18",275.072878106791,"August 2022","Willow","Control","Mine",16.585321163812
+"Goshen Road","19",1823.20497104669,"August 2022","Switchgrass","Control","Mine",42.6990043332006
+"Goshen Road","20",1032.46086563654,"August 2022","Switchgrass","Control","Mine",32.1319290680865
+"Goshen Road","21",1226.7442078192,"August 2022","Switchgrass","Biochar","Mine",35.0249083913034
+"Goshen Road","22",409.148999412299,"August 2022","Willow","Biochar","Mine",20.227431854101
+"Goshen Road","23",665.842271924126,"August 2022","Willow","Control","Mine",25.8039197007766
+"Goshen Road","24",1238.33245912153,"August 2022","Willow","Control","Mine",35.1899482682418
+"Jackson Mill","1",1691.94007996049,"August 2022","Willow","Biochar","Agriculture",41.1331992429532
+"Jackson Mill","3",906.604841735424,"August 2022","Willow","Control","Agriculture",30.1098794706227
+"Jackson Mill","4",1609.46024676732,"August 2022","Switchgrass","Control","Agriculture",40.1180788020479
+"Jackson Mill","5",1076.31789059319,"August 2022","Switchgrass","Biochar","Agriculture",32.8072841087645
+"Jackson Mill","6",2330.90841665076,"August 2022","Switchgrass","Control","Agriculture",48.2794823569056
+"Jackson Mill","7",163.074304355067,"August 2022","Switchgrass","Biochar","Agriculture",12.770054986376
+"Jackson Mill","8",1896.42993885074,"August 2022","Switchgrass","Control","Agriculture",43.5480187706713
+"Jackson Mill","9",499.927562826255,"August 2022","Switchgrass","Control","Agriculture",22.3590599718829
+"Jackson Mill","10",1025.03727765033,"August 2022","Willow","Control","Agriculture",32.0162033609598
+"Jackson Mill","11",1295.0738688486,"August 2022","Willow","Control","Agriculture",35.9871347685337
+"Jackson Mill","12",1289.80340669841,"August 2022","Willow","Biochar","Agriculture",35.9138330827888
+"Jackson Mill","16",2465.41540312185,"August 2022","Willow","Biochar","Agriculture",49.6529495913571
+"Jackson Mill","18",704.400844933169,"August 2022","Willow","Control","Agriculture",26.5405509538361
+"Jackson Mill","19",385.493039730665,"August 2022","Willow","Control","Agriculture",19.6339766662453
+"Jackson Mill","21",491.263932684547,"August 2022","Willow","Control","Agriculture",22.1644745636919
+"Jackson Mill","22",2941.41149341807,"August 2022","Switchgrass","Control","Agriculture",54.2347812148078
+"Jackson Mill","23",970.299525200927,"August 2022","Switchgrass","Control","Agriculture",31.1496312209459
+"Reedsville","1",293.192750199332,"August 2022","Switchgrass","Control","Agriculture",17.122872136395
+"Reedsville","2",639.861616693372,"August 2022","Switchgrass","Control","Agriculture",25.2954860932415
+"Reedsville","4",1095.04361964694,"August 2022","Willow","Control","Agriculture",33.0914432995441
+"Reedsville","5",1361.9355604231,"August 2022","Willow","Biochar","Agriculture",36.9044111241882
+"Reedsville","6",544.962581217232,"August 2022","Willow","Control","Agriculture",23.3444336238263
+"Reedsville","7",2241.62746031267,"August 2022","Switchgrass","Biochar","Agriculture",47.3458283306214
+"Reedsville","8",2961.6671259821,"August 2022","Switchgrass","Control","Agriculture",54.4212010707418
+"Reedsville","9",152.750902403422,"August 2022","Switchgrass","Control","Agriculture",12.3592436015891
+"Reedsville","12",431.273831958726,"August 2022","Willow","Control","Agriculture",20.7671334555043
+"Reedsville","13",85.1583491880816,"August 2022","Willow","Control","Agriculture",9.22812815191042
+"Reedsville","14",890.906513206602,"August 2022","Willow","Biochar","Agriculture",29.84805710941
+"Reedsville","15",1024.76189421808,"August 2022","Willow","Control","Agriculture",32.0119023836147
+"Reedsville","16",269.288382502309,"August 2022","Switchgrass","Control","Agriculture",16.4100086076245
+"Reedsville","17",1614.91441160384,"August 2022","Switchgrass","Control","Agriculture",40.1859977057164
+"Reedsville","18",1638.23824036961,"August 2022","Switchgrass","Biochar","Agriculture",40.4751558412023
+"Reedsville","20",1144.7365088719,"August 2022","Willow","Control","Agriculture",33.8339549694076
+"Reedsville","21",674.485656110907,"August 2022","Willow","Biochar","Agriculture",25.9708616744017
+"Reedsville","22",1598.76428013182,"August 2022","Switchgrass","Biochar","Agriculture",39.9845505180666
+"Reedsville","23",2143.67259411132,"August 2022","Switchgrass","Control","Agriculture",46.2998120310581
+"Reedsville","24",182.14987320765,"August 2022","Switchgrass","Control","Agriculture",13.4962910908016

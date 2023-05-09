@@ -1,0 +1,250 @@
+library(ggplot2)
+library(dplyr)
+library(forcats)
+library(agricolae)
+
+#load data
+resp_june <- read.csv("Data/June 2021/resp_clean_june_2021.csv")
+resp_may <- read.csv("Data/May 2022/respiration_clean_72h_may_2022.csv")
+resp_aug <- read.csv("Data/August 2022/respiration_clean_72h_august_2022.csv")
+
+#add the dates
+resp_june$date <- c("June 2021")
+resp_may$date <- c("May 2022")
+resp_aug$date <- c("August 2022")
+
+resp_june <- resp_june %>% 
+  select(site, plot, crop, treatment, resp, date)
+
+resp_may <- resp_may %>% 
+  select(site, plot, crop, treatment, resp, date)
+
+resp_aug <- resp_aug %>% 
+  select(site, plot, crop, treatment, resp, date)
+
+resp_all <- resp_june %>% 
+  rbind(resp_may) %>% 
+  rbind(resp_aug)
+
+resp_all$site <- gsub("goshen_road_road_road", "goshen_road", resp_all$site)
+resp_all$site <- gsub("agronomy_farm", "Agronomy Farm", resp_all$site)
+resp_all$site <- gsub("allstar_mine_1", "Allstar Mine 1", resp_all$site)
+resp_all$site <- gsub("allstar_mine_2", "Allstar Mine 2", resp_all$site)
+resp_all$site <- gsub("jackson_mill", "Jackson Mill", resp_all$site)
+resp_all$site <- gsub("goshen_road", "Goshen Road", resp_all$site)
+resp_all$site <- gsub("reedsville", "Reedsville", resp_all$site)
+
+resp_all$treatment <- gsub("F", "C", resp_all$treatment)
+
+resp_all <- resp_all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "May 2022", "August 2022")))
+
+ggplot(data = resp_all, aes(x = resp)) +
+  geom_histogram()
+qqnorm(resp_all$resp, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(resp_all$resp, col = "red", lwd = 2)
+
+qqnorm(log(resp_all$resp), plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(log(resp_all$resp), col = "red", lwd = 2)
+
+resp_all$log_resp <- log(resp_all$resp)
+
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+
+ggplot(data = resp_all, aes(x = date, y = log_resp, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(site ~ crop, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Respiration µg CO2 g soil−1 h−1 (log transformed)", color = "Site", fill = "Land Type", 
+       title = "Microbial Respiration by Crop, Site, and Date") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+
+anova <- aov(log_resp ~ site * crop * treatment * date, data = resp_all)
+summary(anova)
+
+TukeyHSD(aov(log_resp ~ site + crop + date + crop*date, data = resp_all), conf.level = .95)
+
+anova <- aov(log_resp ~ crop * treatment *date * land_type, data = resp_all)
+summary(anova)
+TukeyHSD(aov(log_resp ~ crop + land_type + date + date*land_type, data = resp_all), conf.level = .95)
+
+###Viz
+resp.site.crop <- resp_all %>% 
+  group_by(site,crop, date) %>% 
+  summarise(mean_respiration = mean(resp),
+            sd = sd(resp),
+            count=n(),
+            se=(sd/(sqrt(count))))
+ggplot(data = resp.site.crop, aes(x = date, y = mean_respiration, group = site)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(.~crop)
+
+ggplot(data = resp.site.crop, aes(x=site, y= mean_respiration, fill = crop)) + 
+  geom_bar(stat = "identity", position=position_dodge()) +
+  labs(title="Microbial Respiration per Treatment and Crop May 2022(sd) - 24h",x= "Treatment", y="µg CO2 g soil−1 h−1") +
+  geom_errorbar(aes(ymin=mean_respiration-sd, ymax=mean_respiration+sd), width=0.25,
+                size=1,position=position_dodge(.9), alpha=.3) +
+  #ylim(0,25) +
+  theme_classic() 
+
+###__________________________________________________________
+#removing Goshen from June since it rained after all the other data was collected and resp values are much higher
+
+resp_clean <- resp_all %>% 
+  filter(site != "Goshen Road")
+
+qqnorm(resp_clean$resp, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(resp_clean$resp, col = "red", lwd = 2)
+ggplot(data = resp_clean, aes(x = resp)) +
+  geom_histogram()
+
+qqnorm(log(resp_clean$resp), plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(log(resp_clean$resp), col = "red", lwd = 2)
+ggplot(data = resp_clean, aes(x = log_resp)) +
+  geom_histogram()
+
+
+anova <- aov(log_resp ~ site * crop * treatment * date, data = resp_clean)
+summary(anova)
+
+TukeyHSD(aov(log_resp ~ site + crop + date + crop*date, data = resp_clean), conf.level = .95)
+
+anova <- aov(log_resp ~ land_type * crop * treatment * date, data = resp_clean)
+summary(anova)
+TukeyHSD(aov(log_resp ~ land_type + crop + date + land_type*date, data = resp_clean), conf.level = .95)
+
+test <- resp_clean %>% 
+  filter(land_type == "Agriculture")
+anova <- aov(log_resp ~ crop * treatment * date, data = test)
+summary(anova)
+TukeyHSD(aov(log_resp ~ crop + date, data = test), conf.level = .95)
+tuk <- HSD.test(anova, trt = 'date')
+tuk
+
+
+resp_land <- resp_clean %>% 
+  group_by(date, crop, land_type) %>% 
+  summarise(mean(resp)) %>% 
+  rename(mean_respiration = 'mean(resp)')
+
+ggplot(data = resp_land, aes(x = date, y = mean_respiration, group = crop, color = crop)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  scale_color_brewer(palette = "Set2") +
+  theme_bw() + 
+  labs(y = "Mean Microbial Respiration (µg CO2 g soil−1 h−1)", x = "Date")
+
+resp_land_log <- resp_clean %>% 
+  group_by(date, crop, land_type) %>% 
+  summarise(mean(log_resp)) %>% 
+  rename(mean_respiration = 'mean(log_resp)')
+
+ggplot(data = resp_land_log, aes(x = date, y = mean_respiration, group = crop, color = crop)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  scale_color_brewer(palette = "Set2", name = "Crop", labels = c("Switchgrass","Willow")) +
+  theme_bw(base_size = 20) + 
+  labs(y = "Mean Microbial Respiration (µg CO2 g soil−1 h−1)\nlog tranformed", x = "Date", title = "Increase in Microbial Activity") +
+  theme(axis.title=element_text(size=14),plot.title = element_text(size=16, face = "bold"))
+
+##SSSA Viz
+resp_land_log <- resp_clean %>% 
+  group_by(date, crop, land_type) %>% 
+  summarise(mean_log_resp = mean(log_resp),
+          sd = sd(log_resp),
+          count=n(),
+          se=(sd/(sqrt(count)))) 
+
+p<- ggplot(data = resp_land_log, aes(x = date, y = mean_log_resp, group = crop, color = crop)) +
+  geom_line(size = 1.5) +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  scale_color_brewer(palette = "Set2", name = "Crop", labels = c("Switchgrass","Willow")) +
+  theme_bw(base_size = 20) + 
+  labs(y = "", x = "") +
+  theme(axis.title=element_text(size=14),
+        plot.title = element_text(size=16, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  scale_x_discrete(labels =c("June 2021" = "0",
+                             "May 2022" = "349",
+                             "August 2022" = "454"), expand = c(0.02,0.03)) +
+  geom_pointrange(aes(ymin=mean_log_resp-se, 
+                      ymax=mean_log_resp+se),
+                  position= "dodge",
+                  alpha =.8)
+p
+ggsave(
+  plot = p,
+  filename = "resp_sssa.png",
+  bg = "transparent"
+)
+
+### Offsite samples analysis
+offsite_may <- read.csv("Data/May 2022/offsite_may_2022_respiration.csv") %>% 
+  filter(hour == "72")
+offsite_may$date <- c("May 2022")
+
+offsite_aug <- read.csv("Data/August 2022/offsite_august_2022_respiration.csv") %>% 
+  filter(hour == "72")
+offsite_aug$date <- c("August 2022")
+
+offsite_all <- rbind(offsite_may,offsite_aug)
+
+#offsite_all$site <- gsub("goshen_road_road_road", "goshen_road", resp_all$site)
+offsite_all$site <- gsub("agronomy_farm", "Agronomy Farm", offsite_all$site)
+offsite_all$site <- gsub("allstar_mine_1", "Allstar Mine 1", offsite_all$site)
+offsite_all$site <- gsub("allstar_mine_2", "Allstar Mine 2", offsite_all$site)
+offsite_all$site <- gsub("jackson_mill", "Jackson Mill", offsite_all$site)
+offsite_all$site <- gsub("goshen", "Goshen Road", offsite_all$site)
+offsite_all$site <- gsub("reedsville", "Reedsville", offsite_all$site)
+
+offsite_all <- offsite_all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("May 2022", "August 2022")))
+
+qqnorm(offsite_all$resp, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(offsite_all$resp, col = "red", lwd = 2)
+ggplot(data = offsite_all, aes(x = resp)) +
+  geom_histogram()
+
+offsite_all$log_resp <- log(offsite_all$resp)
+
+qqnorm(log(offsite_all$resp), plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(log(offsite_all$resp), col = "red", lwd = 2)
+ggplot(data = offsite_all, aes(x = log_resp)) +
+  geom_histogram()
+
+offsite_land_log <- offsite_all %>% 
+  group_by(date, land_type) %>% 
+  summarise(mean_log_resp = mean(log_resp),
+            sd = sd(log_resp),
+            count=n(),
+            se=(sd/(sqrt(count)))) 
+
+ggplot(data = offsite_land_log, aes(x = date, y = mean_log_resp)) +
+  geom_line(size = 1.5) +
+  geom_point() +
+  facet_grid(land_type ~ .) +
+  theme_bw(base_size = 20) + 
+  labs(y = "", x = "") +
+  theme(axis.title=element_text(size=14),
+        plot.title = element_text(size=16, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  scale_x_discrete(labels =c("May 2022" = "349",
+                             "August 2022" = "454"), expand = c(0.02,0.03)) +
+  geom_pointrange(aes(ymin=mean_log_resp-se, 
+                      ymax=mean_log_resp+se),
+                  position= "dodge",
+                  alpha =.8)

@@ -1,0 +1,1817 @@
+# POM and MAOM analysis for June 2021 and August 2022
+# Salvador Grover
+# January 27, 2023
+
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+library(agricolae)
+library(ggpubr)
+library(rstatix)
+library(MASS)
+library(ggpattern)
+library(multcompView)
+
+setwd("C:/Users/salgr/Box/Data/POM & MAOM")
+
+  pom.maom.june <- read.csv("Data/June 2021/pom_maom_2021.csv") 
+pom.maom.june$date <- c("June 2021")
+
+pom.maom.aug <- read.csv("Data/August 2022/pom_maom_2022.csv") %>% 
+  dplyr::select(-ratio) ##Once we have all weight data, can remove, but might not need ratio anyway
+pom.maom.aug$date <- c("August 2022")
+
+#Data without F treatment data
+#pom.maom.june <- read.csv("pom_maom_2021.csv") %>% 
+#  select(-percent_n,-percent_c) ##delete when get c and n for 2022
+#pom.maom.june$date <- c("June 2021")
+
+#pom.maom.aug <- read.csv("pom_maom_2022.csv")
+#pom.maom.aug$date <- c("August 2022")
+
+pom.maom.all <- rbind(pom.maom.aug, pom.maom.june)
+
+pom.maom.all$site <- gsub("goshen_road", "goshen", pom.maom.all$site)
+pom.maom.all$site <- gsub("agronomy_farm", "Agronomy Farm", pom.maom.all$site)
+pom.maom.all$site <- gsub("allstar_mine_1", "Allstar Mine 1", pom.maom.all$site)
+pom.maom.all$site <- gsub("allstar_mine_2", "Allstar Mine 2", pom.maom.all$site)
+pom.maom.all$site <- gsub("jackson_mill", "Jackson Mill", pom.maom.all$site)
+pom.maom.all$site <- gsub("goshen", "Goshen Road", pom.maom.all$site)
+pom.maom.all$site <- gsub("reedsville", "Reedsville", pom.maom.all$site)
+
+pom.maom.all$treatment <- gsub("F", "C", pom.maom.all$treatment)
+
+pom.maom.all$crop <- gsub('S', 'Switchgrass', pom.maom.all$crop)
+pom.maom.all$crop <- gsub('W', 'Willow', pom.maom.all$crop)
+pom.maom.all$treatment <- gsub('B', 'Biochar', pom.maom.all$treatment)
+pom.maom.all$treatment <- gsub('C', 'Control', pom.maom.all$treatment)
+
+pom.maom.all <- pom.maom.all %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  mutate(site = fct_relevel(site, c("Agronomy Farm", "Jackson Mill", "Reedsville", "Allstar Mine 1", "Allstar Mine 2", "Goshen Road"))) %>% 
+  mutate(date = fct_relevel(date, c("June 2021", "August 2022")))
+
+#pom.maom.all <- pom.maom.all %>% 
+#  subset(treatment != "F")
+
+
+ggplot(data = pom.maom.all, aes(x = date, y = fraction_weight_g, color = fraction)) +
+  geom_boxplot() +
+  geom_jitter(alpha = .3) +
+  facet_grid(site ~ crop)
+
+#C:N Ratio
+pom.maom.all$CN <- (pom.maom.all$percent_c)/(pom.maom.all$percent_n)
+
+pom <- pom.maom.all %>% 
+  subset(fraction %in% c("POM"))
+
+ggplot(data = pom, aes(x = date, y = fraction_weight_g, color = land_type)) +
+  geom_boxplot() +
+  geom_jitter(alpha = .3) +
+  facet_grid(site ~ crop) +
+  labs(x = "Date", y = "Weight (g)", title = "POM Fraction Weights")
+
+
+maom <- pom.maom.all %>% 
+  subset(fraction %in% c("MAOM"))
+
+##Remove outliers
+pom.stat <- pom %>% 
+  drop_na(fraction_weight_g) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(fraction_weight_g),
+         two.sd = 2*sd(fraction_weight_g),
+         z.score = abs(((fraction_weight_g-mean(fraction_weight_g))/sd(fraction_weight_g))))
+pom.g <- filter(pom.stat, z.score < 2)
+
+maom.stat <- maom %>% 
+  drop_na(fraction_weight_g) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(fraction_weight_g),
+         two.sd = 2*sd(fraction_weight_g),
+         z.score = abs(((fraction_weight_g-mean(fraction_weight_g))/sd(fraction_weight_g))))
+maom.g <- filter(maom.stat, z.score < 2)
+
+ggplot(data = maom.g, aes(x = date, y = fraction_weight_g, color = land_type)) +
+  geom_boxplot() +
+  geom_jitter(alpha = .3) +
+  facet_grid(site ~ crop) +
+  labs(x = "Date", y = "Weight (g)", title = "MAOM Fraction Weights")
+
+qqnorm(pom.g$fraction_weight_g, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(pom.g$fraction_weight_g, col = "red", lwd = 2)
+
+model <- lm(fraction_weight_g ~ land_type * date * crop * treatment, data = pom.g)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.g$fraction_weight_g))
+
+
+pom.g$cbrt_weight <- pom.g$fraction_weight_g^(1/3)
+
+model <- lm(cbrt_weight ~ land_type * date * crop * treatment, data = pom.g)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.g$cbrt_weight))
+
+pom.g$sqrt_weight <- sqrt(pom.g$fraction_weight_g)
+
+model <- lm(sqrt_weight ~ land_type * date * crop * treatment, data = pom.g)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.g$sqrt_weight))
+
+pom.g$log_weight <- log(pom.g$fraction_weight_g)
+
+model <- lm(log_weight ~ land_type * date * crop * treatment, data = pom.g)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.g$log_weight))
+
+model <- lm(fraction_weight_g ~ land_type * date * crop * treatment, data = pom.g)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((fraction_weight_g^lambda-1)/lambda) ~ land_type * date * crop * treatment, data = pom.g)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+pom.g$weight_bc <- (pom.g$fraction_weight_g^lambda-1)/lambda
+
+pom.g %>% 
+  ungroup() %>% 
+  levene_test(weight_bc ~ land_type * date * crop * treatment)
+
+
+
+qqnorm(maom.g$fraction_weight_g, plot.it = TRUE, pch = 4, cex = 0.7)
+qqline(maom.g$fraction_weight_g, col = "red", lwd = 2)
+
+model <- lm(fraction_weight_g ~ land_type * date * crop * treatment, data = maom.g)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.g$fraction_weight_g))
+
+maom.g$cbrt_weight <- (max(maom.g$fraction_weight_g + 1) - maom.g$fraction_weight_g)^(1/3)
+
+model <- lm(cbrt_weight ~ land_type * date * crop * treatment, data = maom.g)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.g$cbrt_weight))
+
+maom.g %>% 
+  ungroup() %>% 
+  levene_test(cbrt_weight ~ land_type * date * crop * treatment)
+
+
+anova <- aov(weight_bc ~ land_type * crop * treatment * date, data = pom.g)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("land_type", "date"))
+tuk
+
+#Boxplot
+ggplot(data = pom.g, aes(x = date, y = weight_bc, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Weight (g)", color = "Site", fill = "Land Type", title = "POM Weight") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = pom.g, aes(x = crop, y = weight_bc, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Weight (g)", color = "Crop", fill = "Land Crop", title = "POM Weight") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+#Land Type and date
+anova <- aov(weight_bc ~ land_type * date * treatment * crop, data = pom.g)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.g %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Weight (g)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,4.2)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23))
+
+#Crop
+anova <- aov(weight_bc ~ land_type * date * treatment * crop, data = pom.g)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.g %>% 
+  group_by(crop) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$crop)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = crop, y = mean, fill = crop)) +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = crop),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.025) +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Weight (g)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,3.5)) +
+  theme(text = element_text(size = 23),
+        legend.position="none",
+        axis.text.x = element_text(size = 23))
+
+
+
+#MAOM
+
+anova <- aov(cbrt_weight ~ land_type * crop * treatment * date, data = maom.g)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("land_type", "date"))
+tuk
+
+#Boxplot
+ggplot(data = maom.g, aes(x = date, y = cbrt_weight, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Weight (g)", color = "Site", fill = "Land Type", title = "MAOM Weight") +
+  scale_fill_brewer(palette = "Dark2")
+
+#Bar
+anova <- aov(cbrt_weight ~ land_type * crop * treatment * date, data = maom.g)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.g %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "Weight (g)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,9)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23))
+
+
+#bar.group(tuk$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+tuk <- HSD.test(anova, trt = c("land_type"))
+tuk
+
+anova <- aov(fraction_weight_g ~ land_type * crop * treatment * date, data = maom.g)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("date"))
+tuk
+#bar.group(tuk$groups, ylim = c(0,1500), density = 10, border = "blue", las = 2)
+tuk <- HSD.test(anova, trt = c("land_type"))
+tuk
+
+
+## POM C analysis
+##Remove outliers
+pom.stat <- pom %>% 
+  drop_na(percent_c) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(percent_c),
+         two.sd = 2*sd(percent_c),
+         z.score = abs(((percent_c-mean(percent_c))/sd(percent_c))))
+pom.c <- filter(pom.stat, z.score < 2)
+
+model <- lm(percent_c ~ land_type * date * crop * treatment, data = pom.c)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.c$percent_c))
+
+pom.c %>% 
+  ungroup() %>% 
+  levene_test(percent_c ~ land_type * date * crop * treatment)
+
+anova <- aov(percent_c ~ land_type * crop * treatment * date, data = pom.c)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("crop", "treatment"))
+tuk
+tuk <- HSD.test(anova, trt = c("land_type", "crop", "date"))
+tuk
+
+#Viz 
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+#Boxplot
+ggplot(data = pom.c, aes(x = land_type, y = percent_c, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C POM") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+ggplot(data = pom.c, aes(x = treatment, y = percent_c, fill = treatment)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Treatment", fill = "Treatment", title = "Percent C POM") +
+  scale_fill_brewer(palette = "BrBG")
+
+ggplot(data = pom.c, aes(x = treatment, y = percent_c, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Crop", fill = "Crop", title = "Percent C POM") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = pom.c, aes(x = date, y = percent_c, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C POM") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = pom.c, aes(x = date, y = percent_c, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Crop", fill = "Crop", title = "Percent C POM") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = pom.c, aes(x = date, y = percent_c, fill = land_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  geom_jitter(alpha = .4) +
+  facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C POM") +
+  scale_fill_brewer(palette = "Dark2")
+
+#MAOM C analysis
+maom.stat <- maom %>% 
+  drop_na(percent_c) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(percent_c),
+         two.sd = 2*sd(percent_c),
+         z.score = abs(((percent_c-mean(percent_c))/sd(percent_c))))
+maom.c <- filter(maom.stat, z.score < 2)
+
+model <- lm(percent_c ~ land_type * date * crop * treatment, data = maom.c)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.c$percent_c))
+
+maom.c %>% 
+  ungroup() %>% 
+  levene_test(percent_c ~ land_type * date * crop * treatment)
+
+anova <- aov(percent_c ~ land_type * crop * treatment * date, data = maom.c)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("date", "land_type"))
+tuk
+tuk <- HSD.test(anova, trt = c("crop", "land_type"))
+tuk
+tuk <- HSD.test(anova, trt = c("treatment", "land_type"))
+tuk
+
+#Viz 
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+#Boxplot
+ggplot(data = maom.c, aes(x = date, y = percent_c, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C MAOM") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = maom.c, aes(x = land_type, y = percent_c, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Crop", fill = "Crop", title = "Percent C MAOM") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = maom.c, aes(x = land_type, y = percent_c, fill = treatment)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Treatment", fill = "Treatment", title = "Percent C MAOM") +
+  scale_fill_brewer(palette = "BrBG")
+
+#Bar
+ggplot(data = maom.c, aes(x = date, y = percent_c, fill = land_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  geom_jitter(alpha = .4) +
+  facet_grid(crop ~ treatment, labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C MAOM") +
+  scale_fill_brewer(palette = "Dark2")
+
+## POM N analysis
+##Remove outliers
+pom.stat <- pom %>% 
+  drop_na(percent_n) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(percent_n),
+         two.sd = 2*sd(percent_n),
+         z.score = abs(((percent_n-mean(percent_n))/sd(percent_n))))
+pom.n <- filter(pom.stat, z.score < 2)
+
+model <- lm(percent_n ~ land_type * date * crop * treatment, data = pom.n)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.n$percent_n))
+
+pom.n$log_n <- log(pom.n$percent_n)
+model <- lm(log_n ~ land_type * date * crop * treatment, data = pom.n)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.n$log_n))
+
+pom.n$sqrt_n <- sqrt(pom.n$percent_n)
+model <- lm(sqrt_n ~ land_type * date * crop * treatment, data = pom.n)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.n$sqrt_n))
+
+pom.n$cbrt_n <- (pom.n$percent_n)^(1/3)
+model <- lm(cbrt_n ~ land_type * date * crop * treatment, data = pom.n)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.n$cbrt_n))
+
+
+model <- lm(percent_n ~ land_type * date * crop * treatment, data = pom.n)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((percent_n^lambda-1)/lambda) ~ land_type * date * crop * treatment, data = pom.n)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+pom.n$n_bc <- (pom.n$percent_n^lambda-1)/lambda
+
+pom.n %>% 
+  ungroup() %>% 
+  levene_test(n_bc ~ land_type * date * crop * treatment)
+
+anova <- aov(n_bc ~ land_type * crop * treatment * date, data = pom.n)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("date","land_type", "crop"))
+tuk
+tuk <- HSD.test(anova, trt = c("treatment", "crop"))
+tuk
+
+#Viz 
+#Boxplot
+ggplot(data = pom.n, aes(x = date, y = percent_n, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  facet_grid(land_type ~ . ) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Crop", fill = "Crop", title = "Percent N POM") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = pom.n, aes(x = treatment, y = percent_n, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(land_type ~ . ) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Crop", fill = "Crop", title = "Percent N POM") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = pom.n, aes(x = date, y = percent_n, fill = land_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  #geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Site", fill = "Land Type", title = "Percent N POM") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+#MAOM N analysis
+maom.stat <- maom %>% 
+  drop_na(percent_n) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(percent_n),
+         two.sd = 2*sd(percent_n),
+         z.score = abs(((percent_n-mean(percent_n))/sd(percent_n))))
+maom.n <- filter(maom.stat, z.score < 2)
+
+model <- lm(percent_n ~ land_type * date * crop * treatment, data = maom.n)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.n$percent_n))
+
+maom.n %>% 
+  ungroup() %>% 
+  levene_test(percent_n ~ land_type * date * crop * treatment)
+
+anova <- aov(percent_n ~ land_type * crop * treatment * date, data = maom.n)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("date", "land_type"))
+tuk
+
+#Viz 
+crops <- c("Switchgrass", "Willow")
+names(crops) <- c("S","W")
+#Boxplot
+ggplot(data = maom.n, aes(x = date, y = percent_n, fill = land_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Site", fill = "Land Type", title = "Percent N MAOM") +
+  scale_fill_brewer(palette = "Dark2")
+
+ggplot(data = maom.n, aes(x = crop, y = percent_n, fill = crop)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  #facet_grid(crop ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Crop", fill = "Crop", title = "Percent N MAOM") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = maom.n, aes(x = date, y = percent_n, fill = land_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  #geom_jitter(alpha = .4) +
+  facet_grid(crop ~ ., labeller = labeller(crop = crops)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Site", fill = "Land Type", title = "Percent N MAOM") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+#POM C:N
+pom.stat <- pom %>% 
+  drop_na(CN) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(CN),
+         two.sd = 2*sd(CN),
+         z.score = abs(((CN-mean(CN))/sd(CN))))
+pom.cn <- filter(pom.stat, z.score < 2)
+
+model <- lm(CN ~ land_type * date * crop * treatment, data = pom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.cn$CN))
+
+pom.cn$cbrt_cn <- pom.cn$CN^(1/3)
+
+model <- lm(cbrt_cn ~ land_type * date * crop * treatment, data = pom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.cn$cbrt_cn))
+
+pom.cn$sqrt_cn <- sqrt(pom.cn$CN)
+
+model <- lm(sqrt_cn ~ land_type * date * crop * treatment, data = pom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.cn$sqrt_cn))
+
+pom.cn$log_cn <- log(pom.cn$CN)
+
+model <- lm(log_cn ~ land_type * date * crop * treatment, data = pom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(pom.cn$log_cn))
+
+pom.cn %>% 
+  ungroup() %>% 
+  levene_test(log_cn ~ land_type * date * crop * treatment)
+
+anova <- aov(log_cn ~ land_type * crop * treatment * date, data = pom.cn)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("treatment", "land_type"))
+tuk
+
+#Bar plot
+#Land type and treatment
+anova <- aov(log_cn ~ land_type * crop * treatment * date, data = pom.cn)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.cn %>% 
+  group_by(land_type, treatment) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:treatment`)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = treatment, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,26)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23))
+
+#Land type and date
+anova <- aov(log_cn ~ land_type * crop * treatment * date, data = pom.cn)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.cn %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,26)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23))
+
+#MAOM C:N
+maom.stat <- maom %>% 
+  drop_na(CN) %>% 
+  group_by(land_type, date, crop, treatment) %>% 
+  mutate(mean = mean(CN),
+         two.sd = 2*sd(CN),
+         z.score = abs(((CN-mean(CN))/sd(CN))))
+maom.cn <- filter(maom.stat, z.score < 2)
+
+model <- lm(CN ~ land_type * date * crop * treatment, data = maom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.cn$CN))
+
+maom.cn$cbrt_cn <- maom.cn$CN^(1/3)
+
+model <- lm(cbrt_cn ~ land_type * date * crop * treatment, data = maom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.cn$cbrt_cn))
+
+maom.cn$sqrt_cn <- sqrt(maom.cn$CN)
+
+model <- lm(sqrt_cn ~ land_type * date * crop * treatment, data = maom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.cn$sqrt_cn))
+
+maom.cn$log_cn <- log(maom.cn$CN)
+
+model <- lm(log_cn ~ land_type * date * crop * treatment, data = maom.cn)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+plot(density(maom.cn$log_cn))
+
+model <- lm(CN ~ land_type * date * crop * treatment, data = maom.cn)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ land_type * date * crop * treatment, data = maom.cn)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+maom.cn$cn_bc <- (maom.cn$CN^lambda-1)/lambda
+
+maom.cn %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ land_type * date * crop * treatment)
+
+anova <- aov(cn_bc ~ land_type * crop * treatment * date, data = maom.cn)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("treatment", "land_type"))
+tuk
+
+#Bar plot
+#Land Type
+anova <- aov(cn_bc ~ land_type * crop * treatment * date, data = maom.cn)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.cn %>% 
+  group_by(land_type) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$land_type)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = land_type, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,11.5)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23),
+        legend.position = "none")
+
+#Date
+anova <- aov(cn_bc ~ land_type * crop * treatment * date, data = maom.cn)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.cn %>% 
+  group_by(date) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$date)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = date)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,11.5)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23),
+        legend.position = "none")
+
+#Treatment
+anova <- aov(cn_bc ~ land_type * crop * treatment * date, data = maom.cn)
+tukey <- TukeyHSD(anova)
+
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.cn %>% 
+  group_by(treatment) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$treatment)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = treatment, y = mean, fill = treatment)) +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = treatment),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.005) +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "",
+                         choices = c("crosshatch", "circle")) +
+  scale_y_continuous(expand=c(0,0), limits = c(0,11.5)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23),
+        legend.position = "none")
+
+#Land type and date
+anova <- aov(log_cn ~ land_type * crop * treatment * date, data = maom.cn)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.cn %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) +
+  scale_fill_grey(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,12)) +
+  theme(text = element_text(size = 23),
+        axis.text.x = element_text(size = 23))
+
+##Offsite
+offsite <- read.csv("Data/August 2022/pom_maom_offsite_2022.csv")
+
+offsite$site <- gsub("agronomy_farm", "Agronomy Farm", offsite$site)
+offsite$site <- gsub("allstar_mine_1", "Allstar Mine 1", offsite$site)
+offsite$site <- gsub("allstar_mine_2", "Allstar Mine 2", offsite$site)
+offsite$site <- gsub("jackson_mill", "Jackson Mill", offsite$site)
+offsite$site <- gsub("goshen", "Goshen Road", offsite$site)
+offsite$site <- gsub("reedsville", "Reedsville", offsite$site)
+
+offsite <- offsite %>% 
+  mutate(land_type = if_else(site %in% c("Agronomy Farm", "Reedsville", "Jackson Mill"), "Agriculture", "Mine")) %>% 
+  ungroup() %>% 
+  dplyr::select(-c(plot))
+
+offsite$plot_type <- c("Offsite")
+offsite$CN <- (offsite$percent_c)/(offsite$percent_n)
+offsite$crop <- c("Pasture")
+
+pom.new <- pom %>% 
+  subset(date = "August 2022") %>% 
+  dplyr::select(-plot, -date, -treatment) ##add ratio col if needed
+
+pom.new$plot_type <- c("Onsite")
+
+pom.on.off <- rbind(pom.new, offsite) %>% 
+  subset(fraction == "POM")
+
+pom.on.off %>% 
+  group_by(crop, land_type) %>% 
+  drop_na(fraction_weight_g) %>% 
+  summarise(mean = mean(fraction_weight_g))
+
+pom.on.off %>% 
+  group_by(crop, land_type) %>% 
+  drop_na(CN) %>% 
+  summarise(mean = mean(CN))
+
+#Seperate by Mine and Ag for analysis
+#Mine
+mine_off_on <- pom.on.off %>% 
+  subset(land_type == "Mine")
+
+model <- lm(fraction_weight_g ~ crop, data = mine_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((fraction_weight_g^lambda-1)/lambda) ~ crop, data = mine_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+mine_off_on$weight_bc <- (mine_off_on$fraction_weight_g^lambda-1)/lambda
+
+mine_off_on %>% 
+  ungroup() %>% 
+  levene_test(weight_bc ~ crop)
+
+anova <- aov(weight_bc ~ crop, data = mine_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+model <- lm(CN ~ crop, data = mine_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ crop, data = mine_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+mine_off_on$cn_bc <- (mine_off_on$CN^lambda-1)/lambda
+
+mine_off_on %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ crop)
+
+anova <- aov(cn_bc ~ crop, data = mine_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+kruskal.test(CN ~ crop, data = mine_off_on)
+mine_off_on %>% 
+  dunn_test(CN ~ crop, 
+            p.adjust.method = "BH")
+
+#Ag 
+ag_off_on <- pom.on.off %>% 
+  subset(land_type == "Agriculture")
+
+model <- lm(fraction_weight_g ~ crop, data = ag_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((fraction_weight_g^lambda-1)/lambda) ~ crop, data = ag_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+ag_off_on$weight_bc <- (ag_off_on$fraction_weight_g^lambda-1)/lambda
+
+
+ag_off_on %>% 
+  ungroup() %>% 
+  levene_test(weight_bc ~ crop)
+
+anova <- aov(weight_bc ~ crop, data = ag_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+kruskal.test(fraction_weight_g ~ crop, data = ag_off_on)
+ag_off_on %>% 
+  dunn_test(fraction_weight_g ~ crop, 
+            p.adjust.method = "BH")
+
+model <- lm(CN ~ crop, data = ag_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ crop, data = ag_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+ag_off_on$cn_bc <- (ag_off_on$CN^lambda-1)/lambda
+
+ag_off_on %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ crop)
+
+anova <- aov(cn_bc ~ crop, data = ag_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+kruskal.test(CN ~ crop, data = ag_off_on)
+ag_off_on %>% 
+  dunn_test(CN ~ crop, 
+            p.adjust.method = "BH")
+
+#MAOM
+maom.new <- maom %>% 
+  subset(date = "August 2022") %>% 
+  dplyr::select(-plot, -date, -treatment) #add ratio col if needed
+
+maom.new$plot_type <- c("Onsite")
+
+
+maom.on.off <- rbind(maom.new, offsite) %>% 
+  subset(fraction == "MAOM")
+
+maom.on.off %>% 
+  group_by(crop, land_type) %>% 
+  drop_na(fraction_weight_g) %>% 
+  summarise(mean = mean(fraction_weight_g))
+
+maom.on.off %>% 
+  group_by(crop, land_type) %>% 
+  drop_na(CN) %>% 
+  summarise(mean = mean(CN))
+
+#Mine
+mine_off_on <- maom.on.off %>% 
+  subset(land_type == "Mine")
+
+model <- lm(fraction_weight_g ~ crop, data = mine_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((fraction_weight_g^lambda-1)/lambda) ~ crop, data = mine_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+mine_off_on$weight_bc <- (mine_off_on$fraction_weight_g^lambda-1)/lambda
+
+mine_off_on %>% 
+  ungroup() %>% 
+  levene_test(weight_bc ~ crop)
+
+anova <- aov(weight_bc ~ crop, data = mine_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+kruskal.test(fraction_weight_g ~ crop, data = mine_off_on)
+mine_off_on %>% 
+  dunn_test(fraction_weight_g ~ crop, 
+            p.adjust.method = "BH")
+
+model <- lm(CN ~ crop, data = mine_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ crop, data = mine_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+mine_off_on$cn_bc <- (mine_off_on$CN^lambda-1)/lambda
+
+mine_off_on %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ crop)
+
+anova <- aov(cn_bc ~ crop, data = mine_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+kruskal.test(CN ~ crop, data = mine_off_on)
+mine_off_on %>% 
+  dunn_test(CN ~ crop, 
+            p.adjust.method = "BH")
+
+#Ag 
+ag_off_on <- maom.on.off %>% 
+  subset(land_type == "Agriculture")
+
+model <- lm(fraction_weight_g ~ crop, data = ag_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+
+ag_off_on %>% 
+  ungroup() %>% 
+  levene_test(fraction_weight_g ~ crop)
+
+anova <- aov(fraction_weight_g ~ crop, data = ag_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+model <- lm(CN ~ crop, data = ag_off_on)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ crop, data = ag_off_on)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+ag_off_on$cn_bc <- (ag_off_on$CN^lambda-1)/lambda
+
+ag_off_on %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ crop)
+
+anova <- aov(cn_bc ~ crop, data = ag_off_on)
+anova
+tukey <- TukeyHSD(anova)
+tukey
+tuk <- HSD.test(anova, trt = "crop", group = T)
+tuk
+
+kruskal.test(CN ~ crop, data = ag_off_on)
+ag_off_on %>% 
+  dunn_test(CN ~ crop, 
+            p.adjust.method = "BH")
+
+#POM C
+model <- lm(percent_c ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+pom.on.off$log_c <- log(pom.on.off$percent_c)
+model <- lm(log_c ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+pom.on.off %>% 
+  ungroup() %>% 
+  levene_test(log_c ~ land_type * plot_type)
+
+anova <- aov(log_c ~ land_type * plot_type, data = pom.on.off)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+tuk
+
+#Boxplot
+ggplot(data = pom.on.off, aes(x = land_type, y = percent_c, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(data = pom.on.off, aes(x = plot_type, y = percent_c, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = pom.on.off, aes(x = land_type, y = percent_c, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#POM N
+model <- lm(percent_n ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+pom.on.off$log_n <- log(pom.on.off$percent_n)
+model <- lm(log_n ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+pom.on.off %>% 
+  ungroup() %>% 
+  levene_test(log_n ~ land_type * plot_type)
+
+anova <- aov(log_n ~ land_type * plot_type, data = pom.on.off)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+tuk
+
+#Boxplot
+ggplot(data = pom.on.off, aes(x = plot_type, y = percent_n, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Plot Type", y = "Percent N", color = "Site", fill = "Plot Type", title = "Percent N POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = pom.on.off, aes(x = land_type, y = percent_n, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Site", fill = "Land Type", title = "Percent N POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#POM C:N
+pom.on.off <- pom.on.off %>% 
+  drop_na(CN)
+model <- lm(CN ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+skewness(residuals(model))
+kurtosis(residuals(model))
+
+pom.on.off$log_cn <- log(pom.on.off$CN)
+model <- lm(log_cn ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+pom.on.off$sqrt_cn <- sqrt(pom.on.off$CN)
+model <- lm(sqrt_cn ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+model <- lm(CN ~ land_type * plot_type, data = pom.on.off)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+pom.on.off$cn_bc <- (pom.on.off$CN^lambda-1)/lambda
+
+pom.on.off %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ land_type * plot_type)
+
+kruskal.test(CN ~ plot_type, data = pom.on.off)
+
+pom.on.off$plot_land <- interaction(pom.on.off$land_type, pom.on.off$plot_type)
+kruskal.test(CN ~ plot_land, data = pom.on.off)
+pom.on.off %>% 
+  dunn_test(CN ~ plot_land, 
+            p.adjust.method = "BH")
+
+anova <- aov(CN ~ land_type * plot_type, data = pom.on.off)
+summary(anova)
+#tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+#tuk
+
+#Bar graph
+anova <- aov(CN ~ land_type * plot_type, data = pom.on.off)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.on.off %>% 
+  group_by(plot_type) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$plot_type)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = plot_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,22)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23),
+        legend.position="none")
+
+#Land type and plot type
+dt <- pom.on.off %>% 
+  group_by(plot_type, land_type) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+ggplot(data = dt, aes(x = land_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site") +
+  #geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,22)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23))
+
+
+#POM Weight
+pom.on.off <- pom.on.off %>% 
+  drop_na(fraction_weight_g)
+model <- lm(fraction_weight_g ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+pom.on.off$log_g <- log(pom.on.off$fraction_weight_g)
+model <- lm(log_g ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+model <- lm(fraction_weight_g ~ land_type * plot_type, data = pom.on.off)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((fraction_weight_g^lambda-1)/lambda) ~ land_type * plot_type, data = pom.on.off)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+pom.on.off$weight_bc <- (pom.on.off$fraction_weight_g^lambda-1)/lambda
+test <- pom.on.off %>% 
+  na.omit()
+plot(density(test$log_g))
+
+pom.on.off %>% 
+  ungroup() %>% 
+  levene_test(log_n ~ land_type * plot_type)
+
+kruskal.test(fraction_weight_g ~ plot_type, data = pom.on.off)
+
+pom.on.off$plot_land <- interaction(pom.on.off$land_type, pom.on.off$plot_type)
+kruskal.test(fraction_weight_g ~ plot_land, data = pom.on.off)
+pom.on.off %>% 
+  dunn_test(fraction_weight_g ~ plot_land, 
+            p.adjust.method = "BH")
+
+anova <- aov(fraction_weight_g ~ land_type * plot_type, data = pom.on.off)
+summary(anova)
+#tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+#tuk
+
+
+
+ggplot(data = pom.on.off, aes(x = land_type, y = fraction_weight_g, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Weight (g)", color = "Site", fill = "Land Type", title = "POM Weight Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+
+ggplot(data = pom.on.off, aes(x = plot_type, y = fraction_weight_g, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Weight (g)", color = "Site", fill = "Land Type", title = "POM Weight Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+anova <- aov(fraction_weight_g ~ land_type * plot_type, data = pom.on.off)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.on.off %>% 
+  group_by(plot_type) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$plot_type)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = plot_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "POM Weight", color = "Site") +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,4.5)) +
+  geom_text(aes(label = c("a","b"), y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) + #manual labels 
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23),
+        legend.position="none")
+
+#Land type and plot type
+dt <- pom.on.off %>% 
+  group_by(plot_type, land_type) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+ggplot(data = dt, aes(x = land_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "POM Weight", color = "Site") +
+  #geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,5)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23))
+
+#MAOM
+maom.new <- maom %>% 
+  subset(date = "August 2022") %>% 
+  dplyr::select(-plot, -crop, -date, -treatment) #add ratio col if needed
+
+maom.new$plot_type <- c("Onsite")
+
+maom.on.off <- rbind(maom.new, offsite) %>% 
+  subset(fraction == "MAOM")
+
+#MAOM C:N
+maom.on.off <- maom.on.off %>% 
+  drop_na(CN)
+model <- lm(CN ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+skewness(residuals(model))
+kurtosis(residuals(model))
+
+maom.on.off$log_cn <- log(maom.on.off$CN)
+model <- lm(log_cn ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+maom.on.off$sqrt_cn <- sqrt(maom.on.off$CN)
+model <- lm(sqrt_cn ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+model <- lm(CN ~ land_type * plot_type, data = maom.on.off)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((CN^lambda-1)/lambda) ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+maom.on.off$cn_bc <- (maom.on.off$CN^lambda-1)/lambda
+
+maom.on.off %>% 
+  ungroup() %>% 
+  levene_test(cn_bc ~ land_type * plot_type)
+
+kruskal.test(CN ~ plot_type, data = maom.on.off)
+
+maom.on.off$plot_land <- interaction(maom.on.off$land_type, maom.on.off$plot_type)
+kruskal.test(CN ~ plot_land, data = maom.on.off)
+maom.on.off %>% 
+  dunn_test(CN ~ plot_land, 
+            p.adjust.method = "BH")
+
+anova <- aov(CN ~ land_type * plot_type, data = maom.on.off)
+summary(anova)
+#tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+#tuk
+
+#Bar graph
+anova <- aov(CN ~ land_type * plot_type, data = maom.on.off)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.on.off %>% 
+  group_by(plot_type) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$plot_type)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = plot_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,22)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23),
+        legend.position="none")
+
+#Land type and plot type
+dt <- maom.on.off %>% 
+  group_by(plot_type, land_type) %>% 
+  summarise(mean = mean(CN),
+            sd = sd(CN),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+ggplot(data = dt, aes(x = land_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "C:N", color = "Site") +
+  #geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,22)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23))
+
+#MAOM C offsite
+model <- lm(percent_c ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+
+maom.on.off %>% 
+  ungroup() %>% 
+  levene_test(percent_c ~ land_type * plot_type)
+
+anova <- aov(percent_c ~ land_type * plot_type, data = maom.on.off)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+tuk
+
+#Boxplot
+ggplot(data = maom.on.off, aes(x = plot_type, y = percent_c, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Plot Type", title = "Percent C MAOM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = maom.on.off, aes(x = land_type, y = percent_c, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent C", color = "Site", fill = "Land Type", title = "Percent C MAOM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+
+#MAOM N
+
+model <- lm(percent_n ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+
+maom.on.off %>% 
+  ungroup() %>% 
+  levene_test(percent_n ~ land_type * plot_type)
+
+anova <- aov(percent_n ~ land_type * plot_type, data = maom.on.off)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+tuk
+
+#Boxplot
+ggplot(data = maom.on.off, aes(x = plot_type, y = percent_n, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Site", fill = "Plot Type", title = "Percent N POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+ggplot(data = maom.on.off, aes(x = land_type, y = percent_n, fill = plot_type)) +
+  geom_bar(stat='identity', position = position_dodge(0.9)) +
+  theme_bw() +
+  labs(x = "Date", y = "Percent N", color = "Site", fill = "Land Type", title = "Percent N POM Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+
+#MAOM Weight
+maom.on.off <-  maom.on.off %>% 
+  drop_na(fraction_weight_g)
+model <- lm(fraction_weight_g ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+maom.on.off$log_g <- log(maom.on.off$fraction_weight_g)
+model <- lm(log_g ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(model))
+shapiro.test(residuals(model))
+
+model <- lm(fraction_weight_g ~ land_type * plot_type, data = maom.on.off)
+bc <- boxcox(model)
+(lambda <- bc$x[which.max(bc$y)])
+new_model <- lm(((fraction_weight_g^lambda-1)/lambda) ~ land_type * plot_type, data = maom.on.off)
+ggqqplot(residuals(new_model))
+shapiro.test(residuals(new_model))
+maom.on.off$weight_bc <- (maom.on.off$fraction_weight_g^lambda-1)/lambda
+test <- maom.on.off %>% 
+  na.omit()
+plot(density(test$weight_bc))
+
+kruskal.test(fraction_weight_g ~ plot_type, data = maom.on.off)
+
+maom.on.off$plot_land <- interaction(maom.on.off$land_type, maom.on.off$plot_type)
+kruskal.test(fraction_weight_g ~ plot_land, data = maom.on.off)
+maom.on.off %>% 
+  dunn_test(fraction_weight_g ~ plot_land, 
+            p.adjust.method = "BH")
+
+anova <- aov(fraction_weight_g ~ land_type * plot_type, data = maom.on.off)
+summary(anova)
+
+anova <- aov(weight_bc ~ land_type * plot_type, data = maom.on.off)
+summary(anova)
+tuk <- HSD.test(anova, trt = c("plot_type","land_type"))
+tuk
+
+
+
+ggplot(data = maom.on.off, aes(x = plot_type, y = fraction_weight_g, fill = plot_type)) +
+  geom_boxplot(alpha = .2) +
+  geom_jitter(alpha = .4) +
+  theme_bw() +
+  labs(x = "Date", y = "Weight (g)", color = "Site", fill = "Plot Type", title = "MAOM Weight Offsite") +
+  scale_fill_brewer(palette = "Set1")
+
+#Bar
+anova <- aov(fraction_weight_g ~ land_type * plot_type, data = maom.on.off)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.on.off %>% 
+  group_by(plot_type) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$plot_type)
+dt$cld <- cld$Letters
+
+ggplot(data = dt, aes(x = plot_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "MAOM Weight", color = "Site") +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,8)) +
+  geom_text(aes(label = c("a","b"), y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 8) + #manual labels 
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23),
+        legend.position="none")
+
+#Land type and plot type
+dt <- maom.on.off %>% 
+  group_by(plot_type, land_type) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+ggplot(data = dt, aes(x = land_type, y = mean, fill = plot_type)) +
+  #geom_bar(position = "dodge", stat = "identity") +
+  geom_bar_pattern(position = "dodge", stat = "identity",
+                   aes(pattern = plot_type),
+                   fill            = 'white', 
+                   colour          = 'black',
+                   pattern_spacing = 0.006)  +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,
+                position=position_dodge(.9)) +
+  theme_classic() +
+  labs(x = "", y = "MAOM Weight", color = "Site") +
+  #geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.9), vjust = -0.5, size = 6) +
+  scale_fill_grey(name = "") +
+  scale_pattern_discrete(name = "") +
+  scale_y_continuous(expand=c(0,0), limits = c(0,9)) +
+  theme(strip.background = element_blank()) +
+  theme(text = element_text(size = 20),
+        axis.text.x = element_text(size = 23))
+
+#POM and MAOM weights panel
+#POM
+anova <- aov(weight_bc ~ land_type * date * treatment * crop, data = pom.g)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- pom.g %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+p1 <- ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity",
+           width = 0.4) +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2,linewidth = .4,
+                position=position_dodge(.4)) +
+  theme_classic() +
+  labs(x = "", y = "POM Weight (g)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.4), vjust = -0.5, size = 3) +
+  scale_fill_manual(name = "",
+                    values = c("grey", "black")) +
+  scale_y_continuous(expand=c(0,0), limits = c(0,4.5)) +
+  theme(text = element_text(size = 8),
+        legend.position = "top",
+        axis.text.x=element_blank(),
+        legend.key.size = unit(.4, 'cm'))
+#MAOM 
+anova <- aov(cbrt_weight ~ land_type * crop * treatment * date, data = maom.g)
+tukey <- TukeyHSD(anova)
+tukey
+cld <- multcompLetters4(anova, tukey)
+dt <- maom.g %>% 
+  group_by(land_type, date) %>% 
+  summarise(mean = mean(fraction_weight_g),
+            sd = sd(fraction_weight_g),
+            n = n(),
+            se = sd/sqrt(n)) %>% 
+  arrange(desc(mean))
+
+cld <- as.data.frame.list(cld$`land_type:date`)
+dt$cld <- cld$Letters
+
+
+p2 <- ggplot(data = dt, aes(x = date, y = mean, fill = land_type)) +
+  geom_bar(position = "dodge", stat = "identity",
+           width = 0.4) +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=.2, linewidth = .4,
+                position=position_dodge(0.4)) +
+  theme_classic() +
+  labs(x = "", y = "MAOM Weight (g)", color = "Site", fill = "Land Type") +
+  geom_text(aes(label = cld, y = mean + se), position=position_dodge(width=0.4), vjust = -0.5, size = 3) +
+  scale_fill_manual(name = "",
+                    values = c("grey", "black")) +
+  scale_y_continuous(expand=c(0,0), limits = c(0,10), labels = label_number(accuracy = 1)) +
+  scale_x_discrete(labels = c("June\n2021", "August\n2022")) +
+  theme(text = element_text(size = 8),
+        axis.text.x = element_text(size = 10, color="black"),
+        legend.position = "none")
+
+fig3 <- ggarrange(p1, p2,
+          nrow = 2, align = 'v',
+          labels = c("a)", "b)"),
+          common.legend=TRUE,
+          label.x = 0.04,
+          label.y = 1.11,
+          font.label=list(color="black",size=10),
+          heights = c(1,1.3))
+
+ggsave("pom_maom_weight.jpeg", plot = fig3, width = 80, height = 80, units = "mm", dpi = 300)
